@@ -15,7 +15,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:padding="15dp"
-            tools:context=".Login.LoginModel">
+            tools:context=".login.LoginModel">
 
             <TextView
                 android:layout_width="match_parent"

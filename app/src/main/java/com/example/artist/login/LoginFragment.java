@@ -1,4 +1,4 @@
-package com.example.artist.Login;
+package com.example.artist.login;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;

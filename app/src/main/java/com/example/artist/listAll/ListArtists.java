@@ -1,29 +1,25 @@
-package com.example.artist.ListAll;
+package com.example.artist.listAll;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.Adapter;
+import com.example.artist.AdapterBase;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
-import com.example.artist.databinding.DetailOneBinding;
+import com.example.artist.databinding.DetailBaseLayoutBinding;
 import com.example.artist.databinding.ImageThumbnailBinding;
-
-import java.util.List;
 
 public class ListArtists extends ListAllBase {
 
-    private ImageThumbnailBinding binding;
+    private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
 
 
@@ -50,41 +46,23 @@ public class ListArtists extends ListAllBase {
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         mainActivity.setTitle(R.string.artist);
-        binding = DataBindingUtil.inflate(inflater, R.layout.image_thumbnail, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
+        createRecyclerView();
         return binding.getRoot();
     }
 
 
-//    @Override
-//    protected void setupRecyclerView() {
-//
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        Adapter adapter = new Adapter(getContext());
-//        binding.recyclerView.setAdapter(adapter);
-//        listImages = mainActivity.fetchImage(5, 0);
-//        adapter.addData(listImages);
+    public void createRecyclerView(){
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        AdapterBase adapter = new AdapterBase(getContext());
+        binding.recyclerView.setAdapter(adapter);
 
-//        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//
-////                super.onScrollStateChanged(recyclerView, newState);
-//                if (!recyclerView.canScrollVertically(1)){
-//                    countScroll = countScroll + 1;
-//                    List<String> l = mainActivity.fetchImage(5, countScroll*limit);
-//                    if (l.size() < limit) {
-//                        listImages.addAll(l);
-//                        adapter.addData(listImages);
-//                        binding.recyclerView.setNestedScrollingEnabled(false);
-//                    } else {
-//                        listImages.addAll(l);
-//                        adapter.addData(listImages);
-//                    }
-//                }
-//            }
-//        });
-
-
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 //
 //    @Override
@@ -94,5 +72,5 @@ public class ListArtists extends ListAllBase {
 //        Log.e("XX", "refresh: "+ "List View Works!");
 //        super.binding.swipeRefresh.setRefreshing(false);
 //    }
-//}
+}
 

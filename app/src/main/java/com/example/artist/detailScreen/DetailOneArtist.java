@@ -1,6 +1,5 @@
-package com.example.artist.DetailScreen;
+package com.example.artist.detailScreen;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,14 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.DetailOneBinding;
-
-import java.util.Objects;
 
 public class DetailOneArtist extends FragmentBase {
     private DetailOneBinding binding;

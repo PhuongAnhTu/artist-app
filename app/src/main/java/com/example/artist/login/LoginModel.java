@@ -1,4 +1,4 @@
-package com.example.artist.Login;
+package com.example.artist.login;
 
 import com.example.artist.API.Entity;
 

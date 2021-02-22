@@ -9,11 +9,12 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.artist.DetailScreen.DetailOneAlbum;
-import com.example.artist.DetailScreen.DetailOneArtist;
-import com.example.artist.ListAll.ListAlbum;
-import com.example.artist.ListAll.ListArtists;
-import com.example.artist.Login.LoginFragment;
+import com.example.artist.detailScreen.DetailOneAlbum;
+import com.example.artist.detailScreen.DetailOneArtist;
+import com.example.artist.homeScreen.HomeFragment;
+import com.example.artist.listAll.ListAlbum;
+import com.example.artist.listAll.ListArtists;
+import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.ActivityMainBinding;
 
