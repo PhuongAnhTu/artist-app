@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Artist App</string>
+    <string name="email">Email</string>
+    <string name="email_example">example@gmail.com</string>
+    <string name="password">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="login_text">Login</string>
+    <string name="artist">ARTISTS</string>
+    <string name="album">ALBUMS</string>
+    <string name="error_label">Error</string>
+    <string name="error_wrong_pw_msg">Email or password is invalid</string>
+    <string name="label_name">Name:</string>
+    <string name="detailArtist">Detail Artist</string>
+    <string name="detailAlbum">Detail Album</string>
+    <string name="label_country">Country:</string>
+    <string name="text2">Text 2:</string>
+</resources>

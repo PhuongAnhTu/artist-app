@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:weightSum="2"
+            tools:context=".Login.LoginModel">
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:background="#7a00cc"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/close_btn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:background="?selectableItemBackground"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginStart="15dp"-->
+<!--                    android:src="@drawable/ic_close" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/text_name"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:textColor="#ffffff"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_toEndOf="@id/close_btn"-->
+<!--                    android:layout_toStartOf="@id/avatar"-->
+<!--                    android:paddingStart="10dp"-->
+<!--                    android:paddingEnd="10dp"-->
+<!--                    tools:text="@string/app_name" />-->
+
+<!--                <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/avatar"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginEnd="15dp"-->
+<!--                    android:src="@drawable/avatar"-->
+<!--                    app:civ_border_color="@color/white"-->
+<!--                    app:civ_circle_background_color="@color/white"-->
+<!--                    app:civ_border_width="2dp"/>-->
+
+<!--            </RelativeLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:padding="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shadow">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:padding="5dp"
+                        android:gravity="left"
+                        android:textSize="20sp"
+                        android:text="@string/artist"
+                        android:textColor="@color/purple_500"
+                        android:textStyle="bold"
+                        android:layout_alignBaseline="@+id/show_detail_art"/>
+                    <ImageView
+                        android:id="@+id/show_detail_art"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/ic_double_arrow_24"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/artist_image"
+                            android:layout_height="100dp"
+                            android:layout_width="100dp"
+                            android:src= "@drawable/avatar_default"
+                            app:civ_border_color="@color/black"
+                            app:civ_border_width="1dp" />
+                    </FrameLayout>
+
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:padding="15dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shadow">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:padding="5dp"
+                        android:gravity="left"
+                        android:textSize="20sp"
+                        android:text="@string/album"
+                        android:textColor="@color/purple_500"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/show_detail_alb"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/ic_double_arrow_24"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/album_image"
+                                android:layout_height="100dp"
+                                android:layout_width="100dp"
+                                android:src= "@drawable/avatar_default"
+                                app:civ_border_color="@color/black"
+                                app:civ_border_width="1dp" />
+                    </FrameLayout>
+
+                    </HorizontalScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>
