@@ -111,7 +111,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
                 mainActivity.loginToHome();
                 APIResponse<ResponseLogin> loginAPIResponse = response.body();
                 user.name = loginAPIResponse.data.fullName;
-
             }
 
             @Override

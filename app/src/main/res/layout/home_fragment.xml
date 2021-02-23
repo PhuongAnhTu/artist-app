@@ -40,8 +40,9 @@
                         android:layout_alignBaseline="@+id/show_detail_art"/>
                     <ImageView
                         android:id="@+id/show_detail_art"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="7dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
                         android:src="@drawable/ic_double_arrow_24"
@@ -85,8 +86,9 @@
                         android:textStyle="bold" />
                     <ImageView
                         android:id="@+id/show_detail_alb"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:padding="7dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="15dp"
                         android:src="@drawable/ic_double_arrow_24"

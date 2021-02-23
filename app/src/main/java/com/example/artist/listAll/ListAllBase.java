@@ -45,6 +45,10 @@ public class ListAllBase extends FragmentBase {
 
     }
 
+//    protected void loadData(){
+//
+//    }
+
 //    protected void refresh() {
 //    }
 

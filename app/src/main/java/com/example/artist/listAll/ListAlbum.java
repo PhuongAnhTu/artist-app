@@ -11,11 +11,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.AdapterBase;
+import com.example.artist.ListArtistAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
-import com.example.artist.databinding.ImageThumbnailBinding;
 
 public class ListAlbum extends ListAllBase {
 
@@ -48,13 +47,14 @@ public class ListAlbum extends ListAllBase {
                              Bundle savedInstanceState) {
         mainActivity.setTitle(R.string.album);
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
-        createRecyclerView();
+        setupRecyclerView();
         return binding.getRoot();
     }
 
-    public void createRecyclerView(){
+    @Override
+    public void setupRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        AdapterBase adapter = new AdapterBase(getContext());
+        ListArtistAdapter adapter = new ListArtistAdapter();
         binding.recyclerView.setAdapter(adapter);
 
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

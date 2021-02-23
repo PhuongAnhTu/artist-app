@@ -10,23 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.artist.databinding.ImageThumbnailBinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AdapterBase extends RecyclerView.Adapter<AdapterBase.MyViewHolder> {
 
     ImageThumbnailBinding binding;
     private final Context mContext;
-    private List<String> mListImage = new ArrayList<>();
 
     public AdapterBase(Context context) {
         this.mContext = context;
     }
-
-//    public void loadData (List<String> listImage) {
-//        // call API
-//    }
-
 
     @NonNull
     @Override
@@ -34,12 +25,11 @@ public class AdapterBase extends RecyclerView.Adapter<AdapterBase.MyViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         binding = ImageThumbnailBinding.inflate(inflater, parent, false);
         return new MyViewHolder(binding);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-//        String image = mListImage.get(position);
-//        holder.bindView(mContext, image);
+    public void onBindViewHolder(@NonNull AdapterBase.MyViewHolder holder, int position) {
 
         binding.myImage.setImageResource(R.drawable.avatar_default);
 
@@ -69,6 +59,6 @@ public class AdapterBase extends RecyclerView.Adapter<AdapterBase.MyViewHolder> 
 //            binding.text2.setText("Call api text2");
 //            binding.country.setText("Call api country");
 
-//        }
+        }
     }
-}
+

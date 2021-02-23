@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.MainActivity;
 
@@ -24,5 +25,9 @@ public class FragmentBase extends Fragment {
     public void onResume() {
         super.onResume();
         mainActivity.updateHeader();
+    }
+
+    public void setupRecyclerView(RecyclerView view){
+
     }
 }

@@ -3,7 +3,6 @@ package com.example.artist.homeScreen;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +12,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.API.APIResponse;
-import com.example.artist.API.APIService;
-import com.example.artist.API.RetrofitClient;
 import com.example.artist.AdapterBase;
+import com.example.artist.ListArtistAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.HomeFragmentBinding;
-import com.example.artist.databinding.ImageThumbnailBinding;
-import com.example.artist.login.LoginModel;
-import com.example.artist.login.ResponseLogin;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends FragmentBase implements View.OnClickListener {
     private HomeFragmentBinding homeBinding;
     private MainActivity mainActivity;
-    private ImageThumbnailBinding thumbnailBinding;
 
 
     @Override
@@ -67,10 +56,10 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
         createArtistRecyclerView();
         createAlbumRecyclerView();
-
+//        createRecyclerView(homeBinding.artistRecyclerView, listArtist);
+//        createRecyclerView(homeBinding.albumRecyclerView, listAlbum);
     }
 
-    //Call API
 
     public void createArtistRecyclerView(){
         homeBinding.artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -84,6 +73,22 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             }
         });
     }
+
+//    private void createRecyclerView(RecyclerView view, List<String> str){
+//        view.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+//        view.setItemAnimator(new DefaultItemAnimator());
+//        AdapterBase adapter = new AdapterBase(getContext(), str);
+//        view.setAdapter(adapter);
+//
+//            view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                    super.onScrollStateChanged(recyclerView, newState);
+//                }
+//            });
+//
+//
+//    }
 
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
