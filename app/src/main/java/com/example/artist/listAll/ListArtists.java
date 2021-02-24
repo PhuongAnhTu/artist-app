@@ -20,7 +20,6 @@ import com.example.artist.ArtistData;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
-import com.example.artist.homeScreen.ArtistListResponse;
 
 import java.util.List;
 

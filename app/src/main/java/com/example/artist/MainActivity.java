@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(new DetailOneArtist(), true);
     }
 
-    public void goToAllArtistList() {
+    public void goToArtistList() {
         replaceFragment(new ListArtists(), true);
     }
 
-    public void goToAllAlbumList() {
+    public void goToAlbumList() {
         replaceFragment(new ListAlbum(), true);
     }
 
