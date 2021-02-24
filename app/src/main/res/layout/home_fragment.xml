@@ -58,6 +58,14 @@
                     android:nestedScrollingEnabled="true">
                 </androidx.recyclerview.widget.RecyclerView>
 
+                <ProgressBar
+                    android:id="@+id/loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    style="?android:attr/progressBarStyle"
+                    android:visibility="gone"/>
+
 
             </LinearLayout>
 
@@ -103,6 +111,14 @@
                     android:scrollbars="vertical"
                     android:nestedScrollingEnabled="true">
                 </androidx.recyclerview.widget.RecyclerView>
+
+                <ProgressBar
+                    android:id="@+id/loading2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    style="?android:attr/progressBarStyle"
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 </layout>

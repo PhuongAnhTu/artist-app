@@ -3,6 +3,7 @@ package com.example.artist.homeScreen;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.AdapterBase;
-import com.example.artist.ListArtistAdapter;
+import com.example.artist.API.APIResponse;
+import com.example.artist.API.APIService;
+import com.example.artist.API.RetrofitClient;
+import com.example.artist.baseadapter.AdapterDetail;
+import com.example.artist.ArtistData;
+import com.example.artist.baseadapter.ListArtistAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.HomeFragmentBinding;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends FragmentBase implements View.OnClickListener {
     private HomeFragmentBinding homeBinding;
     private MainActivity mainActivity;
+
+    AdapterDetail adapterDetail = new AdapterDetail();
+
 
 
     @Override
@@ -63,8 +77,8 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void createArtistRecyclerView(){
         homeBinding.artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        AdapterBase adapter = new AdapterBase(getContext());
-        homeBinding.artistRecyclerView.setAdapter(adapter);
+        loadData();
+        homeBinding.artistRecyclerView.setAdapter(adapterDetail);
 
         homeBinding.artistRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -92,7 +106,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        AdapterBase adapter = new AdapterBase(getContext());
+        ListArtistAdapter adapter = new ListArtistAdapter();
         homeBinding.albumRecyclerView.setAdapter(adapter);
 
         homeBinding.albumRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -131,5 +145,27 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    public void loadData() {
+        homeBinding.loading.setVisibility(View.VISIBLE);
+        APIService api = RetrofitClient.createClient();
+        api.loadArtist().enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
+                Log.e("TAG", "onResponse: ");
+
+                APIResponse<ArtistListResponse> artistResponse = response.body();
+                List<ArtistData> list = artistResponse.data.list_data;
+                adapterDetail.addData(list);
+                homeBinding.loading.setVisibility(View.GONE);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
+                Log.e("TAG", "onFailure: " );
+                homeBinding.loading.setVisibility(View.GONE);
+
+            }
+        });
     }
 }

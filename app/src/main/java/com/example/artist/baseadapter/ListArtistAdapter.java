@@ -1,4 +1,4 @@
-package com.example.artist;
+package com.example.artist.baseadapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,22 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.artist.API.APIResponse;
-import com.example.artist.API.APIService;
-import com.example.artist.API.RetrofitClient;
-import com.example.artist.databinding.ImageThumbnailBinding;
-import com.example.artist.homeScreen.ArtistListResponse;
+import com.example.artist.ArtistData;
+import com.example.artist.databinding.ImageItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.MyViewHolder> {
 
-    ImageThumbnailBinding binding;
+    protected ImageItemBinding binding;
     private List<ArtistData> artistDataList = new ArrayList<>();
 
     public ListArtistAdapter(){
@@ -39,7 +33,7 @@ public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.My
     @Override
     public ListArtistAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        binding = ImageThumbnailBinding.inflate(inflater, parent, false);
+        binding = ImageItemBinding.inflate(inflater, parent, false);
         return new MyViewHolder(binding);
     }
 
@@ -55,7 +49,7 @@ public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.My
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(@NonNull ImageThumbnailBinding binding) {
+        public MyViewHolder(@NonNull ImageItemBinding binding) {
             super(binding.getRoot());
         }
 
@@ -66,11 +60,12 @@ public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.My
                 Log.d("xxx", "imageUrl: " + imageUrl);
                 Glide.with(context)
                         .load(imageUrl)
-                        .into(binding.myImage);
+                        .into(binding.image);
             }
             binding.name.setText(artistData.name);
-            binding.text2.setText(artistData.genres);
-            //binding.country.setText(artistData.country);
+            binding.responseText.setText(artistData.genres);
+            binding.text2.setText("Genres:");
+            binding.country.setText(artistData.country.name);
 
         }
     }

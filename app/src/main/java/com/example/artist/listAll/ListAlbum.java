@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.ListArtistAdapter;
+import com.example.artist.baseadapter.ListArtistAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;

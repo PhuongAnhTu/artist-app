@@ -5,9 +5,10 @@ import java.util.List;
 
 public class ArtistData implements Serializable {
 
-    List<String> images;
-    String name;
-    String genres;
-    String _id;
+    public List<String> images;
+    public String name;
+    public String genres;
+    public String _id;
+    public CountryData country;
 
 }

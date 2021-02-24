@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
-import com.example.artist.ListArtistAdapter;
+import com.example.artist.baseadapter.ListArtistAdapter;
 import com.example.artist.ArtistData;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
@@ -32,7 +32,7 @@ public class ListArtists extends ListAllBase {
 
     private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
-    private ListArtistAdapter adapter= new ListArtistAdapter();;
+    private ListArtistAdapter adapter= new ListArtistAdapter();
 
 
     @Override
