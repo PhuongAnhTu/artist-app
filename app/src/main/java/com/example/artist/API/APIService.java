@@ -1,7 +1,6 @@
 package com.example.artist.API;
 
-import com.example.artist.listAll.AlbumListResponse;
-import com.example.artist.listAll.ArtistListResponse;
+import com.example.artist.homeScreen.ArtistListResponse;
 import com.example.artist.login.LoginModel;
 import com.example.artist.login.ResponseLogin;
 
@@ -23,12 +22,6 @@ public interface APIService {
 
     @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
     @GET("v1/albums")
-    Call<APIResponse<AlbumListResponse>> loadAlbum();
-
-//    @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
-//    @GET("v1/albums")
-//    Call<APIResponse<ArtistDetailResponse>> loadDetailAlbum();
-
-
+    Call<APIResponse<ArtistListResponse>> loadAlbum();
 
 }

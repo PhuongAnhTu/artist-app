@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.AdapterBase;
+import com.example.artist.ListArtistAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
@@ -122,11 +123,11 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                 break;
 
             case R.id.show_detail_art:
-                mainActivity.goToArtistList();
+                mainActivity.goToAllArtistList();
                 break;
 
             case R.id.show_detail_alb:
-                mainActivity.goToAlbumList();
+                mainActivity.goToAllAlbumList();
                 break;
         }
 

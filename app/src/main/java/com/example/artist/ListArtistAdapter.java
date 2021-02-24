@@ -9,15 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.artist.API.APIResponse;
+import com.example.artist.API.APIService;
+import com.example.artist.API.RetrofitClient;
 import com.example.artist.databinding.ImageThumbnailBinding;
+import com.example.artist.homeScreen.ArtistListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.MyViewHolder> {
 
     ImageThumbnailBinding binding;
-    private final List<ArtistData> artistDataList = new ArrayList<>();
+    private List<ArtistData> artistDataList = new ArrayList<>();
 
     public ListArtistAdapter(){
     }
