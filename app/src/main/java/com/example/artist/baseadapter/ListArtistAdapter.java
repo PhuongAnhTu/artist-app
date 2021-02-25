@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.artist.ArtistData;
+import com.example.artist.model.ArtistData;
 import com.example.artist.databinding.ImageItemBinding;
 
 import java.util.ArrayList;
@@ -64,8 +64,7 @@ public class ListArtistAdapter extends RecyclerView.Adapter<ListArtistAdapter.My
             }
             binding.name.setText(artistData.name);
             binding.responseText.setText(artistData.genres);
-            binding.text2.setText("Genres:");
-            binding.country.setText(artistData.country.name);
+            binding.responseText3.setText(artistData.country.name);
 
         }
     }

@@ -13,5 +13,5 @@
     <string name="detailArtist">Detail Artist</string>
     <string name="detailAlbum">Detail Album</string>
     <string name="label_country">Country:</string>
-    <string name="text2">Text 2:</string>
+    <string name="genres">Genres:</string>
 </resources>

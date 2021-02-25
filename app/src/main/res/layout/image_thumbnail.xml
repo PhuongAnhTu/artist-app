@@ -57,7 +57,7 @@
                     android:textColor="#ffffffff"/>
 
                 <TextView
-                    android:id="@+id/country"
+                    android:id="@+id/text3"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"

@@ -1,7 +1,7 @@
-package com.example.artist.homeScreen;
+package com.example.artist.listAll;
 
 import com.example.artist.API.BaseResponseData;
-import com.example.artist.ArtistData;
+import com.example.artist.model.ArtistData;
 
 import java.util.List;
 

@@ -71,7 +71,7 @@
                 android:gravity="start|center"
                 android:ellipsize="end"
                 android:textColor="#000000"
-                android:text="@string/text2"/>
+                android:text="@string/genres"/>
             <!--Must set text label for text 2-->
 
             <EditText

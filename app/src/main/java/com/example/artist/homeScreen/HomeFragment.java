@@ -16,13 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
+import com.example.artist.model.AlbumData;
 import com.example.artist.baseadapter.AdapterDetail;
-import com.example.artist.ArtistData;
-import com.example.artist.baseadapter.ListArtistAdapter;
+import com.example.artist.model.ArtistData;
+import com.example.artist.AlbumThumbAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.HomeFragmentBinding;
+import com.example.artist.listAll.AlbumListResponse;
+import com.example.artist.listAll.ArtistListResponse;
 
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     private MainActivity mainActivity;
 
     AdapterDetail adapterDetail = new AdapterDetail();
+    AlbumThumbAdapter albumThumbAdapter = new AlbumThumbAdapter();
 
 
 
@@ -67,19 +71,16 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         homeBinding.artistRecyclerView.setOnClickListener(this);
         homeBinding.albumRecyclerView.setOnClickListener(this);
         homeBinding.showDetailAlb.setOnClickListener(this);
-
         createArtistRecyclerView();
         createAlbumRecyclerView();
-//        createRecyclerView(homeBinding.artistRecyclerView, listArtist);
-//        createRecyclerView(homeBinding.albumRecyclerView, listAlbum);
+        loadArtists();
+        loadAlbums();
     }
 
 
     public void createArtistRecyclerView(){
         homeBinding.artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        loadData();
         homeBinding.artistRecyclerView.setAdapter(adapterDetail);
-
         homeBinding.artistRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -106,7 +107,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        ListArtistAdapter adapter = new ListArtistAdapter();
+        AlbumThumbAdapter adapter = new AlbumThumbAdapter();
         homeBinding.albumRecyclerView.setAdapter(adapter);
 
         homeBinding.albumRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -147,13 +148,13 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     }
 
-    public void loadData() {
+    public void loadArtists() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
         api.loadArtist().enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
-                Log.e("TAG", "onResponse: ");
+                Log.e("TAG", "onResponse: Artist");
 
                 APIResponse<ArtistListResponse> artistResponse = response.body();
                 List<ArtistData> list = artistResponse.data.list_data;
@@ -162,6 +163,28 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             }
             @Override
             public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
+                Log.e("TAG", "onFailure: " );
+                homeBinding.loading.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
+    public void loadAlbums() {
+        homeBinding.loading.setVisibility(View.VISIBLE);
+        APIService api = RetrofitClient.createClient();
+        api.loadAlbum().enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
+                Log.e("TAG", "onResponse: Album");
+
+                APIResponse<AlbumListResponse> albumResponse = response.body();
+                List<AlbumData> list = albumResponse.data.list_data;
+                albumThumbAdapter.addData(list);
+                homeBinding.loading.setVisibility(View.GONE);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
                 Log.e("TAG", "onFailure: " );
                 homeBinding.loading.setVisibility(View.GONE);
 

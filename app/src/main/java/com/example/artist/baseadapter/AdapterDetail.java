@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.artist.ArtistData;
+import com.example.artist.model.ArtistData;
 import com.example.artist.databinding.ImageThumbnailBinding;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class AdapterDetail extends RecyclerView.Adapter<AdapterDetail.MyViewHold
                             .into(binding.myImage);
                 }
                 binding.name.setText(artistData.name);
-                binding.country.setText(artistData.country.name);
+                binding.text3.setText(artistData.country.name);
                 binding.text2.setText(artistData.genres);
 
             }
