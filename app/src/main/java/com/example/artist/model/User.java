@@ -1,4 +1,4 @@
-package com.example.artist;
+package com.example.artist.model;
 
 import java.io.Serializable;
 

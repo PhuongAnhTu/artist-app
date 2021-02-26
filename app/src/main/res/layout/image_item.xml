@@ -38,22 +38,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:textColor="#ececec">
                     <TextView
                         android:layout_width="52dp"
                         android:layout_height="50dp"
                         android:textSize="14sp"
                         android:gravity="start|center"
                         android:ellipsize="end"
-                        android:textColor="#000000"
+                        android:textColor="#ececec"
                         android:text="@string/label_name"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:id="@+id/name"
+                        android:textColor="#ececec"
                         android:textSize="14sp"
-                        android:textColor="#000000"
                         android:textAlignment="textStart"/>
 
                 </LinearLayout>
@@ -61,23 +62,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:textColor="#ececec">
                     <TextView
                         android:id="@+id/genres"
                         android:layout_width="52dp"
                         android:layout_height="50dp"
                         android:textSize="14sp"
                         android:gravity="start|center"
+                        android:textColor="#ececec"
                         android:ellipsize="end"
-                        android:textColor="#000000"
                         android:text="@string/genres"/>
 
                     <TextView
                         android:id="@+id/responseText"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
+                        android:textColor="#ececec"
                         android:textSize="14sp"
-                        android:textColor="#000000"
                         android:textAlignment="textStart"/>
 
                 </LinearLayout>
@@ -92,16 +94,16 @@
                         android:layout_height="50dp"
                         android:textSize="14sp"
                         android:gravity="start|center"
+                        android:textColor="#ececec"
                         android:ellipsize="end"
-                        android:textColor="#000000"
                         android:text="@string/label_country"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:id="@+id/responseText3"
+                        android:textColor="#ececec"
                         android:textSize="14sp"
-                        android:textColor="#000000"
                         android:textAlignment="textStart"/>
 
                 </LinearLayout>

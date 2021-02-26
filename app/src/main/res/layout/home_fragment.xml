@@ -12,20 +12,21 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:weightSum="2"
-            tools:context=".login.LoginModel">
+            tools:context=".login.LoginModel"
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="145dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/shadow"
+                    android:background="#333333"
                     android:layout_marginBottom="10dp">
 
                     <TextView
@@ -35,7 +36,7 @@
                         android:gravity="left"
                         android:textSize="20sp"
                         android:text="@string/artist"
-                        android:textColor="@color/purple_500"
+                        android:textColor="#ececec"
                         android:textStyle="bold"
                         android:layout_alignBaseline="@+id/show_detail_art"/>
                     <ImageView
@@ -49,11 +50,13 @@
                         android:layout_alignParentEnd="true"/>
                 </RelativeLayout>
 
-
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/artistRecyclerView"
                     android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:scrollbars="vertical"
                     android:nestedScrollingEnabled="true">
                 </androidx.recyclerview.widget.RecyclerView>
@@ -64,7 +67,8 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     style="?android:attr/progressBarStyle"
-                    android:visibility="gone"/>
+                    android:visibility="invisible"/>
+            </FrameLayout>
 
 
             </LinearLayout>
@@ -74,13 +78,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="145dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/shadow"
+                    android:background="#333333"
                     android:layout_marginBottom="10dp">
 
                     <TextView
@@ -90,7 +94,7 @@
                         android:gravity="left"
                         android:textSize="20sp"
                         android:text="@string/album"
-                        android:textColor="@color/purple_500"
+                        android:textColor="#ececec"
                         android:textStyle="bold" />
                     <ImageView
                         android:id="@+id/show_detail_alb"
@@ -107,18 +111,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/albumRecyclerView"
                     android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:scrollbars="vertical"
                     android:nestedScrollingEnabled="true">
                 </androidx.recyclerview.widget.RecyclerView>
-
-                <ProgressBar
-                    android:id="@+id/loading2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    style="?android:attr/progressBarStyle"
-                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 </layout>

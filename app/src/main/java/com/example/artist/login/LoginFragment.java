@@ -22,7 +22,7 @@ import com.example.artist.API.RetrofitClient;
 import com.example.artist.MainActivity;
 import com.example.artist.ErrorDialog;
 import com.example.artist.R;
-import com.example.artist.User;
+import com.example.artist.model.User;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.LoginFragmentBinding;
 

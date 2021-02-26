@@ -25,7 +25,8 @@
                 android:textSize="25sp"
                 android:text="@string/login_text"
                 android:textColor="#ececec"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:outlineAmbientShadowColor="#ececec"/>
 
 
             <LinearLayout
@@ -51,8 +52,7 @@
                     android:layout_weight="3"
                     android:hint="@string/email_example"
                     android:inputType="textEmailAddress"
-                    android:textColor="#ececec"
-                    android:outlineAmbientShadowColor="#ececec"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
 
@@ -78,8 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:inputType="textPassword"
-                    android:textColor="#ececec"
-                    android:outlineAmbientShadowColor="#ececec"/>
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
