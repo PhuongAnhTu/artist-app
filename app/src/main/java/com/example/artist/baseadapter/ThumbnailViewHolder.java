@@ -14,40 +14,9 @@ import java.util.List;
 
 public class ThumbnailViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageThumbnailBinding binding;
     public ThumbnailViewHolder(@NonNull ImageThumbnailBinding binding) {
         super(binding.getRoot());
     }
-
-//        public void bindViewArtist(List<? extends BaseModelList> listData){
-//            Context context = binding.getRoot().getContext();
-////            if (listData.images != null && listData.images.size() > 0) {
-////                String imageUrl = getImageUrl(listData.images.get(0));
-////                Log.d("xxx", "imageUrl: " + imageUrl);
-////                Glide.with(context)
-////                        .load(imageUrl)
-////                        .into(binding.myImage);
-////            }
-////            binding.name.setText(listData.name);
-////            binding.text2.setText(listData.genres);
-////            binding.text3.setText(listData.country.name);
-//
-//        }
-//
-//        public void bindViewAlbum() {
-//            Context context = binding.getRoot().getContext();
-//            if (albumData.images != null && albumData.images.size() > 0) {
-//                String imageUrl = getImageUrl(albumData.images.get(0));
-//                Log.d("xxx", "imageUrl: " + imageUrl);
-//                Glide.with(context)
-//                        .load(imageUrl)
-//                        .into(binding.myImage);
-//            }
-//            binding.name.setText(albumData.name);
-//            binding.text2.setText(albumData.genres);
-//            binding.text3.setText(albumData.artistData.name);
-//        }
-
 
 
     public String getImageUrl(String relativeUrl) {

@@ -19,35 +19,35 @@ public class DetailViewHolder extends RecyclerView.ViewHolder {
         super(binding.getRoot());
     }
 
-    public void bindViewArtistItem(ArtistData artistData) {
+//    public void bindViewArtistItem(ArtistData artistData) {
+//        Context context = binding.getRoot().getContext();
+//        if (artistData.images != null && artistData.images.size() > 0) {
+//            String imageUrl = getImageUrl(artistData.images.get(0));
+//            Log.d("xxx", "imageUrl: " + imageUrl);
+//            Glide.with(context)
+//                    .load(imageUrl)
+//                    .into(binding.image);
+//        }
+//        binding.name.setText(artistData.name);
+//        binding.responseText.setText(artistData.genres);
+//        binding.responseText3.setText(artistData.country.name);
+//
+//    }
+//
+//    public void bindViewAlbumItem(AlbumData albumData) {
         Context context = binding.getRoot().getContext();
-        if (artistData.images != null && artistData.images.size() > 0) {
-            String imageUrl = getImageUrl(artistData.images.get(0));
-            Log.d("xxx", "imageUrl: " + imageUrl);
-            Glide.with(context)
-                    .load(imageUrl)
-                    .into(binding.image);
-        }
-        binding.name.setText(artistData.name);
-        binding.responseText.setText(artistData.genres);
-        binding.responseText3.setText(artistData.country.name);
-
-    }
-
-    public void bindViewAlbumItem(AlbumData albumData) {
-        Context context = binding.getRoot().getContext();
-        if (albumData.images != null && albumData.images.size() > 0) {
-            String imageUrl = getImageUrl(albumData.images.get(0));
-            Log.d("xxx", "imageUrl: " + imageUrl);
-            Glide.with(context)
-                    .load(imageUrl)
-                    .into(binding.image);
-        }
-        binding.name.setText(albumData.name);
-        binding.responseText.setText(albumData.genres);
-        binding.responseText3.setText(albumData.artistData.name);
-        binding.text3.setText("Artist:");
-    }
+//        if (albumData.images != null && albumData.images.size() > 0) {
+//            String imageUrl = getImageUrl(albumData.images.get(0));
+//            Log.d("xxx", "imageUrl: " + imageUrl);
+//            Glide.with(context)
+//                    .load(imageUrl)
+//                    .into(binding.image);
+//        }
+//        binding.name.setText(albumData.name);
+//        binding.responseText.setText(albumData.genres);
+//        binding.responseText3.setText(albumData.artistData.name);
+//        binding.text3.setText("Artist:");
+//    }
 
     public String getImageUrl(String relativeUrl) {
         return "https://file.thedarkmetal.com/" + relativeUrl;

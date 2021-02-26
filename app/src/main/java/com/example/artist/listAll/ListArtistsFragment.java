@@ -27,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListArtists extends ListAllBase {
+public class ListArtistsFragment extends ListAllBaseFragment {
 
     private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
@@ -81,7 +81,7 @@ public class ListArtists extends ListAllBase {
     public void loadData() {
         binding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadArtist().enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist(10, 10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: ");

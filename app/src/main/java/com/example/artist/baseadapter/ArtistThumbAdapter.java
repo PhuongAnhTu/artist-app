@@ -15,12 +15,12 @@ import com.example.artist.databinding.ImageThumbnailBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterDetail extends RecyclerView.Adapter<AdapterDetail.MyViewHolder> {
+public class ArtistThumbAdapter extends RecyclerView.Adapter<ArtistThumbAdapter.MyViewHolder> {
 
     ImageThumbnailBinding binding;
     private List<ArtistData> artistDataList = new ArrayList<>();
 
-    public AdapterDetail() {
+    public ArtistThumbAdapter() {
     }
 
     public void addData(List<ArtistData> list) {
@@ -30,7 +30,7 @@ public class AdapterDetail extends RecyclerView.Adapter<AdapterDetail.MyViewHold
 
     @NonNull
     @Override
-    public AdapterDetail.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ArtistThumbAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         binding = ImageThumbnailBinding.inflate(inflater, parent, false);
         return new MyViewHolder(binding);
@@ -38,7 +38,7 @@ public class AdapterDetail extends RecyclerView.Adapter<AdapterDetail.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterDetail.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ArtistThumbAdapter.MyViewHolder holder, int position) {
         holder.bindView(artistDataList.get(position));
     }
 

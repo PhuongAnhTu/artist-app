@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> {
-    ImageThumbnailBinding binding;
+    public ImageThumbnailBinding thumbnailBinding;
 
     public List<BaseModelList> listAll = new ArrayList<>();
 
@@ -29,8 +29,8 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
     public ThumbnailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        binding = ImageThumbnailBinding.inflate(inflater, parent, false);
-        return new ThumbnailViewHolder(binding);
+        thumbnailBinding = ImageThumbnailBinding.inflate(inflater, parent, false);
+        return new ThumbnailViewHolder(thumbnailBinding);
     }
 
     @Override

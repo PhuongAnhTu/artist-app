@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.artist.detailScreen.DetailOneAlbum;
-import com.example.artist.detailScreen.DetailOneArtist;
+import com.example.artist.detailScreen.DetailOneAlbumFragment;
+import com.example.artist.detailScreen.DetailOneArtistFragment;
 import com.example.artist.homeScreen.HomeFragment;
-import com.example.artist.listAll.ListAlbum;
-import com.example.artist.listAll.ListArtists;
+import com.example.artist.listAll.ListAlbumFragment;
+import com.example.artist.listAll.ListArtistsFragment;
 import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.ActivityMainBinding;
@@ -55,19 +55,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDetailOneAlbum() {
-        replaceFragment(new DetailOneAlbum(), true);
+        replaceFragment(new DetailOneAlbumFragment(), true);
     }
 
     public void showDetailOneArtist() {
-        replaceFragment(new DetailOneArtist(), true);
+        replaceFragment(new DetailOneArtistFragment(), true);
     }
 
     public void goToAllArtistList() {
-        replaceFragment(new ListArtists(), true);
+        replaceFragment(new ListArtistsFragment(), true);
     }
 
     public void goToAllAlbumList() {
-        replaceFragment(new ListAlbum(), true);
+        replaceFragment(new ListAlbumFragment(), true);
     }
 
     @Override

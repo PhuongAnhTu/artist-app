@@ -1,4 +1,4 @@
-package com.example.artist;
+package com.example.artist.baseadapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,27 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumThumbAdapter extends BaseThumbAdapter {
-    public ImageThumbnailBinding binding;
-    protected ThumbnailViewHolder thumbnailViewHolder;
-
 
     @Override
     protected void bindData(ThumbnailViewHolder holder, BaseModelList model) {
         AlbumData albumData = (AlbumData)model;
         //
 
-        Context context = binding.getRoot().getContext();
+        Context context = thumbnailBinding.getRoot().getContext();
             if (albumData.images != null && albumData.images.size() > 0) {
-                String imageUrl = thumbnailViewHolder.getImageUrl(albumData.images.get(0));
+                String imageUrl = holder.getImageUrl(albumData.images.get(0));
                 Log.d("xxx", "imageUrl: " + imageUrl);
                 Glide.with(context)
                         .load(imageUrl)
-                        .into(binding.myImage);
+                        .into(thumbnailBinding.myImage);
             }
-            binding.name.setText(albumData.name);
-            binding.text2.setText(albumData.genres);
-            binding.text3.setText(albumData.artistData.name);
+
+        thumbnailBinding.name.setText(albumData.name);
+        thumbnailBinding.text2.setText(albumData.genres);
+        thumbnailBinding.text3.setText(albumData.artist.name);
     }
-
-
 }

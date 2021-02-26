@@ -17,9 +17,9 @@ import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
 import com.example.artist.model.AlbumData;
-import com.example.artist.baseadapter.AdapterDetail;
+import com.example.artist.baseadapter.ArtistThumbAdapter;
 import com.example.artist.model.ArtistData;
-import com.example.artist.AlbumThumbAdapter;
+import com.example.artist.baseadapter.AlbumThumbAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
@@ -37,7 +37,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     private HomeFragmentBinding homeBinding;
     private MainActivity mainActivity;
 
-    AdapterDetail adapterDetail = new AdapterDetail();
+    ArtistThumbAdapter adapterDetail = new ArtistThumbAdapter();
     AlbumThumbAdapter albumThumbAdapter = new AlbumThumbAdapter();
 
 
@@ -107,8 +107,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        AlbumThumbAdapter adapter = new AlbumThumbAdapter();
-        homeBinding.albumRecyclerView.setAdapter(adapter);
+        homeBinding.albumRecyclerView.setAdapter(albumThumbAdapter);
 
         homeBinding.albumRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -151,7 +150,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadArtists() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadArtist().enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist(10,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: Artist");
@@ -173,7 +172,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadAlbums() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadAlbum().enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+        api.loadAlbum(10,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 Log.e("TAG", "onResponse: Album");

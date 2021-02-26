@@ -16,7 +16,7 @@ import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
 
-public class ListAlbum extends ListAllBase {
+public class ListAlbumFragment extends ListAllBaseFragment {
 
     private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;

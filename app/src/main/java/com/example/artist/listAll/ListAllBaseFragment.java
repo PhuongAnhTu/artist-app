@@ -14,7 +14,7 @@ import com.example.artist.MainActivity;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
 
-public class ListAllBase extends FragmentBase {
+public class ListAllBaseFragment extends FragmentBase {
     protected DetailBaseLayoutBinding binding;
     protected MainActivity mainActivity;
 

@@ -14,7 +14,7 @@ import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.DetailOneBinding;
 
-public class DetailOneArtist extends FragmentBase {
+public class DetailOneAlbumFragment extends FragmentBase {
     private DetailOneBinding binding;
     private MainActivity mainActivity;
 
@@ -36,14 +36,13 @@ public class DetailOneArtist extends FragmentBase {
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
-        mainActivity.setTitle(R.string.detailArtist);
+        mainActivity.setTitle(R.string.detailAlbum);
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_one, container, false);
         return binding.getRoot();
     }
 
     @Override
     public String getHeaderTitle() {
-        return "Detail artist";
+        return "Detail album";
     }
 }
-

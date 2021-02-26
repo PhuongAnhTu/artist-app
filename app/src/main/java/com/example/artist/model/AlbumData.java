@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AlbumData extends BaseModelList {
 
-    public ArtistData artistData;
+    public ArtistData artist;
     public int year;
 
 }

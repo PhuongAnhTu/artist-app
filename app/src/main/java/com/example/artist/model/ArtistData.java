@@ -9,5 +9,4 @@ public class ArtistData extends BaseModelList {
 
     public CountryData country;
 
-
 }

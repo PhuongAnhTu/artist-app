@@ -21,11 +21,13 @@ public interface APIService {
     Call<APIResponse<ResponseLogin>> login(@Body LoginModel user);
 
     @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
-    @GET("v1/artists?skip=10&limit=10")
-    Call<APIResponse<ArtistListResponse>> loadArtist();
+    @GET("v1/artists")
+    Call<APIResponse<ArtistListResponse>> loadArtist(@Query("skip") int skip, @Query("limit") int limit);
+
+    //    @GET("v1/artists?skip=10&limit=10")
 
     @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
     @GET("v1/albums")
-    Call<APIResponse<AlbumListResponse>> loadAlbum();
+    Call<APIResponse<AlbumListResponse>> loadAlbum(@Query("skip") int skip, @Query("limit") int limit);
 
 }
