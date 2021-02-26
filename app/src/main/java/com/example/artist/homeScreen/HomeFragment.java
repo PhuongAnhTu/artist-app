@@ -150,7 +150,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadArtists() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadArtist(10,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist(0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: Artist");
@@ -172,7 +172,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadAlbums() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadAlbum(10,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+        api.loadAlbum(0,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 Log.e("TAG", "onResponse: Album");
