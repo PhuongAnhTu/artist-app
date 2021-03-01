@@ -2,6 +2,7 @@ package com.example.artist.listAll;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,27 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.baseadapter.ListArtistAdapter;
+import com.example.artist.API.APIResponse;
+import com.example.artist.API.APIService;
+import com.example.artist.API.RetrofitClient;
+import com.example.artist.SharePref;
+import com.example.artist.adapter.ListAlbumAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
+import com.example.artist.model.AlbumData;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListAlbumFragment extends ListAllBaseFragment {
 
     private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
+    ListAlbumAdapter adapter = new ListAlbumAdapter();
 
 
     @Override
@@ -52,15 +65,37 @@ public class ListAlbumFragment extends ListAllBaseFragment {
     }
 
     @Override
-    public void setupRecyclerView(){
+    public void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ListArtistAdapter adapter = new ListArtistAdapter();
+        loadData();
         binding.recyclerView.setAdapter(adapter);
 
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+    }
+
+    public void loadData() {
+        binding.loading.setVisibility(View.VISIBLE);
+        APIService api = RetrofitClient.createClient();
+        api.loadAlbum("Bearer" + mainActivity.getUserToken(), 10, 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
+                Log.e("TAG", "onResponse: ");
+                APIResponse<AlbumListResponse> albumResponse = response.body();
+                List<AlbumData> list = albumResponse.data.list_data;
+                adapter.addData(list);
+                binding.loading.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
+                binding.loading.setVisibility(View.GONE);
+                Log.e("TAG", "onFailure: ");
+
             }
         });
     }

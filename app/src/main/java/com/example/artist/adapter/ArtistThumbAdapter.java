@@ -1,20 +1,13 @@
-package com.example.artist.baseadapter;
+package com.example.artist.adapter;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
+import com.example.artist.adapter.viewholder.ThumbnailViewHolder;
 import com.example.artist.model.ArtistData;
-import com.example.artist.databinding.ImageThumbnailBinding;
 import com.example.artist.model.BaseModelList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ArtistThumbAdapter extends BaseThumbAdapter {
 

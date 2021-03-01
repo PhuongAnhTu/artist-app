@@ -16,10 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
+import com.example.artist.SharePref;
 import com.example.artist.model.AlbumData;
-import com.example.artist.baseadapter.ArtistThumbAdapter;
+import com.example.artist.adapter.ArtistThumbAdapter;
 import com.example.artist.model.ArtistData;
-import com.example.artist.baseadapter.AlbumThumbAdapter;
+import com.example.artist.adapter.AlbumThumbAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
@@ -150,7 +151,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadArtists() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadArtist(0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: Artist");
@@ -172,7 +173,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void loadAlbums() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadAlbum(0,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+        api.loadAlbum("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 Log.e("TAG", "onResponse: Album");

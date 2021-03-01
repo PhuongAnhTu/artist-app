@@ -5,10 +5,12 @@ import com.example.artist.listAll.ArtistListResponse;
 import com.example.artist.login.LoginModel;
 import com.example.artist.login.ResponseLogin;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -20,14 +22,16 @@ public interface APIService {
     @POST("v1/auth/login")
     Call<APIResponse<ResponseLogin>> login(@Body LoginModel user);
 
-    @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
+
+
+    @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/artists")
-    Call<APIResponse<ArtistListResponse>> loadArtist(@Query("skip") int skip, @Query("limit") int limit);
+    Call<APIResponse<ArtistListResponse>> loadArtist(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
 
     //    @GET("v1/artists?skip=10&limit=10")
 
-    @Headers({"Origin: https://thedarkmetal.com", "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmUzMjFjMmRjMzBkMzIxMDY3OGUyNDkiLCJkdExvZ2luIjoiMjAyMS0wMi0wNVQwNTowMjoxMS43MTZaIiwiaWF0IjoxNjEyNTAxMzMxLCJleHAiOjE2MTI1ODc3MzF9.GbOAqm4Aty2NKn_SV8mEN_6uZwVxZQqnPDuCHbRgFBg"})
+    @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/albums")
-    Call<APIResponse<AlbumListResponse>> loadAlbum(@Query("skip") int skip, @Query("limit") int limit);
+    Call<APIResponse<AlbumListResponse>> loadAlbum(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
 
 }

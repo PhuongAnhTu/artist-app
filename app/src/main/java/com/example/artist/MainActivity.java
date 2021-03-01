@@ -17,10 +17,12 @@ import com.example.artist.listAll.ListArtistsFragment;
 import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.ActivityMainBinding;
+import com.example.artist.login.ResponseLogin;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityMainBinding binding;
     FragmentManager fragMan = getSupportFragmentManager();
+    public ResponseLogin responseLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
     }
 
+    public String getUserToken(){
+        if (responseLogin != null) {
+            return responseLogin.login_session.token;
+        } else {
+            return "";
+        }
+    }
+
     private void init(){
+        responseLogin = ResponseLogin.getFromSharedPreference(this);
+        if (responseLogin == null) {
+            replaceFragment(new LoginFragment(), false);
+        } else {
+            loginToHome();
+        }
+
         binding.closeBtn.setOnClickListener(this);
-        replaceFragment(new LoginFragment(), false);
     }
 
     private void replaceFragment(Fragment fragment, boolean isAddBackToTack) {

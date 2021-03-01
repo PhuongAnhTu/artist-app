@@ -80,6 +80,7 @@
                         android:layout_height="50dp"
                         android:textColor="#ececec"
                         android:textSize="14sp"
+                        android:maxLines="3"
                         android:textAlignment="textStart"/>
 
                 </LinearLayout>

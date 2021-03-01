@@ -1,4 +1,4 @@
-package com.example.artist.baseadapter;
+package com.example.artist.adapter.viewholder;
 
 
 import androidx.annotation.NonNull;

@@ -1,10 +1,12 @@
-package com.example.artist.baseadapter;
+package com.example.artist.adapter.baseadapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.artist.adapter.viewholder.ThumbnailViewHolder;
 import com.example.artist.databinding.ImageThumbnailBinding;
 import com.example.artist.model.BaseModelList;
 

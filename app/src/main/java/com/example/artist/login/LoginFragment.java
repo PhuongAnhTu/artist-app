@@ -94,9 +94,9 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
     public void onClick(View v) {
         if (v.getId() == R.id.loginButton) {
             mainActivity.loginToHome();
-//            if (validationSuccess()) {
-//                login();
-//            }
+            if (validationSuccess()) {
+                login();
+            }
         }
     }
 
@@ -110,7 +110,8 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
                 Log.e("TAG", "onResponse: " + "success" );
                 mainActivity.loginToHome();
                 APIResponse<ResponseLogin> loginAPIResponse = response.body();
-                user.name = loginAPIResponse.data.fullName;
+                mainActivity.responseLogin = loginAPIResponse.data;
+
             }
 
             @Override

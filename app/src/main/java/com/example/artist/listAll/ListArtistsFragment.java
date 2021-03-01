@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
-import com.example.artist.baseadapter.ListArtistAdapter;
+import com.example.artist.SharePref;
+import com.example.artist.adapter.ListArtistAdapter;
 import com.example.artist.model.ArtistData;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
@@ -81,7 +82,7 @@ public class ListArtistsFragment extends ListAllBaseFragment {
     public void loadData() {
         binding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
-        api.loadArtist(10, 10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist("Bearer" + mainActivity.getUserToken(),10, 10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
