@@ -1,6 +1,7 @@
 package com.example.artist.adapter.baseadapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> {
+
     public ImageThumbnailBinding thumbnailBinding;
+    public ClickListener clickListener;
 
     public List<BaseModelList> listAll = new ArrayList<>();
 
@@ -39,6 +42,12 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
     public void onBindViewHolder(@NonNull ThumbnailViewHolder holder, int position) {
         BaseModelList model = listAll.get(position);
         bindData(holder, model);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(position,v);
+            }
+        });
     }
 
     @Override
@@ -47,5 +56,16 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
 
     protected void  bindData(ThumbnailViewHolder holder, BaseModelList model) {
     }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
+
+    public void setOnClick(ClickListener clickListener)
+    {
+        this.clickListener = clickListener;
+    }
+
+
 }
 

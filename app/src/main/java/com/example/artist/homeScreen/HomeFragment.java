@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
-import com.example.artist.SharePref;
+import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
+import com.example.artist.adapter.viewholder.ThumbnailViewHolder;
 import com.example.artist.model.AlbumData;
 import com.example.artist.adapter.ArtistThumbAdapter;
 import com.example.artist.model.ArtistData;
@@ -36,9 +37,9 @@ import retrofit2.Response;
 
 public class HomeFragment extends FragmentBase implements View.OnClickListener {
     private HomeFragmentBinding homeBinding;
-    private MainActivity mainActivity;
+    public MainActivity mainActivity;
 
-    ArtistThumbAdapter adapterDetail = new ArtistThumbAdapter();
+    ArtistThumbAdapter artistThumbAdapter = new ArtistThumbAdapter();
     AlbumThumbAdapter albumThumbAdapter = new AlbumThumbAdapter();
 
 
@@ -81,7 +82,13 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void createArtistRecyclerView(){
         homeBinding.artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        homeBinding.artistRecyclerView.setAdapter(adapterDetail);
+        homeBinding.artistRecyclerView.setAdapter(artistThumbAdapter);
+        artistThumbAdapter.setOnClick(new BaseThumbAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                mainActivity.showDetailOneArtist();
+            }
+        });
         homeBinding.artistRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -109,13 +116,19 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         homeBinding.albumRecyclerView.setAdapter(albumThumbAdapter);
-
+        albumThumbAdapter.setOnClick(new BaseThumbAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                mainActivity.showDetailOneAlbum();
+            }
+        });
         homeBinding.albumRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+
     }
 
 
@@ -129,13 +142,13 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.albumRecyclerView:
-                mainActivity.showDetailOneAlbum();
-                break;
-
-            case R.id.artistRecyclerView:
-                mainActivity.showDetailOneArtist();
-                break;
+//            case R.id.albumRecyclerView:
+//                mainActivity.showDetailOneAlbum();
+//                break;
+//
+//            case R.id.artistRecyclerView:
+//                mainActivity.showDetailOneArtist();
+//                break;
 
             case R.id.show_detail_art:
                 mainActivity.goToAllArtistList();
@@ -148,6 +161,8 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     }
 
+
+
     public void loadArtists() {
         homeBinding.loading.setVisibility(View.VISIBLE);
         APIService api = RetrofitClient.createClient();
@@ -158,7 +173,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
                 APIResponse<ArtistListResponse> artistResponse = response.body();
                 List<ArtistData> list = artistResponse.data.list_data;
-                adapterDetail.addData(list);
+                artistThumbAdapter.addData(list);
                 homeBinding.loading.setVisibility(View.GONE);
             }
             @Override

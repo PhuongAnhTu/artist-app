@@ -22,6 +22,7 @@ import com.example.artist.API.RetrofitClient;
 import com.example.artist.MainActivity;
 import com.example.artist.ErrorDialog;
 import com.example.artist.R;
+import com.example.artist.SharePref;
 import com.example.artist.model.User;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.LoginFragmentBinding;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 
 public class LoginFragment extends FragmentBase implements View.OnClickListener {
     private LoginFragmentBinding binding;
-    private User user = new User();
+    private final User user = new User();
     private MainActivity mainActivity;
 
     public LoginFragment(){}
@@ -93,7 +94,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.loginButton) {
-            mainActivity.loginToHome();
             if (validationSuccess()) {
                 login();
             }
@@ -111,6 +111,8 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
                 mainActivity.loginToHome();
                 APIResponse<ResponseLogin> loginAPIResponse = response.body();
                 mainActivity.responseLogin = loginAPIResponse.data;
+                SharePref.setLoginData(getContext(), mainActivity.responseLogin);
+                Log.d("TAG", "loginAPIResponse: " + mainActivity.responseLogin.toJsonString());
 
             }
 
@@ -121,7 +123,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
 
             }
         });
-
     }
 
     private void showLoading() {
@@ -135,7 +136,7 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
     }
 
     private boolean validationSuccess () {
-        if (binding.edtEmailLogin.getText().toString().equalsIgnoreCase("")){
+        if (binding.edtEmailLogin.getText().toString().length() <= 1 ){
             Toast.makeText(mainActivity.getApplicationContext(), "Please input email", Toast.LENGTH_SHORT).show();
             return false;
         }

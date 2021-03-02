@@ -4,10 +4,9 @@ import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.listAll.ArtistListResponse;
 import com.example.artist.login.LoginModel;
 import com.example.artist.login.ResponseLogin;
+import com.example.artist.detailScreen.AlbumDetailResponse;
 
-import io.reactivex.Observable;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -26,12 +25,16 @@ public interface APIService {
 
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/artists")
+        //    @GET("v1/artists?skip=10&limit=10")
     Call<APIResponse<ArtistListResponse>> loadArtist(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
 
-    //    @GET("v1/artists?skip=10&limit=10")
 
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/albums")
     Call<APIResponse<AlbumListResponse>> loadAlbum(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
+
+    @Headers({"Origin: https://thedarkmetal.com"})
+    @GET("v1/artists/{_id}")
+    Call<APIResponse<AlbumDetailResponse>> loadArtist(@Header("Authorization") String token, @Path("_id") String _id);
 
 }

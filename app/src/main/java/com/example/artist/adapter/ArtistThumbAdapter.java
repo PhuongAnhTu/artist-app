@@ -2,6 +2,7 @@ package com.example.artist.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
@@ -27,6 +28,11 @@ public class ArtistThumbAdapter extends BaseThumbAdapter {
         thumbnailBinding.text3.setText(artistData.country.name);
         thumbnailBinding.text2.setText(artistData.genres);
     }
+
+    public void setOnItemClickListener(BaseThumbAdapter.ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
 }
 
 

@@ -13,4 +13,8 @@ public class LoginModel extends Entity implements Serializable {
         this.email = email;
         this.pw = password;
     }
+
+//    public LoginModel(String data) {
+//        this.data = data;
+//    }
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.artist.detailScreen.DetailOneAlbumFragment;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (responseLogin == null) {
             replaceFragment(new LoginFragment(), false);
         } else {
+            Log.e("TAG", "init: " + responseLogin.toJsonString() );
             loginToHome();
         }
 
