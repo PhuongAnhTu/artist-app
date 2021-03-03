@@ -28,6 +28,8 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
         notifyDataSetChanged();
     }
 
+    //** Create method get Item by positions in listAll
+
 
     @NonNull
     @Override
@@ -59,6 +61,10 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
 
     public interface ClickListener {
         void onItemClick(int position, View v);
+    }
+
+    public void getItemByPosition(){
+
     }
 
     public void setOnClick(ClickListener clickListener)

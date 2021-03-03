@@ -1,16 +1,10 @@
 package com.example.artist.adapter.viewholder;
 
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.adapter.AlbumThumbAdapter;
-import com.example.artist.adapter.ArtistThumbAdapter;
-import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
 import com.example.artist.databinding.ImageThumbnailBinding;
-import com.example.artist.model.ArtistData;
 
 public class ThumbnailViewHolder extends RecyclerView.ViewHolder  {
 

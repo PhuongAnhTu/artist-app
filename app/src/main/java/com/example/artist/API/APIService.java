@@ -1,5 +1,6 @@
 package com.example.artist.API;
 
+import com.example.artist.detailScreen.ArtistDetailResponse;
 import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.listAll.ArtistListResponse;
 import com.example.artist.login.LoginModel;
@@ -34,7 +35,11 @@ public interface APIService {
     Call<APIResponse<AlbumListResponse>> loadAlbum(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
 
     @Headers({"Origin: https://thedarkmetal.com"})
-    @GET("v1/artists/{_id}")
-    Call<APIResponse<AlbumDetailResponse>> loadArtist(@Header("Authorization") String token, @Path("_id") String _id);
+    @GET("v1/artists/{id}")
+    Call<APIResponse<ArtistDetailResponse>> loadDetailArtist(@Header("Authorization") String token, @Path("id") String _id);
+
+    @Headers({"Origin: https://thedarkmetal.com"})
+    @GET("v1/albums/{id}")
+    Call<APIResponse<AlbumDetailResponse>> loadDetailAlbum(@Header("Authorization") String token, @Path("id") String _id);
 
 }

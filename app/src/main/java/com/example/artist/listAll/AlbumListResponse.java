@@ -4,6 +4,6 @@ import com.example.artist.API.BaseResponseData;
 import com.example.artist.model.AlbumData;
 import java.util.List;
 
-public class AlbumListResponse extends BaseListResponse implements BaseResponseData {
+public class AlbumListResponse extends BaseListResponse {
     public List<AlbumData> list_data;
 }

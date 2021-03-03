@@ -1,4 +1,4 @@
-package com.example.artist.adapter;
+package com.example.artist.adapter.thumbAdapter;
 
 import android.content.Context;
 import android.util.Log;

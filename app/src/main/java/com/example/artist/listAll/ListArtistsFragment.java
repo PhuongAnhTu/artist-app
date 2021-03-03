@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
-import com.example.artist.SharePref;
-import com.example.artist.adapter.ListArtistAdapter;
+import com.example.artist.adapter.thumbAdapter.ListArtistAdapter;
 import com.example.artist.model.ArtistData;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
@@ -30,7 +29,6 @@ import retrofit2.Response;
 
 public class ListArtistsFragment extends ListAllBaseFragment {
 
-    private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
     private ListArtistAdapter adapter= new ListArtistAdapter();
 
@@ -58,15 +56,14 @@ public class ListArtistsFragment extends ListAllBaseFragment {
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         mainActivity.setTitle(R.string.artist);
-        binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
-        setupRecyclerView();
-        return binding.getRoot();
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
 
     @Override
     public void setupRecyclerView(){
+        super.setupRecyclerView();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         loadData();
         binding.recyclerView.setAdapter(adapter);
@@ -79,35 +76,35 @@ public class ListArtistsFragment extends ListAllBaseFragment {
         });
     }
 
+    @Override
+    protected void loadMore() {
+        // do some thing
+        Log.d("xxxx", "load more");
+        loadData();
+    }
+
     public void loadData() {
-        binding.loading.setVisibility(View.VISIBLE);
+        startLoading();
         APIService api = RetrofitClient.createClient();
-        api.loadArtist("Bearer" + mainActivity.getUserToken(),10, 10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+        api.loadArtist("Bearer" + mainActivity.getUserToken(),adapter.getItemCount(), 10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
                 APIResponse<ArtistListResponse> artistResponse = response.body();
                 List<ArtistData> list = artistResponse.data.list_data;
                 adapter.addData(list);
-                binding.loading.setVisibility(View.GONE);
+                if (adapter.getItemCount() == artistResponse.data.total) {
+                    isFullData = true;
+                }
+                stopLoading();
             }
             @Override
             public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
-                binding.loading.setVisibility(View.GONE);
+                stopLoading();
                 Log.e("TAG", "onFailure: " );
 
             }
         });
     }
-
-
-    //
-//    @Override
-//    protected void refresh() {
-//        mainActivity.fetchImage(listImages.size(), 0);
-//        Toast.makeText(mainActivity.getApplicationContext(), "List View Works!", Toast.LENGTH_LONG).show();
-//        Log.e("XX", "refresh: "+ "List View Works!");
-//        super.binding.swipeRefresh.setRefreshing(false);
-//    }
 }
 

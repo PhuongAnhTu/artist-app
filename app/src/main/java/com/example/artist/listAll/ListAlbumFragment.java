@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
-import com.example.artist.SharePref;
-import com.example.artist.adapter.ListAlbumAdapter;
+import com.example.artist.adapter.thumbAdapter.ListAlbumAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
@@ -30,7 +29,6 @@ import retrofit2.Response;
 
 public class ListAlbumFragment extends ListAllBaseFragment {
 
-    private DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
     ListAlbumAdapter adapter = new ListAlbumAdapter();
 
@@ -59,9 +57,7 @@ public class ListAlbumFragment extends ListAllBaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mainActivity.setTitle(R.string.album);
-        binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
-        setupRecyclerView();
-        return binding.getRoot();
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -78,22 +74,31 @@ public class ListAlbumFragment extends ListAllBaseFragment {
         });
     }
 
+    @Override
+    protected void loadMore() {
+        Log.d("xxxx", "load more");
+        loadData();
+    }
+
     public void loadData() {
-        binding.loading.setVisibility(View.VISIBLE);
+        startLoading();
         APIService api = RetrofitClient.createClient();
-        api.loadAlbum("Bearer" + mainActivity.getUserToken(), 10, 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+        api.loadAlbum("Bearer" + mainActivity.getUserToken(), adapter.getItemCount(), 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
                 APIResponse<AlbumListResponse> albumResponse = response.body();
                 List<AlbumData> list = albumResponse.data.list_data;
                 adapter.addData(list);
-                binding.loading.setVisibility(View.GONE);
+                if (adapter.getItemCount() == albumResponse.data.total) {
+                    isFullData = true;
+                }
+                stopLoading();
             }
 
             @Override
             public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
-                binding.loading.setVisibility(View.GONE);
+                stopLoading();
                 Log.e("TAG", "onFailure: ");
 
             }

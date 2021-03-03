@@ -15,15 +15,13 @@
         android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="300dp" >
         <ImageView
-        android:background="#ffff"
+        android:id="@+id/image"
         android:gravity="center"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/avatar_default"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:civ_border_color="@color/black"
@@ -43,17 +41,17 @@
                 android:textSize="14sp"
                 android:gravity="start|center"
                 android:ellipsize="end"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:text="@string/label_name"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/name"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="#000000"
-                android:textAlignment="center"/>
+                android:textColor="#888"
+                android:textAlignment="textStart"/>
 
         </LinearLayout>
 
@@ -70,18 +68,18 @@
                 android:textSize="14sp"
                 android:gravity="start|center"
                 android:ellipsize="end"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:text="@string/genres"/>
             <!--Must set text label for text 2-->
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/edt_text2"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="#000000"
-                android:textAlignment="center"/>
+                android:textColor="#888"
+                android:textAlignment="textStart"/>
 
         </LinearLayout>
 
@@ -91,23 +89,24 @@
             android:orientation="horizontal"
             android:weightSum="3">
             <TextView
+                android:id="@+id/text3"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:gravity="start|center"
                 android:ellipsize="end"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:text="@string/label_country"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/country"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                android:textColor="#000000"
-                android:textAlignment="center"/>
+                android:textColor="#888"
+                android:textAlignment="textStart"/>
 
         </LinearLayout>
 

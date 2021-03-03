@@ -5,6 +5,6 @@ import com.example.artist.model.ArtistData;
 
 import java.util.List;
 
-public class ArtistListResponse extends  BaseListResponse implements BaseResponseData {
+public class ArtistListResponse extends BaseListResponse {
     public List<ArtistData> list_data;
 }

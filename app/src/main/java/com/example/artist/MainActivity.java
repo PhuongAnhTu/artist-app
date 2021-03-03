@@ -19,6 +19,8 @@ import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.ActivityMainBinding;
 import com.example.artist.login.ResponseLogin;
+import com.example.artist.model.AlbumData;
+import com.example.artist.model.ArtistData;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ActivityMainBinding binding;
@@ -72,12 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(new HomeFragment(), false);
     }
 
-    public void showDetailOneAlbum() {
-        replaceFragment(new DetailOneAlbumFragment(), true);
+    public void showDetailOneAlbum(AlbumData item) {
+        DetailOneAlbumFragment fragment = DetailOneAlbumFragment.newInstance(item);
+        replaceFragment(fragment, true);
     }
 
-    public void showDetailOneArtist() {
-        replaceFragment(new DetailOneArtistFragment(), true);
+    public void showDetailOneArtist(ArtistData item) {
+        DetailOneArtistFragment fragment = DetailOneArtistFragment.newInstance(item);
+        replaceFragment(fragment, true);
     }
 
     public void goToAllArtistList() {
