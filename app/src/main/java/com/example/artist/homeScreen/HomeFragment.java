@@ -71,12 +71,19 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         homeBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
 
         mainActivity.getSupportActionBar().hide();
+
         init();
+
         return homeBinding.getRoot();
     }
 
@@ -87,8 +94,8 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         homeBinding.showDetailAlb.setOnClickListener(this);
         createArtistRecyclerView();
         createAlbumRecyclerView();
-        loadArtists();
         loadAlbums();
+        loadArtists();
     }
 
 
@@ -111,22 +118,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             }
         });
     }
-
-//    private void createRecyclerView(RecyclerView view, List<String> str){
-//        view.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-//        view.setItemAnimator(new DefaultItemAnimator());
-//        AdapterBase adapter = new AdapterBase(getContext(), str);
-//        view.setAdapter(adapter);
-//
-//            view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                    super.onScrollStateChanged(recyclerView, newState);
-//                }
-//            });
-//
-//
-//    }
 
     public void createAlbumRecyclerView(){
         homeBinding.albumRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
@@ -172,46 +163,52 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
 
     public void loadArtists() {
-        homeBinding.loading.setVisibility(View.VISIBLE);
-        APIService api = RetrofitClient.createClient();
-        api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
-            @Override
-            public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
-                Log.e("TAG", "onResponse: Artist");
+        if (listArtist == null || listArtist.size() == 0){
+            homeBinding.loading.setVisibility(View.VISIBLE);
+            APIService api = RetrofitClient.createClient();
+            api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+                @Override
+                public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
+                    Log.e("TAG", "onResponse: Artist");
 
-                APIResponse<ArtistListResponse> artistResponse = response.body();
-                listArtist = artistResponse.data.list_data;
-                artistThumbAdapter.addData(listArtist);
-                homeBinding.loading.setVisibility(View.GONE);
-            }
-            @Override
-            public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
-                Log.e("TAG", "onFailure: " );
-                homeBinding.loading.setVisibility(View.GONE);
+                    APIResponse<ArtistListResponse> artistResponse = response.body();
+                    listArtist = artistResponse.data.list_data;
+                    artistThumbAdapter.addData(listArtist);
+                    homeBinding.loading.setVisibility(View.GONE);
 
-            }
-        });
+                }
+                @Override
+                public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
+                    Log.e("TAG", "onFailure: " );
+                    homeBinding.loading.setVisibility(View.GONE);
+
+                }
+            });
+        }
     }
 
     public void loadAlbums() {
-        homeBinding.loading.setVisibility(View.VISIBLE);
-        APIService api = RetrofitClient.createClient();
-        api.loadAlbum("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
-            @Override
-            public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
-                Log.e("TAG", "onResponse: Album");
+        if (listAlbum.size() == 0 || listAlbum == null) {
+            homeBinding.loading.setVisibility(View.VISIBLE);
+            APIService api = RetrofitClient.createClient();
+            api.loadAlbum("Bearer" + mainActivity.getUserToken(), 0, 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+                @Override
+                public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
+                    Log.e("TAG", "onResponse: Album");
 
-                APIResponse<AlbumListResponse> albumResponse = response.body();
-                listAlbum = albumResponse.data.list_data;
-                albumThumbAdapter.addData(listAlbum);
-                homeBinding.loading.setVisibility(View.GONE);
-            }
-            @Override
-            public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
-                Log.e("TAG", "onFailure: " );
-                homeBinding.loading.setVisibility(View.GONE);
+                    APIResponse<AlbumListResponse> albumResponse = response.body();
+                    listAlbum = albumResponse.data.list_data;
+                    albumThumbAdapter.addData(listAlbum);
+                    homeBinding.loading.setVisibility(View.GONE);
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
+                    Log.e("TAG", "onFailure: ");
+                    homeBinding.loading.setVisibility(View.GONE);
+
+                }
+            });
+        }
     }
 }

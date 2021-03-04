@@ -1,5 +1,6 @@
 package com.example.artist.adapter.baseadapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> {
 
-    public ImageThumbnailBinding thumbnailBinding;
+    //protected ImageThumbnailBinding thumbnailBinding;
     public ClickListener clickListener;
 
     public List<BaseModelList> listAll = new ArrayList<>();
@@ -36,13 +37,14 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
     public ThumbnailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        thumbnailBinding = ImageThumbnailBinding.inflate(inflater, parent, false);
+        ImageThumbnailBinding thumbnailBinding = ImageThumbnailBinding.inflate(inflater, parent, false);
         return new ThumbnailViewHolder(thumbnailBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ThumbnailViewHolder holder, int position) {
         BaseModelList model = listAll.get(position);
+        Log.d("xxx", getClass().getSimpleName() + " - onBindViewHolder position: " + position + ", model: " + model.name);
         bindData(holder, model);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

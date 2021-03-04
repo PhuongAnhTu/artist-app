@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.artist.MainActivity;
 import com.example.artist.base.FragmentBase;
@@ -19,6 +20,8 @@ public class ListAllBaseFragment extends FragmentBase {
     protected MainActivity mainActivity;
     protected boolean isLoading = false;
     protected boolean isFullData = false;
+    protected int mLoadedItem = 0;
+    protected int mTotal;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -31,6 +34,13 @@ public class ListAllBaseFragment extends FragmentBase {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DetailBaseLayoutBinding.inflate(inflater, container, false);
         setupRecyclerView();
+
+        binding.container.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         return binding.getRoot();
     }
@@ -54,6 +64,14 @@ public class ListAllBaseFragment extends FragmentBase {
     }
 
     protected void loadMore() {
+    }
+
+    protected void refresh(){
+        binding.container.setRefreshing(false);
+    }
+
+    public void updateLoadedItemString(){
+        mainActivity.mLoadedItemHeader =  mLoadedItem + "/" + mTotal + " items";
     }
 
     public void startLoading() {

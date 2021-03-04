@@ -21,6 +21,10 @@ import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
 import com.example.artist.model.AlbumData;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,7 +34,10 @@ import retrofit2.Response;
 public class ListAlbumFragment extends ListAllBaseFragment {
 
     private MainActivity mainActivity;
-    ListAlbumAdapter adapter = new ListAlbumAdapter();
+    protected ListAlbumAdapter adapter = new ListAlbumAdapter();
+    private int total = 0;
+    List<AlbumData> list;
+
 
 
     @Override
@@ -62,6 +69,9 @@ public class ListAlbumFragment extends ListAllBaseFragment {
 
     @Override
     public void setupRecyclerView() {
+        super.setupRecyclerView();
+        updateLoadedItemString();
+        mainActivity.updateHeader();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         loadData();
         binding.recyclerView.setAdapter(adapter);
@@ -75,25 +85,48 @@ public class ListAlbumFragment extends ListAllBaseFragment {
     }
 
     @Override
+    public void updateLoadedItemString() {
+        mLoadedItem = adapter.getItemCount();
+        mTotal = total;
+        super.updateLoadedItemString();
+    }
+
+    @Override
+    protected void refresh() {
+        List<AlbumData> newAlbum;
+        newAlbum = list;
+        list.clear();
+        adapter.addData(newAlbum);
+        super.refresh();
+        updateLoadedItemString();
+        mainActivity.updateHeader();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void loadMore() {
-        Log.d("xxxx", "load more");
         loadData();
+        updateLoadedItemString();
+        mainActivity.updateHeader();
     }
 
     public void loadData() {
         startLoading();
         APIService api = RetrofitClient.createClient();
-        api.loadAlbum("Bearer" + mainActivity.getUserToken(), adapter.getItemCount(), 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+        api.loadAlbum("Bearer" + mainActivity.getUserToken(), adapter.getItemCount() , 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
                 APIResponse<AlbumListResponse> albumResponse = response.body();
-                List<AlbumData> list = albumResponse.data.list_data;
+                list = albumResponse.data.list_data;
                 adapter.addData(list);
                 if (adapter.getItemCount() == albumResponse.data.total) {
                     isFullData = true;
                 }
                 stopLoading();
+                total = albumResponse.data.total;
+                updateLoadedItemString();
+                mainActivity.updateHeader();
             }
 
             @Override

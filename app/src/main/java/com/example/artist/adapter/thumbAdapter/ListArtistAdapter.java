@@ -14,18 +14,17 @@ public class ListArtistAdapter extends BaseItemAdapter {
     @Override
     protected void bindData(DetailViewHolder holder, BaseModelList model) {
         ArtistData artistData = (ArtistData) model;
-
-        Context context = itemBinding.getRoot().getContext();
+        Context context = holder.itemBinding.getRoot().getContext();
         if (artistData.images != null && artistData.images.size() > 0) {
             String imageUrl = holder.getImageUrl(artistData.images.get(0));
             Log.d("xxx", "imageUrl: " + imageUrl);
             Glide.with(context)
                     .load(imageUrl)
-                    .into(itemBinding.image);
+                    .into(holder.itemBinding.image);
         }
-        itemBinding.name.setText(artistData.name);
-        itemBinding.responseText.setText(artistData.genres);
-        itemBinding.responseText3.setText(artistData.country.name);
+        holder.itemBinding.name.setText(artistData.name);
+        holder.itemBinding.responseText.setText(artistData.genres);
+        holder.itemBinding.responseText3.setText(artistData.country.name);
 
     }
 }

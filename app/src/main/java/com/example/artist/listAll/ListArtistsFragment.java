@@ -21,6 +21,7 @@ import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,13 +32,8 @@ public class ListArtistsFragment extends ListAllBaseFragment {
 
     private MainActivity mainActivity;
     private ListArtistAdapter adapter= new ListArtistAdapter();
+    private int total = 0;
 
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-    }
     @Override
     public void onAttach (@NonNull Context context) {
 
@@ -64,6 +60,8 @@ public class ListArtistsFragment extends ListAllBaseFragment {
     @Override
     public void setupRecyclerView(){
         super.setupRecyclerView();
+        updateLoadedItemString();
+        mainActivity.updateHeader();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         loadData();
         binding.recyclerView.setAdapter(adapter);
@@ -78,10 +76,25 @@ public class ListArtistsFragment extends ListAllBaseFragment {
 
     @Override
     protected void loadMore() {
-        // do some thing
-        Log.d("xxxx", "load more");
+        loadData();
+        updateLoadedItemString();
+        mainActivity.updateHeader();
+    }
+
+    @Override
+    protected void refresh() {
+        adapter.clear();
+        super.refresh();
         loadData();
     }
+
+    @Override
+    public void updateLoadedItemString() {
+        mLoadedItem = adapter.getItemCount();
+        mTotal = total;
+        super.updateLoadedItemString();
+    }
+
 
     public void loadData() {
         startLoading();
@@ -91,12 +104,14 @@ public class ListArtistsFragment extends ListAllBaseFragment {
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
                 APIResponse<ArtistListResponse> artistResponse = response.body();
-                List<ArtistData> list = artistResponse.data.list_data;
-                adapter.addData(list);
+                adapter.addData(artistResponse.data.list_data);
                 if (adapter.getItemCount() == artistResponse.data.total) {
                     isFullData = true;
                 }
                 stopLoading();
+                total = artistResponse.data.total;
+                updateLoadedItemString();
+                mainActivity.updateHeader();
             }
             @Override
             public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {

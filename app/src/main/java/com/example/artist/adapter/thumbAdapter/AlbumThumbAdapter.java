@@ -19,18 +19,17 @@ public class AlbumThumbAdapter extends BaseThumbAdapter {
         AlbumData albumData = (AlbumData) model;
         //
 
-        Context context = thumbnailBinding.getRoot().getContext();
+        Context context = holder.thumbnailBinding.getRoot().getContext();
             if (albumData.images != null && albumData.images.size() > 0) {
                 String imageUrl = holder.getImageUrl(albumData.images.get(0));
-                Log.d("xxx", "imageUrl: " + imageUrl);
                 Glide.with(context)
                         .load(imageUrl)
-                        .into(thumbnailBinding.myImage);
+                        .into(holder.thumbnailBinding.myImage);
             }
 
-        thumbnailBinding.name.setText(albumData.name);
-        thumbnailBinding.text2.setText(albumData.genres);
-        thumbnailBinding.text3.setText(albumData.artist.name);
+        holder.thumbnailBinding.name.setText(albumData.name);
+        holder.thumbnailBinding.text2.setText(albumData.genres);
+        holder.thumbnailBinding.text3.setText(albumData.artist.name);
     }
 
 

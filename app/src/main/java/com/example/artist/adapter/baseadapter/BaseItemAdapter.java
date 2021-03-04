@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseItemAdapter extends RecyclerView.Adapter<DetailViewHolder> {
-    public ImageItemBinding itemBinding;
 
     public List<BaseModelList> listAll = new ArrayList<>();
 
@@ -23,7 +22,13 @@ public class BaseItemAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     public void addData(List<? extends BaseModelList> listData) {
         listAll.addAll(listData);
         notifyDataSetChanged();
-        }
+    }
+
+    public void clear() {
+        listAll.clear();
+        notifyDataSetChanged();
+    }
+
 
 
     @NonNull
@@ -31,7 +36,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<DetailViewHolder> {
     public DetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            itemBinding = ImageItemBinding.inflate(inflater, parent, false);
+            ImageItemBinding itemBinding = ImageItemBinding.inflate(inflater, parent, false);
             return new DetailViewHolder(itemBinding);
             }
 

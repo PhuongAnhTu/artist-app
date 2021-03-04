@@ -7,10 +7,11 @@ import com.example.artist.databinding.ImageItemBinding;
 
 public class DetailViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageItemBinding binding;
+    public ImageItemBinding itemBinding;
 
     public DetailViewHolder(@NonNull ImageItemBinding binding) {
         super(binding.getRoot());
+        this.itemBinding = binding;
     }
 
     public String getImageUrl(String relativeUrl) {

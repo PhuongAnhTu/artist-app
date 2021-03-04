@@ -14,6 +14,7 @@ import com.example.artist.detailScreen.DetailOneAlbumFragment;
 import com.example.artist.detailScreen.DetailOneArtistFragment;
 import com.example.artist.homeScreen.HomeFragment;
 import com.example.artist.listAll.ListAlbumFragment;
+import com.example.artist.listAll.ListAllBaseFragment;
 import com.example.artist.listAll.ListArtistsFragment;
 import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ActivityMainBinding binding;
     FragmentManager fragMan = getSupportFragmentManager();
     public ResponseLogin responseLogin;
+    public String mLoadedItemHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,12 +121,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         boolean isHome = fr instanceof HomeFragment;
         boolean isLogin = fr instanceof LoginFragment;
+        boolean isListArtist = fr instanceof ListArtistsFragment;
+        boolean isListAlbum = fr instanceof ListAlbumFragment;
         binding.textTittle.setText(title);
         binding.avatar.setVisibility(isHome ? View.VISIBLE : View.GONE);
         if (isHome || isLogin) {
             binding.closeBtn.setImageResource(R.drawable.ic_close);
         } else {
             binding.closeBtn.setImageResource(R.drawable.ic_arrow_back);
+        }
+
+        if (isListAlbum || isListArtist ){
+            binding.loadedItem.setVisibility(View.VISIBLE);
+            binding.loadedItem.setText(mLoadedItemHeader);
+        } else {
+            binding.loadedItem.setVisibility(View.INVISIBLE);
         }
     }
 }

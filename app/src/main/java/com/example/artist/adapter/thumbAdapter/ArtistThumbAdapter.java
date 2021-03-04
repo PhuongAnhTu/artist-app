@@ -16,17 +16,16 @@ public class ArtistThumbAdapter extends BaseThumbAdapter {
     protected void bindData (ThumbnailViewHolder holder, BaseModelList model){
         ArtistData artistData = (ArtistData) model;
 
-        Context context = thumbnailBinding.getRoot().getContext();
+        Context context = holder.thumbnailBinding.getRoot().getContext();
                 if (artistData.images != null && artistData.images.size() > 0) {
                     String imageUrl = holder.getImageUrl(artistData.images.get(0));
-                    Log.d("xxx", "imageUrl: " + imageUrl);
                     Glide.with(context)
                             .load(imageUrl)
-                            .into(thumbnailBinding.myImage);
+                            .into(holder.thumbnailBinding.myImage);
                 }
-        thumbnailBinding.name.setText(artistData.name);
-        thumbnailBinding.text3.setText(artistData.country.name);
-        thumbnailBinding.text2.setText(artistData.genres);
+        holder.thumbnailBinding.name.setText(artistData.name);
+        holder.thumbnailBinding.text3.setText(artistData.country.name);
+        holder.thumbnailBinding.text2.setText(artistData.genres);
     }
 
     public void setOnItemClickListener(BaseThumbAdapter.ClickListener clickListener) {
