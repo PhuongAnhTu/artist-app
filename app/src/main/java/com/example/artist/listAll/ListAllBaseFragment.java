@@ -64,6 +64,7 @@ public class ListAllBaseFragment extends FragmentBase {
     }
 
     protected void loadMore() {
+
     }
 
     protected void refresh(){
@@ -76,7 +77,9 @@ public class ListAllBaseFragment extends FragmentBase {
 
     public void startLoading() {
         isLoading = true;
-        binding.loading.setVisibility(View.VISIBLE);
+        if (mLoadedItem == 0) {
+            binding.loading.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void stopLoading() {

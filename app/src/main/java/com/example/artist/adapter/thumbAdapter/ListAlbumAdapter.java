@@ -6,6 +6,7 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.example.artist.adapter.baseadapter.BaseItemAdapter;
 import com.example.artist.adapter.viewholder.DetailViewHolder;
+import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.BaseModelList;
 
@@ -16,7 +17,6 @@ public class ListAlbumAdapter extends BaseItemAdapter {
         Context context = holder.itemBinding.getRoot().getContext();
         if (albumData.images != null && albumData.images.size() > 0) {
             String imageUrl = holder.getImageUrl(albumData.images.get(0));
-            Log.d("xxx", "imageUrl: " + imageUrl);
             Glide.with(context)
                     .load(imageUrl)
                     .into(holder.itemBinding.image);
@@ -26,4 +26,5 @@ public class ListAlbumAdapter extends BaseItemAdapter {
         holder.itemBinding.responseText3.setText(albumData.artist.name);
         holder.itemBinding.text3.setText("Artist:");
     }
+
 }

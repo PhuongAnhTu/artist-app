@@ -76,9 +76,12 @@ public class ListArtistsFragment extends ListAllBaseFragment {
 
     @Override
     protected void loadMore() {
+        adapter.listAll.add(null);
+        adapter.notifyItemInserted(adapter.listAll.size() - 1);
         loadData();
         updateLoadedItemString();
         mainActivity.updateHeader();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -104,12 +107,16 @@ public class ListArtistsFragment extends ListAllBaseFragment {
             public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
                 Log.e("TAG", "onResponse: ");
                 APIResponse<ArtistListResponse> artistResponse = response.body();
+                if( adapter.listAll.size() != 0) {
+                    adapter.listAll.remove(adapter.getItemCount() -1);
+                }
+
                 adapter.addData(artistResponse.data.list_data);
                 if (adapter.getItemCount() == artistResponse.data.total) {
                     isFullData = true;
                 }
-                stopLoading();
                 total = artistResponse.data.total;
+                stopLoading();
                 updateLoadedItemString();
                 mainActivity.updateHeader();
             }
@@ -117,6 +124,7 @@ public class ListArtistsFragment extends ListAllBaseFragment {
             public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
                 stopLoading();
                 Log.e("TAG", "onFailure: " );
+                adapter.listAll.remove(adapter.getItemCount() -1);
 
             }
         });
