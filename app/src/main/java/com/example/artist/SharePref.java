@@ -23,16 +23,8 @@ public class SharePref {
                 .apply();
     }
 
-    public static String getIdThumbnail(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(ID_THUMBNAIL, "");
-    }
-
-    public static void setIdThumbnail(Context context, AlbumDetailResponse loginData) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-                .edit()
-                .putString(ID_THUMBNAIL, loginData.toJsonString())
-                .apply();
-    }
-
+//    public static void clearLoginData(Context context) {
+//        PreferenceManager.getDefaultSharedPreferences(context)
+//                .edit().remove(LOGIN_DATA)
+//    }
 }

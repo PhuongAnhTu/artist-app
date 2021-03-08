@@ -6,9 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import com.example.artist.detailScreen.DetailOneAlbumFragment;
 import com.example.artist.detailScreen.DetailOneArtistFragment;
@@ -24,7 +29,7 @@ import com.example.artist.model.AlbumData;
 import com.example.artist.model.ArtistData;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private ActivityMainBinding binding;
+    public ActivityMainBinding mainBinding;
     FragmentManager fragMan = getSupportFragmentManager();
     public ResponseLogin responseLogin;
     public String mLoadedItemHeader;
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         getSupportActionBar().hide();
         init();
     }
@@ -54,10 +59,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loginToHome();
         }
 
-        binding.closeBtn.setOnClickListener(this);
+        mainBinding.closeBtn.setOnClickListener(this);
+        mainBinding.avatar.setOnClickListener(this);
     }
 
-    private void replaceFragment(Fragment fragment, boolean isAddBackToTack) {
+    private void replaceFragment(Fragment fragment, boolean isAddToBackStack) {
         FragmentTransaction fragTransaction = fragMan.beginTransaction().setCustomAnimations(
                 R.anim.enter_from_right,
                 R.anim.exit_to_right,
@@ -65,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.anim.exit_to_left
         );
         fragMan.getBackStackEntryCount();
-        if (isAddBackToTack) {
+        if (isAddToBackStack) {
             fragTransaction.addToBackStack(null);
         }
-        fragTransaction.replace(binding.container.getId(), fragment, fragment.getClass().getSimpleName());
+        fragTransaction.replace(mainBinding.container.getId(), fragment, fragment.getClass().getSimpleName());
         fragTransaction.commit();
     }
 
@@ -106,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     updateHeader();
                 }
                 break;
+
+            case R.id.avatar:
+                onAvatarClick(mainBinding.avatar);
         }
     }
 
@@ -123,19 +132,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean isLogin = fr instanceof LoginFragment;
         boolean isListArtist = fr instanceof ListArtistsFragment;
         boolean isListAlbum = fr instanceof ListAlbumFragment;
-        binding.textTittle.setText(title);
-        binding.avatar.setVisibility(isHome ? View.VISIBLE : View.GONE);
+        mainBinding.textTittle.setText(title);
+        mainBinding.avatar.setVisibility(isHome ? View.VISIBLE : View.GONE);
         if (isHome || isLogin) {
-            binding.closeBtn.setImageResource(R.drawable.ic_close);
+            mainBinding.closeBtn.setImageResource(R.drawable.ic_close);
         } else {
-            binding.closeBtn.setImageResource(R.drawable.ic_arrow_back);
+            mainBinding.closeBtn.setImageResource(R.drawable.ic_arrow_back);
         }
 
         if (isListAlbum || isListArtist ){
-            binding.loadedItem.setVisibility(View.VISIBLE);
-            binding.loadedItem.setText(mLoadedItemHeader);
+            mainBinding.loadedItem.setVisibility(View.VISIBLE);
+            mainBinding.loadedItem.setText(mLoadedItemHeader);
         } else {
-            binding.loadedItem.setVisibility(View.INVISIBLE);
+            mainBinding.loadedItem.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public void onAvatarClick (View avatar) {
+
+        PopupMenu popupMenu = new PopupMenu(this, avatar);
+        popupMenu.getMenuInflater().inflate(R.menu.logout_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if (item.getItemId() == R.id.logout){
+                    logout();
+                    return true;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+
+    }
+
+    public void logout () {
+        SharedPreferences sharePref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharePref.edit();
+        editor.clear().apply();
+        responseLogin = ResponseLogin.getFromSharedPreference(this);
+        replaceFragment(new LoginFragment(), false);
     }
 }

@@ -62,14 +62,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         }
     }
 
-    public static HomeFragment newInstance(Bundle bundle) {
-        HomeFragment fragment = new HomeFragment();
-        if (bundle != null) {
-            fragment.setArguments(bundle);
-        }
-        return fragment;
-    }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -92,6 +84,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         homeBinding.artistRecyclerView.setOnClickListener(this);
         homeBinding.albumRecyclerView.setOnClickListener(this);
         homeBinding.showDetailAlb.setOnClickListener(this);
+
         createArtistRecyclerView();
         createAlbumRecyclerView();
         loadAlbums();
