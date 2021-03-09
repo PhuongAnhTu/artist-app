@@ -5,8 +5,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:cardUseCompatPadding="true">
 
         <RelativeLayout
@@ -28,7 +28,6 @@
                 android:layout_weight="3"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:padding="3dp"
                 android:gravity="start|top"
                 android:layout_alignParentBottom="true">
 
@@ -37,8 +36,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:textSize="10dp"
                     android:gravity="start|top"
+                    android:paddingHorizontal="3dp"
                     android:ellipsize="end"
                     android:background="#99000000"
                     android:textStyle="bold"
@@ -48,8 +49,10 @@
                     android:id="@+id/text2"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:layout_height="15dp"
                     android:gravity="start|center"
+                    android:paddingHorizontal="3dp"
                     android:textSize="10dp"
                     android:ellipsize="end"
                     android:background="#99000000"
@@ -59,9 +62,11 @@
                 <TextView
                     android:id="@+id/text3"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:gravity="start|bottom"
+                    android:paddingHorizontal="3dp"
                     android:textSize="10dp"
                     android:ellipsize="end"
                     android:background="#99000000"

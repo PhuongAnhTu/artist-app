@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
 import com.example.artist.detailScreen.DetailOneAlbumFragment;
@@ -173,5 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.clear().apply();
         responseLogin = ResponseLogin.getFromSharedPreference(this);
         replaceFragment(new LoginFragment(), false);
+    }
+
+    public void hideKeyboard () {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 }

@@ -162,7 +162,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
                 @Override
                 public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
-                    Log.e("TAG", "onResponse: Artist");
 
                     APIResponse<ArtistListResponse> artistResponse = response.body();
                     listArtist = artistResponse.data.list_data;
@@ -187,8 +186,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             api.loadAlbum("Bearer" + mainActivity.getUserToken(), 0, 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
                 @Override
                 public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
-                    Log.e("TAG", "onResponse: Album");
-
                     APIResponse<AlbumListResponse> albumResponse = response.body();
                     listAlbum = albumResponse.data.list_data;
                     albumThumbAdapter.addData(listAlbum);

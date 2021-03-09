@@ -30,4 +30,8 @@ public class FragmentBase extends Fragment {
     public void setupRecyclerView(RecyclerView view){
 
     }
+
+    protected void  hideSoftKeyBoard() {
+        mainActivity.hideKeyboard();
+    }
 }
