@@ -1,5 +1,6 @@
 package com.example.artist.login;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -94,6 +96,7 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.loginButton) {
+            hideKeyboard(mainActivity, v);
             if (validationSuccess()) {
                 login();
             }
@@ -168,5 +171,10 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
         if (context instanceof MainActivity){
             this.mainActivity = (MainActivity)context;
         }
+    }
+
+    public void hideKeyboard (Activity activity, View v) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
     }
 }
