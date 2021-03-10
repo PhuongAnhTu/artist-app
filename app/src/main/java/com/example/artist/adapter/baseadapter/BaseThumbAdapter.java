@@ -16,10 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> {
-
-    //protected ImageThumbnailBinding thumbnailBinding;
     public ClickListener clickListener;
-
     public List<BaseModelList> listAll = new ArrayList<>();
 
     public BaseThumbAdapter(){}
@@ -29,13 +26,9 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
         notifyDataSetChanged();
     }
 
-    //** Create method get Item by positions in listAll
-
-
     @NonNull
     @Override
     public ThumbnailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ImageThumbnailBinding thumbnailBinding = ImageThumbnailBinding.inflate(inflater, parent, false);
         return new ThumbnailViewHolder(thumbnailBinding);
@@ -55,25 +48,19 @@ public class BaseThumbAdapter extends RecyclerView.Adapter<ThumbnailViewHolder> 
     }
 
     @Override
-    public int getItemCount() { return listAll.size();
+    public int getItemCount() {
+        return listAll.size();
     }
 
-    protected void  bindData(ThumbnailViewHolder holder, BaseModelList model) {
+    protected void bindData(ThumbnailViewHolder holder, BaseModelList model) {
     }
 
     public interface ClickListener {
         void onItemClick(int position, View v);
     }
 
-    public void getItemByPosition(){
-
-    }
-
-    public void setOnClick(ClickListener clickListener)
-    {
+    public void setOnClick(ClickListener clickListener) {
         this.clickListener = clickListener;
     }
-
-
 }
 

@@ -9,5 +9,4 @@ public class AlbumDetailResponse extends BaseDetailResponse implements BaseRespo
     public String length;
     public String released;
     public ArtistData artist;
-
 }

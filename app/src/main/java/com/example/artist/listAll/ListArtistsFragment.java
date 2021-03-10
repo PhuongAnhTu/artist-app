@@ -36,7 +36,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
 
     @Override
     public void onAttach (@NonNull Context context) {
-
         super.onAttach(context);
         if (context instanceof MainActivity){
             this.mainActivity = (MainActivity)context;
@@ -55,8 +54,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
-
     @Override
     public void setupRecyclerView(){
         super.setupRecyclerView();
@@ -65,7 +62,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         loadData();
         binding.recyclerView.setAdapter(adapter);
-
         binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -98,7 +94,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
         super.updateLoadedItemString();
     }
 
-
     public void loadData() {
         startLoading();
         APIService api = RetrofitClient.createClient();
@@ -110,7 +105,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
                 if( adapter.listAll.size() != 0) {
                     adapter.listAll.remove(adapter.getItemCount() -1);
                 }
-
                 adapter.addData(artistResponse.data.list_data);
                 if (adapter.getItemCount() == artistResponse.data.total) {
                     isFullData = true;
@@ -125,7 +119,6 @@ public class ListArtistsFragment extends ListAllBaseFragment {
                 stopLoading();
                 Log.e("TAG", "onFailure: " );
                 adapter.listAll.remove(adapter.getItemCount() -1);
-
             }
         });
     }

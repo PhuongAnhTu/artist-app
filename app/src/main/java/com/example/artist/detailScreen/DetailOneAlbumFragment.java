@@ -41,9 +41,9 @@ public class DetailOneAlbumFragment extends FragmentBase {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
     }
+
     @Override
     public void onAttach (@NonNull Context context) {
-
         super.onAttach(context);
         if (context instanceof MainActivity){
             this.mainActivity = (MainActivity)context;
@@ -57,7 +57,6 @@ public class DetailOneAlbumFragment extends FragmentBase {
         fragment.setArguments(b);
         return fragment;
     }
-
 
 
     @Override
@@ -78,32 +77,29 @@ public class DetailOneAlbumFragment extends FragmentBase {
     }
 
     public void loadDetail() {
-
         APIService api = RetrofitClient.createClient();
         api.loadDetailAlbum("Bearer" + mainActivity.getUserToken(), selectedAlbumItem._id).enqueue(new Callback<APIResponse<AlbumDetailResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<AlbumDetailResponse>> call, Response<APIResponse<AlbumDetailResponse>> response) {
-                Log.e("TAG", "onResponse: ");
                 APIResponse<AlbumDetailResponse> detail = response.body();
                 Context context = binding.getRoot().getContext();
                 if (detail.data.images != null && detail.data.images.size() > 0) {
                     String imageUrl = "https://file.thedarkmetal.com/" + detail.data.images.get(0);
-                    Log.d("xxx", "imageUrl: " + imageUrl);
                     Glide.with(context)
-                            .load(imageUrl)
-                            .into(binding.image);
+                         .load(imageUrl)
+                         .into(binding.image);
                 }
 
                 binding.name.setText(detail.data.name);
-                binding.text2.setText("Length");
-                binding.text3.setText("Released");
+                binding.text2.setText(R.string.length);
+                binding.text3.setText(R.string.released);
                 binding.edtText2.setText(detail.data.length);
                 binding.country.setText(detail.data.released);
             }
 
             @Override
             public void onFailure(Call<APIResponse<AlbumDetailResponse>> call, Throwable t) {
-
+                Log.e("TAG", "onFailure: ");
             }
         });
     }

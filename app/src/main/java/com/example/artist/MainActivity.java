@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,7 +21,6 @@ import com.example.artist.detailScreen.DetailOneAlbumFragment;
 import com.example.artist.detailScreen.DetailOneArtistFragment;
 import com.example.artist.homeScreen.HomeFragment;
 import com.example.artist.listAll.ListAlbumFragment;
-import com.example.artist.listAll.ListAllBaseFragment;
 import com.example.artist.listAll.ListArtistsFragment;
 import com.example.artist.login.LoginFragment;
 import com.example.artist.base.FragmentBase;
@@ -31,6 +30,7 @@ import com.example.artist.model.AlbumData;
 import com.example.artist.model.ArtistData;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
     public ActivityMainBinding mainBinding;
     FragmentManager fragMan = getSupportFragmentManager();
     public ResponseLogin responseLogin;
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(new ListAlbumFragment(), true);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.avatar:
                 onAvatarClick(mainBinding.avatar);
+                break;
         }
     }
 
@@ -134,8 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         boolean isLogin = fr instanceof LoginFragment;
         boolean isListArtist = fr instanceof ListArtistsFragment;
         boolean isListAlbum = fr instanceof ListAlbumFragment;
+
         mainBinding.textTittle.setText(title);
         mainBinding.avatar.setVisibility(isHome ? View.VISIBLE : View.GONE);
+
         if (isHome || isLogin) {
             mainBinding.closeBtn.setImageResource(R.drawable.ic_close);
         } else {
@@ -151,13 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onAvatarClick (View avatar) {
-
         PopupMenu popupMenu = new PopupMenu(this, avatar);
         popupMenu.getMenuInflater().inflate(R.menu.logout_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 if (item.getItemId() == R.id.logout){
                     logout();
                     return true;
@@ -166,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         popupMenu.show();
-
     }
 
     public void logout () {

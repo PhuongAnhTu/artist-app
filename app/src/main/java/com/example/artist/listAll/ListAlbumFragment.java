@@ -39,7 +39,6 @@ public class ListAlbumFragment extends ListAllBaseFragment {
     List<AlbumData> list;
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -48,7 +47,6 @@ public class ListAlbumFragment extends ListAllBaseFragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-
         super.onAttach(context);
         if (context instanceof MainActivity) {
             this.mainActivity = (MainActivity) context;

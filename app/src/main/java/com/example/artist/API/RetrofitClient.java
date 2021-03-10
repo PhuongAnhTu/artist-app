@@ -1,7 +1,5 @@
 package com.example.artist.API;
 
-import com.example.artist.API.APIService;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -26,6 +24,4 @@ public final class RetrofitClient {
         }
         return mAPIService;
     }
-
-
 }

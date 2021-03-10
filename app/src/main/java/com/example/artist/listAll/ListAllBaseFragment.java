@@ -34,14 +34,12 @@ public class ListAllBaseFragment extends FragmentBase {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DetailBaseLayoutBinding.inflate(inflater, container, false);
         setupRecyclerView();
-
         binding.container.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh();
             }
         });
-
         return binding.getRoot();
     }
 
@@ -64,7 +62,6 @@ public class ListAllBaseFragment extends FragmentBase {
     }
 
     protected void loadMore() {
-
     }
 
     protected void refresh(){

@@ -75,22 +75,18 @@ public class DetailOneArtistFragment extends FragmentBase {
         return "Detail Artist";
     }
 
-
     public void loadDetail() {
-
         APIService api = RetrofitClient.createClient();
         api.loadDetailArtist("Bearer" + mainActivity.getUserToken(), selectedItem._id).enqueue(new Callback<APIResponse<ArtistDetailResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<ArtistDetailResponse>> call, Response<APIResponse<ArtistDetailResponse>> response) {
-                Log.e("TAG", "onResponse: ");
                 APIResponse<ArtistDetailResponse> detail = response.body();
                 Context context = binding.getRoot().getContext();
                 if (detail.data.images != null && detail.data.images.size() > 0) {
                     String imageUrl = "https://file.thedarkmetal.com/" + detail.data.images.get(0);
-                    Log.d("xxx", "imageUrl: " + imageUrl);
                     Glide.with(context)
-                            .load(imageUrl)
-                            .into(binding.image);
+                         .load(imageUrl)
+                         .into(binding.image);
                 }
 
                 binding.name.setText(detail.data.name);
@@ -100,7 +96,7 @@ public class DetailOneArtistFragment extends FragmentBase {
 
             @Override
             public void onFailure(Call<APIResponse<ArtistDetailResponse>> call, Throwable t) {
-
+                Log.e("TAG", "onFailure: ");
             }
         });
     }

@@ -47,15 +47,14 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public AlbumData selectedAlbumItem;
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
     }
+
     @Override
     public void onAttach (@NonNull Context context) {
-
         super.onAttach(context);
         if (context instanceof MainActivity){
             this.mainActivity = (MainActivity)context;
@@ -71,11 +70,8 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         homeBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false);
-
         mainActivity.getSupportActionBar().hide();
-
         init();
-
         return homeBinding.getRoot();
     }
 
@@ -91,7 +87,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         loadArtists();
     }
 
-
     public void createArtistRecyclerView(){
         homeBinding.artistRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         homeBinding.artistRecyclerView.setAdapter(artistThumbAdapter);
@@ -100,8 +95,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             public void onItemClick(int position, View v) {
                 selectedArtistItem = listArtist.get(position);
                 mainActivity.showDetailOneArtist(selectedArtistItem);
-                //Assign response ID that had been clicked here
-
             }
         });
         homeBinding.artistRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -128,9 +121,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-
     }
-
 
 
     @Override
@@ -153,8 +144,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
     }
 
 
-
-
     public void loadArtists() {
         if (listArtist == null || listArtist.size() == 0){
             homeBinding.loading.setVisibility(View.VISIBLE);
@@ -162,18 +151,16 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
                 @Override
                 public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
-
                     APIResponse<ArtistListResponse> artistResponse = response.body();
                     listArtist = artistResponse.data.list_data;
                     artistThumbAdapter.addData(listArtist);
                     homeBinding.loading.setVisibility(View.GONE);
-
                 }
+
                 @Override
                 public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
                     Log.e("TAG", "onFailure: " );
                     homeBinding.loading.setVisibility(View.GONE);
-
                 }
             });
         }
@@ -196,7 +183,6 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                 public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
                     Log.e("TAG", "onFailure: ");
                     homeBinding.loading.setVisibility(View.GONE);
-
                 }
             });
         }

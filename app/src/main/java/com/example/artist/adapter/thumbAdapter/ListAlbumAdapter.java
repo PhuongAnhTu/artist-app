@@ -1,12 +1,11 @@
 package com.example.artist.adapter.thumbAdapter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.example.artist.R;
 import com.example.artist.adapter.baseadapter.BaseItemAdapter;
 import com.example.artist.adapter.viewholder.DetailViewHolder;
-import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.BaseModelList;
 
@@ -18,13 +17,13 @@ public class ListAlbumAdapter extends BaseItemAdapter {
         if (albumData.images != null && albumData.images.size() > 0) {
             String imageUrl = holder.getImageUrl(albumData.images.get(0));
             Glide.with(context)
-                    .load(imageUrl)
-                    .into(holder.itemBinding.image);
+                 .load(imageUrl)
+                 .into(holder.itemBinding.image);
         }
+
         holder.itemBinding.name.setText(albumData.name);
         holder.itemBinding.responseText.setText(albumData.genres);
         holder.itemBinding.responseText3.setText(albumData.artist.name);
-        holder.itemBinding.text3.setText("Artist:");
+        holder.itemBinding.text3.setText(R.string.label_artist);
     }
-
 }

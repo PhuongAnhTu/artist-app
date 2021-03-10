@@ -8,7 +8,6 @@ import com.example.artist.login.ResponseLogin;
 
 public class SharePref {
     private static final String LOGIN_DATA = "LOGIN_DATA";
-    private static final String ID_THUMBNAIL = "ID_THUMBNAIL";
 
 
     public static String getLoginData(Context context) {

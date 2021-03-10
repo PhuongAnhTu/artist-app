@@ -15,4 +15,8 @@
     <string name="label_country">Country:</string>
     <string name="genres">Genres:</string>
     <string name="log_out">Log out</string>
+    <string name="label_artist">Artist:</string>
+    <string name="length">Length</string>
+    <string name="released">Released</string>
+
 </resources>

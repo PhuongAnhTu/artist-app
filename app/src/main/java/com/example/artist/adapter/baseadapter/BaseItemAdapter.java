@@ -35,18 +35,15 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (viewType == VIEW_TYPE_ITEM) {
-
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             ImageItemBinding itemBinding = ImageItemBinding.inflate(inflater, parent, false);
             return new DetailViewHolder(itemBinding);
         } else {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             LoadingItemBinding itemBinding = LoadingItemBinding.inflate(inflater, parent, false);
             return new LoadingViewHolder(itemBinding);
         }
@@ -54,28 +51,25 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            BaseModelList model = listAll.get(position);
+        BaseModelList model = listAll.get(position);
 
-            if (holder instanceof DetailViewHolder){
-
-                bindData((DetailViewHolder) holder, model);
-            } else if (holder instanceof LoadingViewHolder){
-                showLoadingView ((LoadingViewHolder) holder, position);
-            }
-            }
+        if (holder instanceof DetailViewHolder){
+            bindData((DetailViewHolder) holder, model);
+        } else if (holder instanceof LoadingViewHolder){
+            showLoadingView ((LoadingViewHolder) holder, position);
+        }
+    }
 
     @Override
-    public int getItemCount() { return listAll.size();
-            }
-
-    protected void  bindData( DetailViewHolder holder , BaseModelList model) {
-            }
-    protected void showLoadingView (LoadingViewHolder holder, int position){
-
-            }
+    public int getItemCount() {
+        return listAll.size();
+    }
 
     @Override
     public int getItemViewType(int position) {
         return listAll.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM ;
     }
+
+    protected void  bindData( DetailViewHolder holder , BaseModelList model) {}
+    protected void showLoadingView (LoadingViewHolder holder, int position){}
 }

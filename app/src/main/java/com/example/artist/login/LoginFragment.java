@@ -1,6 +1,5 @@
 package com.example.artist.login;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,7 +44,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
     public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.login_fragment, container, false);
-
         init();
         binding.getRoot().setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -68,7 +64,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -85,7 +80,6 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -124,14 +118,12 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
                 mainActivity.responseLogin = loginAPIResponse.data;
                 SharePref.setLoginData(getContext(), mainActivity.responseLogin);
                 Log.d("TAG", "loginAPIResponse: " + mainActivity.responseLogin.toJsonString());
-
             }
 
             @Override
             public void onFailure(Call<APIResponse<ResponseLogin>> call, Throwable t) {
                 hideLoading();
                 Log.e("xxx", "onFailure");
-
             }
         });
     }
@@ -153,7 +145,9 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
         }
 
         if (binding.edtPass.getText().toString().length() <= 1 || binding.edtPass.getText().toString().length() >= 20) {
-            Toast.makeText(mainActivity.getApplicationContext(), "Password must be between 1 and 20 characters in length ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mainActivity.getApplicationContext(),
+                                        "Password must be between 1 and 20 characters in length ",
+                                        Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -172,9 +166,9 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
     }
+
     @Override
     public void onAttach (@NonNull Context context) {
-
         super.onAttach(context);
         if (context instanceof MainActivity){
             this.mainActivity = (MainActivity)context;

@@ -25,6 +25,5 @@ public class ResponseLogin  implements BaseResponseData, Serializable {
         }
             Gson gson = new Gson();
             return gson.fromJson(json, ResponseLogin.class);
-
     }
 }

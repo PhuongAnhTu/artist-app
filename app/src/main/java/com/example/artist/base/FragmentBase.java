@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.MainActivity;
 
@@ -27,11 +26,7 @@ public class FragmentBase extends Fragment {
         mainActivity.updateHeader();
     }
 
-    public void setupRecyclerView(RecyclerView view){
-
-    }
-
-    protected void  hideSoftKeyBoard() {
+    protected void hideSoftKeyBoard() {
         mainActivity.hideKeyboard();
     }
 }
