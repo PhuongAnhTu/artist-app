@@ -28,6 +28,7 @@ import com.example.artist.databinding.ActivityMainBinding;
 import com.example.artist.login.ResponseLogin;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.ArtistData;
+import com.example.artist.playAudio.PlayAudioFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -100,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void goToAllAlbumList() {
         replaceFragment(new ListAlbumFragment(), true);
+    }
+
+    public void goToPlayAudio(){
+        replaceFragment(new PlayAudioFragment(), true);
     }
 
     @SuppressLint("NonConstantResourceId")

@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailOneAlbumFragment extends FragmentBase {
+public class DetailOneAlbumFragment extends FragmentBase implements View.OnClickListener {
     private DetailOneBinding binding;
     private MainActivity mainActivity;
     private AlbumData selectedAlbumItem;
@@ -67,8 +67,20 @@ public class DetailOneAlbumFragment extends FragmentBase {
             selectedAlbumItem = (AlbumData) bundle.getSerializable("album");
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_one, container, false);
+        init();
         loadDetail();
         return binding.getRoot();
+    }
+
+    protected void init(){
+        binding.image.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.image) {
+            mainActivity.goToPlayAudio();
+        }
     }
 
     @Override

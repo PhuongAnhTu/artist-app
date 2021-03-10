@@ -148,9 +148,11 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         if (listArtist == null || listArtist.size() == 0){
             homeBinding.loading.setVisibility(View.VISIBLE);
             APIService api = RetrofitClient.createClient();
-            api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10).enqueue(new Callback<APIResponse<ArtistListResponse>>() {
+            api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10)
+                    .enqueue(new Callback<APIResponse<ArtistListResponse>>() {
                 @Override
-                public void onResponse(Call<APIResponse<ArtistListResponse>> call, Response<APIResponse<ArtistListResponse>> response) {
+                public void onResponse(Call<APIResponse<ArtistListResponse>> call,
+                                       Response<APIResponse<ArtistListResponse>> response) {
                     APIResponse<ArtistListResponse> artistResponse = response.body();
                     listArtist = artistResponse.data.list_data;
                     artistThumbAdapter.addData(listArtist);
@@ -170,9 +172,11 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
         if (listAlbum.size() == 0 || listAlbum == null) {
             homeBinding.loading.setVisibility(View.VISIBLE);
             APIService api = RetrofitClient.createClient();
-            api.loadAlbum("Bearer" + mainActivity.getUserToken(), 0, 10).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+            api.loadAlbum("Bearer" + mainActivity.getUserToken(), 0, 10)
+                    .enqueue(new Callback<APIResponse<AlbumListResponse>>() {
                 @Override
-                public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
+                public void onResponse(Call<APIResponse<AlbumListResponse>> call,
+                                       Response<APIResponse<AlbumListResponse>> response) {
                     APIResponse<AlbumListResponse> albumResponse = response.body();
                     listAlbum = albumResponse.data.list_data;
                     albumThumbAdapter.addData(listAlbum);

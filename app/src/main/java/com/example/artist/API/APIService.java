@@ -22,7 +22,6 @@ public interface APIService {
     @POST("v1/auth/login")
     Call<APIResponse<ResponseLogin>> login(@Body LoginModel user);
 
-    //@GET("v1/artists?skip=10&limit=10")
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/artists")
     Call<APIResponse<ArtistListResponse>> loadArtist(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
