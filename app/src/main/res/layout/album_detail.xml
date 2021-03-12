@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/my_image"
+                        android:id="@+id/album_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#ffff"
@@ -51,7 +51,7 @@
                         android:layout_weight="3"
                         android:layout_width="match_parent"
                         android:layout_height="105dp"
-                        android:gravity="start|top"
+                        android:gravity="start|center_vertical"
                         android:layout_alignParentBottom="true">
 
                         <TextView
@@ -60,9 +60,9 @@
                             android:layout_height="35dp"
                             android:layout_weight="1"
                             android:maxLines="1"
-                            android:textSize="10dp"
-                            android:gravity="start|top"
-                            android:paddingHorizontal="3dp"
+                            android:textSize="17dp"
+                            android:gravity="start|center_vertical"
+                            android:padding="3dp"
                             android:ellipsize="end"
                             android:background="#99000000"
                             android:textStyle="bold"
@@ -74,9 +74,9 @@
                             android:layout_weight="1"
                             android:maxLines="1"
                             android:layout_height="35dp"
-                            android:gravity="start|center"
+                            android:gravity="start|center_vertical"
                             android:paddingHorizontal="3dp"
-                            android:textSize="10dp"
+                            android:textSize="17dp"
                             android:ellipsize="end"
                             android:background="#99000000"
                             android:textStyle="bold"
@@ -88,9 +88,9 @@
                             android:maxLines="1"
                             android:layout_width="match_parent"
                             android:layout_height="35dp"
-                            android:gravity="start|bottom"
+                            android:gravity="start|center_vertical"
                             android:paddingHorizontal="3dp"
-                            android:textSize="10dp"
+                            android:textSize="17dp"
                             android:ellipsize="end"
                             android:background="#99000000"
                             android:textStyle="bold"
