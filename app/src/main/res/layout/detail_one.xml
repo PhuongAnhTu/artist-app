@@ -7,113 +7,125 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="20dp"
-        android:paddingHorizontal="30dp"
-        android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="300dp" >
-        <ImageView
-        android:id="@+id/image"
-        android:gravity="center"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="1dp"/>
-
-    </androidx.cardview.widget.CardView>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:gravity="start|center"
-                android:ellipsize="end"
-                android:textColor="#888"
-                android:text="@string/label_name"/>
+            android:layout_height="wrap_content">
 
-            <TextView
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                style="?android:attr/progressBarStyle"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/layoutDetailDone"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/name"
-                android:layout_weight="2"
-                android:textSize="14sp"
-                android:textColor="#888"
-                android:textAlignment="textStart"
-                android:maxLines="2"/>
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="10dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-            <TextView
-                android:id="@id/text2"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:gravity="start|center"
-                android:ellipsize="end"
-                android:textColor="#888"
-                android:text="@string/genres"/>
-
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/edt_text2"
-                android:layout_weight="2"
-                android:textSize="14sp"
-                android:textColor="#888"
-                android:textAlignment="textStart"
-                android:maxLines="2"/>
+                android:layout_height="300dp" >
+                <ImageView
+                    android:id="@+id/image"
+                    android:gravity="center"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    app:civ_border_color="@color/black"
+                    app:civ_border_width="1dp"/>
 
-        </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:gravity="start|center"
-                android:ellipsize="end"
-                android:textColor="#888"
-                android:text="@string/label_country"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+                    <TextView
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:gravity="start|center"
+                        android:ellipsize="end"
+                        android:textColor="#888"
+                        android:text="@string/label_name"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/country"
-                android:layout_weight="2"
-                android:textSize="14sp"
-                android:textColor="#888"
-                android:textAlignment="textStart"
-                android:maxLines="2"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/name"
+                        android:layout_weight="2"
+                        android:textSize="16sp"
+                        android:textColor="#888"
+                        android:textAlignment="textStart"
+                        android:maxLines="2"/>
 
-        </LinearLayout>
+                </LinearLayout>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+                    <TextView
+                        android:id="@id/text2"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:gravity="start|center"
+                        android:ellipsize="end"
+                        android:textColor="#888"
+                        android:text="@string/genres"/>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/edt_text2"
+                        android:layout_weight="2"
+                        android:textSize="16sp"
+                        android:textColor="#888"
+                        android:textAlignment="textStart"
+                        android:maxLines="2"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="130dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:gravity="start|center"
+                        android:ellipsize="end"
+                        android:textColor="#888"
+                        android:text="@string/label_country"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:id="@+id/country"
+                        android:layout_weight="2"
+                        android:textSize="16sp"
+                        android:textColor="#888"
+                        android:textAlignment="textStart"
+                        android:maxLines="2"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
-
 </layout>

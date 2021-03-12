@@ -146,6 +146,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
     public void loadArtists() {
         if (listArtist == null || listArtist.size() == 0){
+            homeBinding.layoutDone.setVisibility(View.INVISIBLE);
             homeBinding.loading.setVisibility(View.VISIBLE);
             APIService api = RetrofitClient.createClient();
             api.loadArtist("Bearer" + mainActivity.getUserToken(),0,10)
@@ -157,6 +158,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                     listArtist = artistResponse.data.list_data;
                     artistThumbAdapter.addData(listArtist);
                     homeBinding.loading.setVisibility(View.GONE);
+//                    homeBinding.layoutDone.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -181,6 +183,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
                     listAlbum = albumResponse.data.list_data;
                     albumThumbAdapter.addData(listAlbum);
                     homeBinding.loading.setVisibility(View.GONE);
+                    homeBinding.layoutDone.setVisibility(View.VISIBLE);
                 }
 
                 @Override

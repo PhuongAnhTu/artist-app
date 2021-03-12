@@ -18,7 +18,9 @@
     <string name="label_artist">Artist:</string>
     <string name="length">Length</string>
     <string name="released">Released</string>
-    <string name="media_url">https://aredir.nixcdn.com/NhacCuaTui231/ChiToi-BangKieu_47txs.mp3</string>
+    <string name="media_url">https://aredir.nixcdn.com/NhacCuaTui1010/TinhBanDieuKy-AMeeRickyStarLangLD-6927558.mp3</string>
+    <string name="you_might_like">YOU MIGHT LIKE</string>
+    <string name="album_songs">LIST SONG</string>
 
 
 </resources>

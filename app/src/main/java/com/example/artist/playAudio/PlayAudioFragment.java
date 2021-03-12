@@ -17,6 +17,10 @@ import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.PlayAudioBinding;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 
 public class PlayAudioFragment extends FragmentBase implements View.OnClickListener {
@@ -48,7 +52,28 @@ public class PlayAudioFragment extends FragmentBase implements View.OnClickListe
         return binding.getRoot();
     }
 
+    @Override
+    public String getHeaderTitle() {
+        return "Songs";
+    }
+
+    @Override
+    public void onClick(View v) {
+        init();
+    }
+
     protected void init(){
+
+        HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
+                //new DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true);
+
+        DataSource.Factory dataSourceFactory = () -> {
+            HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
+            // Set a custom authentication request header.
+            dataSource.setRequestProperty("Header", "Value");
+            return dataSource;
+        };
+
         player = new SimpleExoPlayer.Builder(getContext()).build();
         binding.playBtn.setPlayer(player);
 
@@ -59,12 +84,6 @@ public class PlayAudioFragment extends FragmentBase implements View.OnClickListe
         player.seekTo(currentWindow, playbackPosition);
         player.prepare();
     }
-
-    @Override
-    public void onClick(View v) {
-        init();
-    }
-
 
     @Override
     public void onStart() {
