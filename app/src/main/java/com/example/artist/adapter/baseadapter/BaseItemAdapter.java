@@ -74,5 +74,3 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     protected void  bindData( DetailViewHolder holder , BaseModelList model) {}
     protected void showLoadingView (LoadingViewHolder holder, int position){}
 }
-
-// https://aredir.nixcdn.com/NhacCuaTui231/ChiToi-BangKieu_47txs.mp3

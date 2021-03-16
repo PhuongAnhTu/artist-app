@@ -38,4 +38,10 @@ public interface APIService {
     @GET("v1/albums/{id}")
     Call<APIResponse<AlbumDetailResponse>> loadDetailAlbum(@Header("Authorization") String token, @Path("id") String _id);
 
+    @Headers({"Origin: https://thedarkmetal.com"})
+    @GET("v1/p/albums/{code}")
+    Call<APIResponse<AlbumDetailResponse>> loadSongOfAlbum(@Header("Authorization") String token, @Path("code") String code);
+
+
+
 }
