@@ -3,6 +3,6 @@ package com.example.artist.model;
 public class SongData extends BaseModelList{
     public String title;
     public int num;
-    public double duration;
+    public int duration;
 
 }

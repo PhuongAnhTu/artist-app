@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.artist.API.APIResponse;
@@ -18,11 +17,14 @@ import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
-import com.example.artist.adapter.thumbAdapter.DetailAlbumAdapter;
+import com.example.artist.adapter.thumbAdapter.DetailAlbumSongAdapter;
+import com.example.artist.adapter.thumbAdapter.SimilarSongAdapter;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.AlbumDetailBinding;
+import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.SongData;
+import com.example.artist.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +36,11 @@ import retrofit2.Response;
 public class DetailOneAlbumFragment extends FragmentBase implements View.OnClickListener {
     private AlbumDetailBinding binding;
     private List<SongData> listSong = new ArrayList<>();
+    private List<AlbumData> listSimilar = new ArrayList<>();
     private MainActivity mainActivity;
     private AlbumData selectedAlbumItem;
-    private DetailAlbumAdapter songAdapter = new DetailAlbumAdapter();
+    private DetailAlbumSongAdapter songAdapter = new DetailAlbumSongAdapter();
+    private SimilarSongAdapter similarAdapter = new SimilarSongAdapter();
 
 
     @Override
@@ -92,7 +96,11 @@ public class DetailOneAlbumFragment extends FragmentBase implements View.OnClick
         binding.song.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.song.setAdapter(songAdapter);
 
+        binding.similarSongs.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.similarSongs.setAdapter(similarAdapter);
+
         loadSongList();
+        loadSimilarList();
     }
 
 
@@ -119,6 +127,23 @@ public class DetailOneAlbumFragment extends FragmentBase implements View.OnClick
             @Override
             public void onFailure(Call<APIResponse<AlbumDetailResponse>> call, Throwable t) {
                 Log.e("TAG", "onFailure: ");
+            }
+        });
+    }
+
+    public void loadSimilarList(){
+        APIService api = RetrofitClient.createClient();
+        api.loadSimilarAlbum("Bearer" + mainActivity.getUserToken(), selectedAlbumItem.code).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
+                APIResponse<AlbumListResponse> similar = response.body();
+                listSimilar = similar.data.list_data;
+                similarAdapter.addData(listSimilar);
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
+                LogUtil.logException("onFailure", t);
             }
         });
     }

@@ -35,8 +35,8 @@ public interface APIService {
     Call<APIResponse<ArtistDetailResponse>> loadDetailArtist(@Header("Authorization") String token, @Path("id") String _id);
 
     @Headers({"Origin: https://thedarkmetal.com"})
-    @GET("v1/albums/{id}")
-    Call<APIResponse<AlbumDetailResponse>> loadDetailAlbum(@Header("Authorization") String token, @Path("id") String _id);
+    @GET("v1/p/albums/{code}/similar")
+    Call<APIResponse<AlbumListResponse>> loadSimilarAlbum(@Header("Authorization") String token, @Path("code") String code);
 
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/p/albums/{code}")

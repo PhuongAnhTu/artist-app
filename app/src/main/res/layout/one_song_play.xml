@@ -5,40 +5,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/playBtn"
-            android:layout_width="70dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:src="@drawable/play_button"
-            android:gravity="left|center"
-            android:padding="15dp"/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#c8c8ec"
-            android:layout_toEndOf="@+id/playBtn"/>
+            <ImageView
+                android:id="@+id/playBtn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/play_button"
+                android:gravity="left|center"
+                android:padding="15dp"/>
 
-        <TextView
-            android:id="@+id/song_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#c8c8ec"
-            android:layout_toEndOf="@+id/number"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#888"
-            android:layout_toEndOf="@+id/song_name"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#c8c8ec"/>
+
+                <TextView
+                    android:id="@+id/song_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#c8c8ec"/>
+
+                </LinearLayout>
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#888"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
     </RelativeLayout>
 
 </layout>

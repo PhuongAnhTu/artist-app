@@ -6,25 +6,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.adapter.viewholder.DetailViewHolder;
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.adapter.viewholder.SongViewHolder;
 import com.example.artist.databinding.OneSongPlayBinding;
-import com.example.artist.listAll.AlbumListResponse;
-import com.example.artist.model.AlbumData;
-import com.example.artist.model.BaseModelList;
 import com.example.artist.model.SongData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailAlbumAdapter extends RecyclerView.Adapter<SongViewHolder> {
+public class DetailAlbumSongAdapter extends RecyclerView.Adapter<SongViewHolder> {
 
         public List<SongData> listAll = new ArrayList<>();
         public final int VIEW_TYPE_LOADING = 1;
         public final int VIEW_TYPE_ITEM = 0;
 
-        public DetailAlbumAdapter(){}
+        public DetailAlbumSongAdapter(){}
 
         public void addData(List<SongData> listData) {
             listAll.addAll(listData);
