@@ -31,6 +31,16 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private AlbumData albumData;
     private List<SongData> listSong = new ArrayList<>();
     public List<AlbumData> listSimilarAlbum = new ArrayList<>();
+    public AlbumImageCardViewVH imageCardViewVH;
+    public LabelSongVH labelSongVH;
+    public LabelSimilarVH labelSimilarVH;
+    public SimilarViewHolder similarViewHolder;
+    public SongViewHolder songViewHolder;
+    public final int VIEW_TYPE_DETAIL_ALBUM = 2;
+    public final int VIEW_TYPE_DETAIL_LIST_SONG_LABEL = 3;
+    public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
+    public final int VIEW_TYPE_DETAIL_SIMILAR_LABEL = 5;
+    public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
 
     public void setAlbumData(AlbumData albumData) {
         this.albumData = albumData;
@@ -47,24 +57,11 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();;
     }
 
-
-
-
-
-
-
-
-    public AlbumImageCardViewVH imageCardViewVH;
-    public LabelSongVH labelSongVH;
-    public LabelSimilarVH labelSimilarVH;
-    public SimilarViewHolder similarViewHolder;
-    public SongViewHolder songViewHolder;
-    public final int VIEW_TYPE_LOADING = 1;
-    public final int VIEW_TYPE_DETAIL_ALBUM = 2;
-    public final int VIEW_TYPE_DETAIL_LIST_SONG_LABEL = 3;
-    public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
-    public final int VIEW_TYPE_DETAIL_SIMILAR_LABEL = 5;
-    public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
+    public void clear(){
+        listSong.clear();
+        listSimilarAlbum.clear();
+        notifyDataSetChanged();
+    }
 
 
     public DetailScreenAdapter(){}
@@ -109,13 +106,6 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // 0: album detail
-        // 1: label
-        // 2: song[index]
-        // ...
-        // 2+songs.size()
-        // label
-        // album[index]
         if (holder instanceof AlbumImageCardViewVH){
             imageCardViewVH.bindView((AlbumImageCardViewVH) holder, albumData);
         } else if (holder instanceof LabelSongVH){

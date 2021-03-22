@@ -9,6 +9,7 @@
         android:textStyle="bold"
         android:gravity="start|center"
         android:ellipsize="end"
+        android:layout_marginTop="10dp"
         android:textColor="#888"
         android:text="@string/you_might_like"/>
 
