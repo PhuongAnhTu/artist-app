@@ -27,6 +27,7 @@ import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.HomeFragmentBinding;
 import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.listAll.ArtistListResponse;
+import com.example.artist.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,7 +164,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
                 @Override
                 public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
-                    Log.e("TAG", "onFailure: " );
+                    LogUtil.logException("onFailure", t);
                     homeBinding.loading.setVisibility(View.GONE);
                 }
             });
@@ -188,7 +189,7 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
                 @Override
                 public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
-                    Log.e("TAG", "onFailure: ");
+                    LogUtil.logException("onFailure", t);
                     homeBinding.loading.setVisibility(View.GONE);
                 }
             });

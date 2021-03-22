@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.adapter.viewholder.SimilarViewHolder;
-import com.example.artist.adapter.viewholder.SongViewHolder;
-import com.example.artist.databinding.OneSongPlayBinding;
-import com.example.artist.databinding.OneSongSimilarBinding;
+import com.example.artist.databinding.Dal5SimilarItemBinding;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.SongData;
 
@@ -40,7 +38,7 @@ public class SimilarSongAdapter extends RecyclerView.Adapter<SimilarViewHolder> 
     @Override
     public SimilarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        OneSongSimilarBinding similarBinding = OneSongSimilarBinding.inflate(inflater, parent, false);
+        Dal5SimilarItemBinding similarBinding = Dal5SimilarItemBinding.inflate(inflater, parent, false);
         return new SimilarViewHolder(similarBinding);
     }
 

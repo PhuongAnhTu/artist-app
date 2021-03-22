@@ -96,7 +96,7 @@ public class DetailOneArtistFragment extends FragmentBase {
 
             @Override
             public void onFailure(Call<APIResponse<ArtistDetailResponse>> call, Throwable t) {
-                Log.e("TAG", "onFailure: ");
+                Log.e("TAG", "onFailure: " + t);
             }
         });
     }

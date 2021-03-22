@@ -130,7 +130,7 @@ public class ListAlbumFragment extends ListAllBaseFragment {
             @Override
             public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
                 stopLoading();
-                Log.e("TAG", "onFailure: ");
+                Log.e("TAG", "onFailure: " + t);
 
             }
         });

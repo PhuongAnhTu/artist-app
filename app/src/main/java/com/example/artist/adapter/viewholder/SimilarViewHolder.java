@@ -6,17 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.artist.databinding.OneSongPlayBinding;
-import com.example.artist.databinding.OneSongSimilarBinding;
+import com.example.artist.databinding.Dal5SimilarItemBinding;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.BaseModelList;
-import com.example.artist.model.SongData;
 
 public class SimilarViewHolder extends  RecyclerView.ViewHolder{
-    public OneSongSimilarBinding similarBinding;
+    public Dal5SimilarItemBinding similarBinding;
 
 
-    public SimilarViewHolder(@NonNull OneSongSimilarBinding binding){
+    public SimilarViewHolder(@NonNull Dal5SimilarItemBinding binding){
         super(binding.getRoot());
         this.similarBinding = binding;
     }

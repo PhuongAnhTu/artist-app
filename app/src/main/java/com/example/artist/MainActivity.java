@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 
 import com.example.artist.detailScreen.DetailOneAlbumFragment;
 import com.example.artist.detailScreen.DetailOneArtistFragment;
+import com.example.artist.detailScreen.NewDetailAlbumFragment;
 import com.example.artist.homeScreen.HomeFragment;
 import com.example.artist.listAll.ListAlbumFragment;
 import com.example.artist.listAll.ListArtistsFragment;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDetailOneAlbum(AlbumData item) {
-        DetailOneAlbumFragment fragment = DetailOneAlbumFragment.newInstance(item);
+        NewDetailAlbumFragment fragment = NewDetailAlbumFragment.newInstance(item);
         replaceFragment(fragment, true);
     }
 

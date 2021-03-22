@@ -117,7 +117,7 @@ public class ListArtistsFragment extends ListAllBaseFragment {
             @Override
             public void onFailure(Call<APIResponse<ArtistListResponse>> call, Throwable t) {
                 stopLoading();
-                Log.e("TAG", "onFailure: " );
+                Log.e("TAG", "onFailure: " + t );
                 adapter.listAll.remove(adapter.getItemCount() -1);
             }
         });

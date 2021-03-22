@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.adapter.viewholder.SongViewHolder;
-import com.example.artist.databinding.OneSongPlayBinding;
+import com.example.artist.databinding.Dal3ItemSongBinding;
 import com.example.artist.model.SongData;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class DetailAlbumSongAdapter extends RecyclerView.Adapter<SongViewHolder>
         @Override
         public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            OneSongPlayBinding songBinding = OneSongPlayBinding.inflate(inflater, parent, false);
+            Dal3ItemSongBinding songBinding = Dal3ItemSongBinding.inflate(inflater, parent, false);
             return new SongViewHolder(songBinding);
         }
 

@@ -123,7 +123,7 @@ public class LoginFragment extends FragmentBase implements View.OnClickListener 
             @Override
             public void onFailure(Call<APIResponse<ResponseLogin>> call, Throwable t) {
                 hideLoading();
-                Log.e("xxx", "onFailure");
+                Log.e("xxx", "onFailure" + t);
             }
         });
     }

@@ -42,6 +42,4 @@ public interface APIService {
     @GET("v1/p/albums/{code}")
     Call<APIResponse<AlbumDetailResponse>> loadSongOfAlbum(@Header("Authorization") String token, @Path("code") String code);
 
-
-
 }
