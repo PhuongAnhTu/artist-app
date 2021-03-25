@@ -22,7 +22,9 @@ public class ArtistThumbAdapter extends BaseThumbAdapter {
              }
 
         holder.thumbnailBinding.name.setText(artistData.name);
-        holder.thumbnailBinding.text3.setText(artistData.country.name);
+        if (artistData.country != null) {
+             holder.thumbnailBinding.text3.setText(artistData.country.name);
+        }
         holder.thumbnailBinding.text2.setText(artistData.genres);
     }
 }

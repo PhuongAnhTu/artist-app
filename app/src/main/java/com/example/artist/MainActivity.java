@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
 
-import com.example.artist.detailScreen.DetailOneAlbumFragment;
 import com.example.artist.detailScreen.DetailOneArtistFragment;
 import com.example.artist.detailScreen.NewDetailAlbumFragment;
 import com.example.artist.homeScreen.HomeFragment;

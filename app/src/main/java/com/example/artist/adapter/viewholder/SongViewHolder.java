@@ -13,10 +13,17 @@ import com.example.artist.model.SongData;
 
 public class SongViewHolder extends  RecyclerView.ViewHolder{
     public Dal3ItemSongBinding songBinding;
+    private Listener listener;
 
-    public SongViewHolder(@NonNull Dal3ItemSongBinding binding){
+
+    public interface Listener {
+        void onBtnPlay(SongData songData);
+    }
+
+    public SongViewHolder(@NonNull Dal3ItemSongBinding binding, @NonNull Listener listener){
         super(binding.getRoot());
         this.songBinding = binding;
+        this.listener = listener;
     }
 
     public void bindView(SongViewHolder holder, BaseModelList model){
@@ -27,6 +34,9 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
         holder.songBinding.number.setText(numberText);
         holder.songBinding.songName.setText(songData.title);
         holder.songBinding.duration.setText(convertDuration(songData.duration));
+        holder.songBinding.playBtn.setOnClickListener(v -> {
+            listener.onBtnPlay(songData);
+        });
     }
 
     public String convertDuration (int duration){

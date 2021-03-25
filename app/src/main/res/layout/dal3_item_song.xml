@@ -11,13 +11,20 @@
             android:layout_height="70dp"
             android:orientation="horizontal">
 
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/pause_btn"
+                android:gravity="left|center"
+                android:padding="15dp"/>
+
             <ImageView
                 android:id="@+id/playBtn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/play_button"
-                android:gravity="left|center"
-                android:padding="15dp"/>
+                android:adjustViewBounds="true"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

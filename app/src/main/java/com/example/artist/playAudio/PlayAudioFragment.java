@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.base.FragmentBase;
+import com.example.artist.databinding.Dal3ItemSongBinding;
 import com.example.artist.databinding.PlayAudioBinding;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -24,7 +25,7 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 
 public class PlayAudioFragment extends FragmentBase implements View.OnClickListener {
-    protected PlayAudioBinding binding;
+    protected Dal3ItemSongBinding binding;
     protected SimpleExoPlayer player;
     private boolean playWhenReady = true;
     private int currentWindow = 0;
@@ -53,11 +54,6 @@ public class PlayAudioFragment extends FragmentBase implements View.OnClickListe
     }
 
     @Override
-    public String getHeaderTitle() {
-        return "Songs";
-    }
-
-    @Override
     public void onClick(View v) {
         init();
     }
@@ -75,7 +71,7 @@ public class PlayAudioFragment extends FragmentBase implements View.OnClickListe
         };
 
         player = new SimpleExoPlayer.Builder(getContext()).build();
-        binding.playBtn.setPlayer(player);
+        binding.playerView.setPlayer(player);
 
         MediaItem mediaItem = MediaItem.fromUri(getString(R.string.media_url));
         player.setMediaItem(mediaItem);

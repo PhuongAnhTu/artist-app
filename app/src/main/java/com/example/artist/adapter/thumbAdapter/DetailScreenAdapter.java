@@ -1,11 +1,13 @@
 package com.example.artist.adapter.thumbAdapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
 import com.example.artist.adapter.viewholder.AlbumImageCardViewVH;
 import com.example.artist.adapter.viewholder.DetailViewHolder;
 import com.example.artist.adapter.viewholder.LabelSimilarVH;
@@ -36,11 +38,14 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public LabelSimilarVH labelSimilarVH;
     public SimilarViewHolder similarViewHolder;
     public SongViewHolder songViewHolder;
+    public ClickListener clickListener;
     public final int VIEW_TYPE_DETAIL_ALBUM = 2;
     public final int VIEW_TYPE_DETAIL_LIST_SONG_LABEL = 3;
     public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
     public final int VIEW_TYPE_DETAIL_SIMILAR_LABEL = 5;
     public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
+    protected Dal3ItemSongBinding songBinding;
+    private SongViewHolder.Listener songListener;
 
     public void setAlbumData(AlbumData albumData) {
         this.albumData = albumData;
@@ -63,8 +68,14 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyDataSetChanged();
     }
 
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
 
-    public DetailScreenAdapter(){}
+
+    public DetailScreenAdapter(SongViewHolder.Listener songListener){
+        this.songListener = songListener;
+    }
 
 
     @NonNull
@@ -79,7 +90,6 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_ITEM) {
             Dal5SimilarItemBinding binding = Dal5SimilarItemBinding.inflate(inflater, parent, false);
-
             similarViewHolder = new SimilarViewHolder(binding);
             return similarViewHolder;
         }
@@ -89,8 +99,8 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return labelSongVH;
         }
         else if (viewType == VIEW_TYPE_DETAIL_SONG_ITEM){
-            Dal3ItemSongBinding binding = Dal3ItemSongBinding.inflate(inflater, parent, false);
-            songViewHolder = new SongViewHolder(binding);
+            songBinding = Dal3ItemSongBinding.inflate(inflater, parent, false);
+            songViewHolder = new SongViewHolder(songBinding, songListener);
             return songViewHolder;
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_LABEL){
@@ -121,6 +131,19 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             AlbumData album = listSimilarAlbum.get(similarPosition);
             similarViewHolder.bindView((SimilarViewHolder) holder, album);
         }
+//
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickListener.onItemClick(position,v);
+//            }
+//        });
+    }
+
+
+    public void setOnPlayBtnClick(ClickListener clickListener) {
+        songBinding.playBtn.setOnClickListener((View.OnClickListener) this);
+        this.clickListener = clickListener;
     }
 
     @Override

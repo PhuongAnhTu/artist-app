@@ -6,6 +6,7 @@ import com.example.artist.listAll.ArtistListResponse;
 import com.example.artist.login.LoginModel;
 import com.example.artist.login.ResponseLogin;
 import com.example.artist.detailScreen.AlbumDetailResponse;
+import com.example.artist.model.TopPageResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -41,5 +42,9 @@ public interface APIService {
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/p/albums/{code}")
     Call<APIResponse<AlbumDetailResponse>> loadSongOfAlbum(@Header("Authorization") String token, @Path("code") String code);
+
+    @Headers({"Origin: https://thedarkmetal.com"})
+    @GET("v1/p/top_page")
+    Call<APIResponse<TopPageResponse>> loadTopPage(@Header("Authorization") String token);
 
 }

@@ -27,6 +27,7 @@ import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.HomeFragmentBinding;
 import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.listAll.ArtistListResponse;
+import com.example.artist.model.TopPageResponse;
 import com.example.artist.util.LogUtil;
 
 import java.util.ArrayList;
@@ -84,8 +85,9 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
 
         createArtistRecyclerView();
         createAlbumRecyclerView();
-        loadAlbums();
-        loadArtists();
+        loadTopPage();
+//        loadAlbums();
+//        loadArtists();
     }
 
     public void createArtistRecyclerView(){
@@ -141,6 +143,35 @@ public class HomeFragment extends FragmentBase implements View.OnClickListener {
             case R.id.show_detail_alb:
                 mainActivity.goToAllAlbumList();
                 break;
+        }
+    }
+
+
+    public void loadTopPage(){
+        if (listArtist.size() == 0 || listAlbum.size() == 0){
+            homeBinding.layoutDone.setVisibility(View.INVISIBLE);
+            homeBinding.loading.setVisibility(View.VISIBLE);
+            APIService api = RetrofitClient.createClient();
+            api.loadTopPage("Bearer" )
+                    .enqueue(new Callback<APIResponse<TopPageResponse>>() {
+                        @Override
+                        public void onResponse(Call<APIResponse<TopPageResponse>> call,
+                                               Response<APIResponse<TopPageResponse>> response) {
+                            APIResponse<TopPageResponse> topPageResponse = response.body();
+                            listAlbum = topPageResponse.data.albums;
+                            listArtist = topPageResponse.data.artists;
+                            artistThumbAdapter.addData(listArtist);
+                            albumThumbAdapter.addData(listAlbum);
+                            homeBinding.loading.setVisibility(View.GONE);
+                            homeBinding.layoutDone.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onFailure(Call<APIResponse<TopPageResponse>> call, Throwable t) {
+                            LogUtil.logException("onFailure", t);
+                            homeBinding.loading.setVisibility(View.GONE);
+                        }
+                    });
         }
     }
 
