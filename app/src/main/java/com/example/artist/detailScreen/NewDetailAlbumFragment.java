@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -43,24 +44,51 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewDetailAlbumFragment extends FragmentBase implements View.OnClickListener {
+public class NewDetailAlbumFragment extends FragmentBase {
 
     protected DetailBaseLayoutBinding binding;
     private MainActivity mainActivity;
     public AlbumData selectedAlbumItem;
-    protected SongData selectedSong;
     protected List<SongData> listSong;
     protected SimpleExoPlayer player;
     private boolean playWhenReady = true;
+    private boolean isPlaying = false;
     private int currentWindow = 0;
     private long playbackPosition = 0;
 
     private SongViewHolder.Listener songListener = new SongViewHolder.Listener() {
         @Override
         public void onBtnPlay(SongData songData) {
+//            if (isPlaying) {
+//                if (player != null) {
+//                    pause();
+//                }
+//            } else {
             setClickListenerPlayer(songData);
+//            }
+            setImageBtnPlay();
         }
     };
+
+
+    private void pause() {
+        if (player != null) {
+            if (player.isPlaying()) {
+                player.getCurrentPosition();
+                player.pause();
+                player.setPlayWhenReady(false);
+                isPlaying = false;
+            }
+        }
+    }
+
+    protected void setImageBtnPlay(){
+        if(!isPlaying){
+            adapter.songViewHolder.songBinding.playBtn.setImageResource(R.drawable.pause_btn);
+        } else {
+            adapter.songViewHolder.songBinding.playBtn.setImageResource(R.drawable.play_btn);
+        }
+    }
     protected DetailScreenAdapter adapter = new DetailScreenAdapter(songListener);
 
     @Override
@@ -83,13 +111,6 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
         b.putSerializable("album", album);
         fragment.setArguments(b);
         return fragment;
-    }
-
-    @Override
-    public void onClick(View v) {
-//        if (v.getId() == R.id.playBtn) {
-//            setClickListenerPlayer();
-//        }
     }
 
     @Override
@@ -123,8 +144,11 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
 
     protected void setClickListenerPlayer(SongData songData){
 
-        if (player == null) {
+        if (player == null || isPlaying == false) {
             player = new SimpleExoPlayer.Builder(getContext()).build();
+            isPlaying = true;
+        } else {
+            pause();
         }
 
         HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
@@ -140,7 +164,7 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
         //DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, userAgent);
         String url = MyUtil.getStreamingUrl(songData._id);
         Uri uri = Uri.parse(url);
-       // MediaItem mediaItem = MediaItem.fromUri(url);
+        // MediaItem mediaItem = MediaItem.fromUri(url);
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         //player.setMediaItem(mediaItem);
         player.prepare(mediaSource);
@@ -154,6 +178,7 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
         player.setPlayWhenReady(playWhenReady);
         //player.seekTo(currentWindow, playbackPosition);
        // player.prepare();
+
     }
 
     protected void refresh(){
@@ -230,6 +255,7 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
         hideSystemUi();
         if ((Util.SDK_INT < 24 || player == null)) {
             init();
+
         }
     }
 
@@ -246,7 +272,16 @@ public class NewDetailAlbumFragment extends FragmentBase implements View.OnClick
         super.onStop();
         if (Util.SDK_INT >= 24) {
             releasePlayer();
+            isPlaying = false;
         }
+    }
+
+    private void pausePlayer(){
+        player.getPlaybackState();
+    }
+    private void startPlayer(){
+        player.setPlayWhenReady(true);
+        player.getPlaybackState();
     }
 
     @SuppressLint("InlinedApi")

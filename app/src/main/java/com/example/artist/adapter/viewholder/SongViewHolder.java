@@ -43,6 +43,5 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
         long min = (duration / 1000) / 60;
         int second = ((duration / 1000) % 60);
         return min + ":" + second;
-
     }
 }
