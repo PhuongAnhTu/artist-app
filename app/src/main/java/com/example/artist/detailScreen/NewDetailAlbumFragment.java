@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -28,7 +28,6 @@ import com.example.artist.model.AlbumData;
 import com.example.artist.model.SongData;
 import com.example.artist.util.LogUtil;
 import com.example.artist.util.MyUtil;
-import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -52,43 +51,42 @@ public class NewDetailAlbumFragment extends FragmentBase {
     protected List<SongData> listSong;
     protected SimpleExoPlayer player;
     private boolean playWhenReady = true;
-    private boolean isPlaying = false;
     private int currentWindow = 0;
     private long playbackPosition = 0;
+    private int currentPosition = -1;
 
     private SongViewHolder.Listener songListener = new SongViewHolder.Listener() {
         @Override
-        public void onBtnPlay(SongData songData) {
-//            if (isPlaying) {
-//                if (player != null) {
-//                    pause();
-//                }
-//            } else {
-            setClickListenerPlayer(songData);
-//            }
-            setImageBtnPlay();
+        public void onBtnPlay(SongData songData, int position, int playStatus) {
+
+//            adapter.setPlayerStage(playStatus);
+
+            if (currentPosition != position){
+                setClickListenerPlayer(songData);
+                currentPosition = position;
+                Log.d("TAG", " onBtnPlay: position " + position);
+            }else {
+                if (player.isPlaying()) {
+                    pause();
+                } else {
+                    resume();
+                }
+            }
         }
     };
 
+    private void resume() {
+        if (player != null) {
+            player.setPlayWhenReady(true);
+        }
+    }
 
     private void pause() {
         if (player != null) {
-            if (player.isPlaying()) {
-                player.getCurrentPosition();
-                player.pause();
-                player.setPlayWhenReady(false);
-                isPlaying = false;
-            }
+            player.setPlayWhenReady(false);
         }
     }
 
-    protected void setImageBtnPlay(){
-        if(!isPlaying){
-            adapter.songViewHolder.songBinding.playBtn.setImageResource(R.drawable.pause_btn);
-        } else {
-            adapter.songViewHolder.songBinding.playBtn.setImageResource(R.drawable.play_btn);
-        }
-    }
     protected DetailScreenAdapter adapter = new DetailScreenAdapter(songListener);
 
     @Override
@@ -98,10 +96,10 @@ public class NewDetailAlbumFragment extends FragmentBase {
     }
 
     @Override
-    public void onAttach (@NonNull Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof MainActivity){
-            this.mainActivity = (MainActivity)context;
+        if (context instanceof MainActivity) {
+            this.mainActivity = (MainActivity) context;
         }
     }
 
@@ -114,10 +112,10 @@ public class NewDetailAlbumFragment extends FragmentBase {
     }
 
     @Override
-    public View onCreateView (@NonNull LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             selectedAlbumItem = (AlbumData) bundle.getSerializable("album");
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
@@ -126,7 +124,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
         return binding.getRoot();
     }
 
-    public void init (){
+    public void init() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
         loadSongList();
@@ -142,46 +140,30 @@ public class NewDetailAlbumFragment extends FragmentBase {
         });
     }
 
-    protected void setClickListenerPlayer(SongData songData){
+    protected void setClickListenerPlayer(SongData songData) {
 
-        if (player == null || isPlaying == false) {
+        if (player == null) {
             player = new SimpleExoPlayer.Builder(getContext()).build();
-            isPlaying = true;
-        } else {
-            pause();
         }
 
         HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
-//        new DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true);
 
         DataSource.Factory dataSourceFactory = () -> {
             HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
-            // Set a custom authentication request header.
             dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
             return dataSource;
         };
 
-        //DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, userAgent);
         String url = MyUtil.getStreamingUrl(songData._id);
         Uri uri = Uri.parse(url);
-        // MediaItem mediaItem = MediaItem.fromUri(url);
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-        //player.setMediaItem(mediaItem);
         player.prepare(mediaSource);
-
-
-
         adapter.songViewHolder.songBinding.playerView.setPlayer(player);
-
-        //player.setMediaItem(mediaItem);
-
         player.setPlayWhenReady(playWhenReady);
-        //player.seekTo(currentWindow, playbackPosition);
-       // player.prepare();
 
     }
 
-    protected void refresh(){
+    protected void refresh() {
         binding.container.setRefreshing(false);
     }
 
@@ -210,7 +192,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
         });
     }
 
-    public void loadSimilarList(){
+    public void loadSimilarList() {
         startLoading();
         APIService api = RetrofitClient.createClient();
         api.loadSimilarAlbum("Bearer" + mainActivity.getUserToken(), selectedAlbumItem.code).enqueue(new Callback<APIResponse<AlbumListResponse>>() {
@@ -272,21 +254,12 @@ public class NewDetailAlbumFragment extends FragmentBase {
         super.onStop();
         if (Util.SDK_INT >= 24) {
             releasePlayer();
-            isPlaying = false;
         }
-    }
-
-    private void pausePlayer(){
-        player.getPlaybackState();
-    }
-    private void startPlayer(){
-        player.setPlayWhenReady(true);
-        player.getPlaybackState();
     }
 
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
-        if( adapter.songViewHolder!=null) {
+        if (adapter.songViewHolder != null) {
             adapter.songViewHolder.songBinding.playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE

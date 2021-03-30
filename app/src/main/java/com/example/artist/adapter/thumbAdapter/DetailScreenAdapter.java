@@ -21,14 +21,16 @@ import com.example.artist.databinding.Dal3ItemSongBinding;
 import com.example.artist.databinding.Dal4LabelSimilarBinding;
 import com.example.artist.databinding.Dal5SimilarItemBinding;
 import com.example.artist.databinding.LoadingItemBinding;
+import com.example.artist.detailScreen.NewDetailAlbumFragment;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.BaseModelList;
 import com.example.artist.model.SongData;
+import com.google.android.exoplayer2.ExoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private AlbumData albumData;
     private List<SongData> listSong = new ArrayList<>();
@@ -46,6 +48,8 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
     protected Dal3ItemSongBinding songBinding;
     private SongViewHolder.Listener songListener;
+    private static final String TAG = NewDetailAlbumFragment.class.getName();
+    private ExoPlayer playbackState;
 
     public void setAlbumData(AlbumData albumData) {
         this.albumData = albumData;
@@ -123,7 +127,7 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof SongViewHolder){
             int songPosition = position - 2;
             SongData song = listSong.get(songPosition);
-            songViewHolder.bindView ((SongViewHolder) holder, song);
+            songViewHolder.bindView ((SongViewHolder) holder, song, playbackState );
         } else if (holder instanceof LabelSimilarVH){
             labelSimilarVH.bindView((LabelSimilarVH) holder);
         } else if (holder instanceof SimilarViewHolder){
@@ -138,12 +142,6 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                clickListener.onItemClick(position,v);
 //            }
 //        });
-    }
-
-
-    public void setOnPlayBtnClick(ClickListener clickListener) {
-        songBinding.playBtn.setOnClickListener((View.OnClickListener) this);
-        this.clickListener = clickListener;
     }
 
     @Override
@@ -168,8 +166,4 @@ public class DetailScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return viewType;
     }
-
-
-    protected void  bindData(DetailViewHolder holder , BaseModelList model) {}
-    protected void showLoadingView (LoadingViewHolder holder, int position){}
 }

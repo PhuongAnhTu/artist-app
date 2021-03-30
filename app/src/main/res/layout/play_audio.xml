@@ -11,8 +11,7 @@
             android:id="@+id/playBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/play_button">
+            android:layout_gravity="center">
         </com.google.android.exoplayer2.ui.PlayerView>
     </LinearLayout>
 
