@@ -103,10 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(new ListAlbumFragment(), true);
     }
 
-    public void goToPlayAudio(){
-        replaceFragment(new PlayAudioFragment(), true);
-    }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {

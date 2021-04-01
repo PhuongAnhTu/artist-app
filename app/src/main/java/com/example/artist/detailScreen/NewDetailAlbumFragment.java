@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,8 @@ import com.example.artist.model.AlbumData;
 import com.example.artist.model.SongData;
 import com.example.artist.util.LogUtil;
 import com.example.artist.util.MyUtil;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -50,44 +51,26 @@ public class NewDetailAlbumFragment extends FragmentBase {
     public AlbumData selectedAlbumItem;
     protected List<SongData> listSong;
     protected SimpleExoPlayer player;
-    private boolean playWhenReady = true;
-    private int currentWindow = 0;
-    private long playbackPosition = 0;
-    private int currentPosition = -1;
+    protected DetailScreenAdapter adapter;
+
+    private int currentPlayingPosition = -1;
 
     private SongViewHolder.Listener songListener = new SongViewHolder.Listener() {
         @Override
-        public void onBtnPlay(SongData songData, int position, int playStatus) {
-
-//            adapter.setPlayerStage(playStatus);
-
-            if (currentPosition != position){
-                setClickListenerPlayer(songData);
-                currentPosition = position;
-                Log.d("TAG", " onBtnPlay: position " + position);
-            }else {
-                if (player.isPlaying()) {
-                    pause();
-                } else {
-                    resume();
-                }
+        public void onBtnPlay(int songPosition) {
+            int prevPlayingPosition = currentPlayingPosition;
+            playSongData(songPosition);
+            adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(songPosition));
+            if (prevPlayingPosition != songPosition) {
+                adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(prevPlayingPosition));
             }
         }
+
+        @Override
+        public int getCurrentPlayingPosition() {
+            return currentPlayingPosition;
+        }
     };
-
-    private void resume() {
-        if (player != null) {
-            player.setPlayWhenReady(true);
-        }
-    }
-
-    private void pause() {
-        if (player != null) {
-            player.setPlayWhenReady(false);
-        }
-    }
-
-    protected DetailScreenAdapter adapter = new DetailScreenAdapter(songListener);
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -101,6 +84,14 @@ public class NewDetailAlbumFragment extends FragmentBase {
         if (context instanceof MainActivity) {
             this.mainActivity = (MainActivity) context;
         }
+        player = new SimpleExoPlayer.Builder(getContext()).build();
+        player.addListener(new Player.EventListener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                LogUtil.d("xxx onPlaybackStateChanged " + state + ", currentPlayingPosition: " + currentPlayingPosition);
+                adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(currentPlayingPosition));
+            }
+        });
     }
 
     public static NewDetailAlbumFragment newInstance(AlbumData album) {
@@ -111,6 +102,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
         return fragment;
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -119,6 +111,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
             selectedAlbumItem = (AlbumData) bundle.getSerializable("album");
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
+        adapter = new DetailScreenAdapter(songListener, player);
         adapter.setAlbumData(selectedAlbumItem);
         init();
         return binding.getRoot();
@@ -140,27 +133,24 @@ public class NewDetailAlbumFragment extends FragmentBase {
         });
     }
 
-    protected void setClickListenerPlayer(SongData songData) {
-
-        if (player == null) {
-            player = new SimpleExoPlayer.Builder(getContext()).build();
+    protected void playSongData(int songPosition) {
+        SongData songData = listSong.get(songPosition);
+        if (songPosition == currentPlayingPosition) {
+            player.setPlayWhenReady(!player.getPlayWhenReady());
+        } else {
+            currentPlayingPosition = songPosition;
+            HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
+            DataSource.Factory dataSourceFactory = () -> {
+                HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
+                dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
+                return dataSource;
+            };
+            String url = MyUtil.getStreamingUrl(songData._id);
+            Uri uri = Uri.parse(url);
+            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+            player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
         }
-
-        HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
-
-        DataSource.Factory dataSourceFactory = () -> {
-            HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
-            dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
-            return dataSource;
-        };
-
-        String url = MyUtil.getStreamingUrl(songData._id);
-        Uri uri = Uri.parse(url);
-        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-        player.prepare(mediaSource);
-        adapter.songViewHolder.songBinding.playerView.setPlayer(player);
-        player.setPlayWhenReady(playWhenReady);
-
     }
 
     protected void refresh() {
@@ -259,21 +249,21 @@ public class NewDetailAlbumFragment extends FragmentBase {
 
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
-        if (adapter.songViewHolder != null) {
-            adapter.songViewHolder.songBinding.playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
+//        if (adapter.songViewHolder != null) {
+//            adapter.songViewHolder.songBinding.playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//        }
     }
 
     private void releasePlayer() {
         if (player != null) {
-            playWhenReady = player.getPlayWhenReady();
-            playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
+//            playWhenReady = player.getPlayWhenReady();
+//            playbackPosition = player.getCurrentPosition();
+//            currentWindow = player.getCurrentWindowIndex();
             player.release();
             player = null;
         }

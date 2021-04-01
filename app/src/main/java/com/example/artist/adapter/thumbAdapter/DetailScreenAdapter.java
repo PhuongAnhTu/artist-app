@@ -38,8 +38,6 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     public AlbumImageCardViewVH imageCardViewVH;
     public LabelSongVH labelSongVH;
     public LabelSimilarVH labelSimilarVH;
-    public SimilarViewHolder similarViewHolder;
-    public SongViewHolder songViewHolder;
     public ClickListener clickListener;
     public final int VIEW_TYPE_DETAIL_ALBUM = 2;
     public final int VIEW_TYPE_DETAIL_LIST_SONG_LABEL = 3;
@@ -48,8 +46,8 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
     protected Dal3ItemSongBinding songBinding;
     private SongViewHolder.Listener songListener;
+    private ExoPlayer player;
     private static final String TAG = NewDetailAlbumFragment.class.getName();
-    private ExoPlayer playbackState;
 
     public void setAlbumData(AlbumData albumData) {
         this.albumData = albumData;
@@ -77,8 +75,9 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     }
 
 
-    public DetailScreenAdapter(SongViewHolder.Listener songListener){
+    public DetailScreenAdapter(SongViewHolder.Listener songListener, ExoPlayer player){
         this.songListener = songListener;
+        this.player = player;
     }
 
 
@@ -94,8 +93,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_ITEM) {
             Dal5SimilarItemBinding binding = Dal5SimilarItemBinding.inflate(inflater, parent, false);
-            similarViewHolder = new SimilarViewHolder(binding);
-            return similarViewHolder;
+            return new SimilarViewHolder(binding);
         }
         else if (viewType == VIEW_TYPE_DETAIL_LIST_SONG_LABEL){
             Dal2LabelListSongBinding binding = Dal2LabelListSongBinding.inflate(inflater,parent, false);
@@ -104,8 +102,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         }
         else if (viewType == VIEW_TYPE_DETAIL_SONG_ITEM){
             songBinding = Dal3ItemSongBinding.inflate(inflater, parent, false);
-            songViewHolder = new SongViewHolder(songBinding, songListener);
-            return songViewHolder;
+            return new SongViewHolder(songBinding, songListener);
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_LABEL){
             Dal4LabelSimilarBinding binding = Dal4LabelSimilarBinding.inflate(inflater,parent,false);
@@ -125,23 +122,28 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         } else if (holder instanceof LabelSongVH){
             labelSongVH.bindView((LabelSongVH) holder);
         } else if (holder instanceof SongViewHolder){
-            int songPosition = position - 2;
+            int songPosition = toSongPosition(position);
             SongData song = listSong.get(songPosition);
-            songViewHolder.bindView ((SongViewHolder) holder, song, playbackState );
+            ((SongViewHolder) holder).bindView (song, player, songPosition);
         } else if (holder instanceof LabelSimilarVH){
             labelSimilarVH.bindView((LabelSimilarVH) holder);
         } else if (holder instanceof SimilarViewHolder){
-            int similarPosition = position - listSong.size() - 1 - 2;
+            int similarPosition = toSimilarPosition(position);
             AlbumData album = listSimilarAlbum.get(similarPosition);
-            similarViewHolder.bindView((SimilarViewHolder) holder, album);
+            ((SimilarViewHolder) holder).bindView(album);
         }
-//
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                clickListener.onItemClick(position,v);
-//            }
-//        });
+    }
+
+    public int toSongPosition(int recyclerViewPosition) {
+        return recyclerViewPosition - 2;
+    }
+
+    public int getRecyclerViewPositionFromSongPosition(int songPosition) {
+        return songPosition + 2;
+    }
+
+    public int toSimilarPosition(int recyclerViewPosition) {
+        return recyclerViewPosition - listSong.size() - 1 - 2;
     }
 
     @Override

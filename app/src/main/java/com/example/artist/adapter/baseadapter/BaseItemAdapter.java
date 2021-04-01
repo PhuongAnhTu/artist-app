@@ -35,6 +35,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public List<BaseModelList> listAll = new ArrayList<>();
     public final int VIEW_TYPE_LOADING = 1;
     public final int VIEW_TYPE_DETAIL = 0;
+    private ClickListener clickListener;
 
 
     public BaseItemAdapter(){}
@@ -73,6 +74,12 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             showLoadingView ((LoadingViewHolder) holder, position);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(position,v);
+            }
+        });
     }
 
     @Override
@@ -97,4 +104,12 @@ public class BaseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     protected void  bindData( DetailViewHolder holder , BaseModelList model) {}
     protected void showLoadingView (LoadingViewHolder holder, int position){}
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
+    }
+
+    public void setOnClick(BaseItemAdapter.ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
 }

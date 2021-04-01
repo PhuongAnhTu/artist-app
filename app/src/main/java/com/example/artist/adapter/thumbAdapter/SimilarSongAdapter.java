@@ -45,7 +45,7 @@ public class SimilarSongAdapter extends RecyclerView.Adapter<SimilarViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull SimilarViewHolder holder, int position) {
         AlbumData model = listAll.get(position);
-        holder.bindView(holder,model);
+        holder.bindView(model);
     }
 
 

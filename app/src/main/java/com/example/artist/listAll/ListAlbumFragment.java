@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.artist.API.APIResponse;
 import com.example.artist.API.APIService;
 import com.example.artist.API.RetrofitClient;
+import com.example.artist.adapter.baseadapter.BaseItemAdapter;
 import com.example.artist.adapter.thumbAdapter.ListAlbumAdapter;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
@@ -31,12 +32,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListAlbumFragment extends ListAllBaseFragment {
+public class ListAlbumFragment extends ListAllBaseFragment{
 
     private MainActivity mainActivity;
     protected ListAlbumAdapter adapter = new ListAlbumAdapter();
     private int total = 0;
     List<AlbumData> list;
+    AlbumData selectedAlbum;
 
 
     @Override
@@ -78,6 +80,14 @@ public class ListAlbumFragment extends ListAllBaseFragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
+        adapter.setOnClick(new ListAlbumAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                selectedAlbum = list.get(position);
+                mainActivity.showDetailOneAlbum(selectedAlbum);
             }
         });
     }
@@ -131,7 +141,6 @@ public class ListAlbumFragment extends ListAllBaseFragment {
             public void onFailure(Call<APIResponse<AlbumListResponse>> call, Throwable t) {
                 stopLoading();
                 Log.e("TAG", "onFailure: " + t);
-
             }
         });
     }

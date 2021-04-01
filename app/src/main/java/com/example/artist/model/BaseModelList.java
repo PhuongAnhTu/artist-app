@@ -9,4 +9,11 @@ public class BaseModelList implements Serializable  {
     public String code;
     public List<String> images;
     public String genres;
+
+    public boolean isSameId(BaseModelList other) {
+        if (other == null) {
+            return false;
+        }
+        return _id.equalsIgnoreCase(other._id);
+    }
 }

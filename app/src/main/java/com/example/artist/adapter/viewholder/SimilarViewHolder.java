@@ -19,21 +19,21 @@ public class SimilarViewHolder extends  RecyclerView.ViewHolder{
         this.similarBinding = binding;
     }
 
-    public void bindView(SimilarViewHolder holder, BaseModelList model){
+    public void bindView(BaseModelList model){
         AlbumData similar = (AlbumData) model;
 
         String songName = similar.name + " (" + similar.released + " " + similar.type + ")" ;
-        holder.similarBinding.songName.setText(songName);
+        similarBinding.songName.setText(songName);
 
-        holder.similarBinding.artist.setText(similar.artist.name);
-        holder.similarBinding.genres.setText(similar.genres);
+        similarBinding.artist.setText(similar.artist.name);
+        similarBinding.genres.setText(similar.genres);
 
-        Context context = holder.similarBinding.getRoot().getContext();
+        Context context = similarBinding.getRoot().getContext();
         if (similar.images != null && similar.images.size() > 0) {
-            String imageUrl = holder.getImageUrl(similar.images.get(0));
+            String imageUrl = getImageUrl(similar.images.get(0));
             Glide.with(context)
                     .load(imageUrl)
-                    .into(holder.similarBinding.songImage);
+                    .into(similarBinding.songImage);
         }
 
     }
