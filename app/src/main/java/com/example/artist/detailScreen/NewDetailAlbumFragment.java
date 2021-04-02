@@ -38,6 +38,7 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -52,6 +53,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
     protected List<SongData> listSong;
     protected SimpleExoPlayer player;
     protected DetailScreenAdapter adapter;
+    private ArrayList<MediaSource> mediaSourcesList = new ArrayList<>();
 
     private int currentPlayingPosition = -1;
 
@@ -148,9 +150,11 @@ public class NewDetailAlbumFragment extends FragmentBase {
             String url = MyUtil.getStreamingUrl(songData._id);
             Uri uri = Uri.parse(url);
             MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+
             player.prepare(mediaSource);
             player.setPlayWhenReady(true);
         }
+
     }
 
     protected void refresh() {

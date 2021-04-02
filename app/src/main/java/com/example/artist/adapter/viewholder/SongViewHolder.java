@@ -41,11 +41,19 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
         if (player != null) {
             LogUtil.d("bindView songPosition: " + songPosition + ", getPlaybackState: " + player.getPlaybackState() + ", isPlaying: " + player.isPlaying());
         }
-        if (player != null && player.isPlaying() && songPosition == listener.getCurrentPlayingPosition()) {
-            songBinding.playBtn.setImageResource(R.drawable.play_btn);
+        if (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING && songPosition == listener.getCurrentPlayingPosition()) {
+            songBinding.loadingItem.setVisibility(View.VISIBLE);
+            songBinding.playBtn.setVisibility(View.INVISIBLE);
         } else {
-            songBinding.playBtn.setImageResource(R.drawable.pause_btn);
+            songBinding.loadingItem.setVisibility(View.GONE);
+            songBinding.playBtn.setVisibility(View.VISIBLE);
+            if (player != null && player.isPlaying() && songPosition == listener.getCurrentPlayingPosition()) {
+                songBinding.playBtn.setImageResource(R.drawable.play_btn);
+            } else {
+                songBinding.playBtn.setImageResource(R.drawable.pause_btn);
+            }
         }
+
         songBinding.playBtn.setOnClickListener(v -> {
             listener.onBtnPlay(songPosition);
         });
