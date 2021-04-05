@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -36,6 +37,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.material.tabs.TabLayout;
 
 
 import java.util.ArrayList;
@@ -92,6 +94,17 @@ public class NewDetailAlbumFragment extends FragmentBase {
             public void onPlaybackStateChanged(int state) {
                 LogUtil.d("xxx onPlaybackStateChanged " + state + ", currentPlayingPosition: " + currentPlayingPosition);
                 adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(currentPlayingPosition));
+
+
+                if (player.getPlaybackState() == ExoPlayer.STATE_ENDED) {
+                    int nextPosition;
+                    if (currentPlayingPosition == listSong.size() - 1) {
+                        nextPosition = 0;
+                    } else {
+                        nextPosition = currentPlayingPosition + 1;
+                    }
+                    playSongData(nextPosition);
+                }
             }
         });
     }
