@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.artist">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".ArtistApp"
         android:allowBackup="true"
         android:icon="@drawable/music"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -26,10 +24,6 @@
             </intent-filter>
 
         </activity>
-
-        <service
-            android:name="com.example.artist.playAudio.BackgroundSoundService" />
-
     </application>
 
 </manifest>

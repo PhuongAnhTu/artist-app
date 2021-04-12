@@ -40,9 +40,10 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
         songBinding.duration.setText(convertDuration(songData.duration));
         if (player != null) {
             LogUtil.d("bindView songPosition: " + songPosition + ", getPlaybackState: " + player.getPlaybackState() + ", isPlaying: " + player.isPlaying());
-            if (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING && songPosition == listener.getCurrentPlayingPosition()) {
-                songBinding.loadingItem.setVisibility(View.VISIBLE);
-                songBinding.playBtn.setVisibility(View.INVISIBLE);
+        }
+        if (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING && songPosition == listener.getCurrentPlayingPosition()) {
+            songBinding.loadingItem.setVisibility(View.VISIBLE);
+            songBinding.playBtn.setVisibility(View.INVISIBLE);
         } else {
             songBinding.loadingItem.setVisibility(View.GONE);
             songBinding.playBtn.setVisibility(View.VISIBLE);
@@ -52,7 +53,7 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
                 songBinding.playBtn.setImageResource(R.drawable.pause_btn);
             }
         }
-        }
+
         songBinding.playBtn.setOnClickListener(v -> {
             listener.onBtnPlay(songPosition);
         });

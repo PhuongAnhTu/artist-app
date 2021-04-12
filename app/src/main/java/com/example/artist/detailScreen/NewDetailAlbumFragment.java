@@ -2,11 +2,12 @@ package com.example.artist.detailScreen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -19,18 +20,24 @@ import com.example.artist.API.RetrofitClient;
 import com.example.artist.MainActivity;
 import com.example.artist.R;
 import com.example.artist.adapter.thumbAdapter.DetailScreenAdapter;
-import com.example.artist.adapter.viewholder.SimilarViewHolder;
 import com.example.artist.adapter.viewholder.SongViewHolder;
 import com.example.artist.base.FragmentBase;
 import com.example.artist.databinding.DetailBaseLayoutBinding;
 import com.example.artist.listAll.AlbumListResponse;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.SongData;
-import com.example.artist.playAudio.BackgroundSoundService;
 import com.example.artist.util.LogUtil;
+import com.example.artist.util.MyUtil;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.material.tabs.TabLayout;
 
 
 import java.util.ArrayList;
@@ -46,13 +53,9 @@ public class NewDetailAlbumFragment extends FragmentBase {
     private MainActivity mainActivity;
     public AlbumData selectedAlbumItem;
     protected List<SongData> listSong;
-    protected List<AlbumData> listSimilar;
-    protected AlbumData selectedSimilarAlbum;
     protected SimpleExoPlayer player;
     protected DetailScreenAdapter adapter;
     private ArrayList<MediaSource> mediaSourcesList = new ArrayList<>();
-    private BackgroundSoundService service ;
-    private static NewDetailAlbumFragment instance;
 
     private int currentPlayingPosition = -1;
 
@@ -60,7 +63,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
         @Override
         public void onBtnPlay(int songPosition) {
             int prevPlayingPosition = currentPlayingPosition;
-//            playSongData(songPosition);
+            playSongData(songPosition);
             adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(songPosition));
             if (prevPlayingPosition != songPosition) {
                 adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(prevPlayingPosition));
@@ -69,22 +72,9 @@ public class NewDetailAlbumFragment extends FragmentBase {
 
         @Override
         public int getCurrentPlayingPosition() {
-            service.getCurrentPlayingPosition(currentPlayingPosition);
             return currentPlayingPosition;
         }
     };
-
-    private SimilarViewHolder.Listener similarListener = new SimilarViewHolder.Listener() {
-        @Override
-        public void onSimilarAlbum(int similarPosition) {
-            selectedSimilarAlbum = listSimilar.get(similarPosition);
-            mainActivity.showDetailOneAlbum(selectedSimilarAlbum);
-        }
-    };
-
-    public void setPlayer(SimpleExoPlayer player) {
-        this.player = player;
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -98,31 +88,26 @@ public class NewDetailAlbumFragment extends FragmentBase {
         if (context instanceof MainActivity) {
             this.mainActivity = (MainActivity) context;
         }
+        player = new SimpleExoPlayer.Builder(getContext()).build();
+        player.addListener(new Player.EventListener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                LogUtil.d("xxx onPlaybackStateChanged " + state + ", currentPlayingPosition: " + currentPlayingPosition);
+                adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(currentPlayingPosition));
 
-        service =  new BackgroundSoundService();
-        getActivity().startService(new Intent(getActivity(),BackgroundSoundService.class));
-//        player = new SimpleExoPlayer.Builder(getContext()).build();
-//        player.addListener(new Player.EventListener() {
-//            @Override
-//            public void onPlaybackStateChanged(int state) {
-//                LogUtil.d("xxx onPlaybackStateChanged " + state + ", currentPlayingPosition: " + currentPlayingPosition);
-//                adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(currentPlayingPosition));
-//
-//
-//                if (player.getPlaybackState() == ExoPlayer.STATE_ENDED) {
-//                    int nextPosition;
-//                    if (currentPlayingPosition == listSong.size() - 1) {
-//                        nextPosition = 0;
-//                    } else {
-//                        nextPosition = currentPlayingPosition + 1;
-//                    }
-//                    playSongData(nextPosition);
-//                }
-//            }
-//        });
 
+                if (player.getPlaybackState() == ExoPlayer.STATE_ENDED) {
+                    int nextPosition;
+                    if (currentPlayingPosition == listSong.size() - 1) {
+                        nextPosition = 0;
+                    } else {
+                        nextPosition = currentPlayingPosition + 1;
+                    }
+                    playSongData(nextPosition);
+                }
+            }
+        });
     }
-
 
     public static NewDetailAlbumFragment newInstance(AlbumData album) {
         NewDetailAlbumFragment fragment = new NewDetailAlbumFragment();
@@ -141,11 +126,9 @@ public class NewDetailAlbumFragment extends FragmentBase {
             selectedAlbumItem = (AlbumData) bundle.getSerializable("album");
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.detail_base_layout, container, false);
-        adapter = new DetailScreenAdapter(songListener, player, similarListener);
-        service.setAdapter(adapter);
+        adapter = new DetailScreenAdapter(songListener, player);
         adapter.setAlbumData(selectedAlbumItem);
         init();
-        instance = this;
         return binding.getRoot();
     }
 
@@ -165,31 +148,27 @@ public class NewDetailAlbumFragment extends FragmentBase {
         });
     }
 
-    public static NewDetailAlbumFragment getInstance() {
-        return instance;
+    protected void playSongData(int songPosition) {
+        SongData songData = listSong.get(songPosition);
+        if (songPosition == currentPlayingPosition) {
+            player.setPlayWhenReady(!player.getPlayWhenReady());
+        } else {
+            currentPlayingPosition = songPosition;
+            HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
+            DataSource.Factory dataSourceFactory = () -> {
+                HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
+                dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
+                return dataSource;
+            };
+            String url = MyUtil.getStreamingUrl(songData._id);
+            Uri uri = Uri.parse(url);
+            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+
+            player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
+        }
+
     }
-
-//    protected void playSongData(int songPosition) {
-//        SongData songData = listSong.get(songPosition);
-//        if (songPosition == currentPlayingPosition) {
-//            player.setPlayWhenReady(!player.getPlayWhenReady());
-//        } else {
-//            currentPlayingPosition = songPosition;
-//            HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
-//            DataSource.Factory dataSourceFactory = () -> {
-//                HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
-//                dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
-//                return dataSource;
-//            };
-//            String url = MyUtil.getStreamingUrl(songData._id);
-//            Uri uri = Uri.parse(url);
-//            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-//
-//            player.prepare(mediaSource);
-//            player.setPlayWhenReady(true);
-//        }
-
-//    }
 
     protected void refresh() {
         binding.container.setRefreshing(false);
@@ -208,7 +187,6 @@ public class NewDetailAlbumFragment extends FragmentBase {
             public void onResponse(Call<APIResponse<AlbumDetailResponse>> call, Response<APIResponse<AlbumDetailResponse>> response) {
                 APIResponse<AlbumDetailResponse> songList = response.body();
                 listSong = songList.data.songs;
-                service.setListSong(listSong);
                 adapter.setListSongs(songList.data.songs);
                 stopLoading();
             }
@@ -228,8 +206,7 @@ public class NewDetailAlbumFragment extends FragmentBase {
             @Override
             public void onResponse(Call<APIResponse<AlbumListResponse>> call, Response<APIResponse<AlbumListResponse>> response) {
                 APIResponse<AlbumListResponse> similar = response.body();
-                listSimilar = similar.data.list_data;
-                adapter.setSimilarAlbum(listSimilar);
+                adapter.setSimilarAlbum(similar.data.list_data);
                 stopLoading();
             }
 
@@ -308,29 +285,4 @@ public class NewDetailAlbumFragment extends FragmentBase {
             player = null;
         }
     }
-
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        if (player == null) {
-//            startPlayer();
-//            playerNotificationManager = new PlayerNotificationManager(
-//                    this, CHANNEL_ID, NOTIFICATION_ID,
-//                    createMediaDescriptionAdapter(),
-//                    new PlayerNotificationManager.NotificationListener() {
-//                        @Override
-//                        public void onNotificationPosted(int notificationId, Notification notification, boolean ongoing) {
-//                            startForeground(notificationId, notification);
-//                        }
-//                        @Override
-//                        public void onNotificationCancelled(int notificationId, boolean dismissedByUser) {
-//                            if (dismissedByUser) {
-//                                // Do what the app wants to do when dismissed by the user,
-//                                // like calling stopForeground(true); or stopSelf();
-//                            }
-//                        }
-//                    });
-//            playerNotificationManager.setPlayer(player);
-//        }
-//        return START_STICKY;
-//    }
 }
