@@ -1,6 +1,5 @@
 package com.example.artist.adapter.baseadapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.adapter.viewholder.AlbumImageCardViewVH;
 import com.example.artist.adapter.viewholder.DetailViewHolder;
-import com.example.artist.adapter.viewholder.LabelSimilarVH;
-import com.example.artist.adapter.viewholder.LabelSongVH;
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
-import com.example.artist.adapter.viewholder.SimilarViewHolder;
-import com.example.artist.adapter.viewholder.SongViewHolder;
-import com.example.artist.databinding.Dal1ImageCardviewBinding;
-import com.example.artist.databinding.Dal2LabelListSongBinding;
-import com.example.artist.databinding.Dal3ItemSongBinding;
-import com.example.artist.databinding.Dal4LabelSimilarBinding;
-import com.example.artist.databinding.Dal5SimilarItemBinding;
-import com.example.artist.databinding.DetailBaseLayoutBinding;
 import com.example.artist.databinding.ImageItemBinding;
 import com.example.artist.databinding.LoadingItemBinding;
 import com.example.artist.model.BaseModelList;
-import com.example.artist.model.SongData;
-import com.google.android.exoplayer2.util.ParsableNalUnitBitArray;
 
 import java.util.ArrayList;
 import java.util.List;

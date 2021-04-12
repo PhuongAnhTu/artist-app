@@ -2,41 +2,36 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/song_image"
+                android:id="@+id/album_image"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:gravity="left|center"
                 android:padding="5dp"/>
 
-            <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3"
-            android:layout_toRightOf="@+id/song_image">
-
             <TextView
-                android:id="@+id/song_name"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:id="@+id/released_year"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:maxLines="1"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#c8c8ec"/>
+                android:textColor="#c8c8ec"
+                android:padding="5dp"/>
             <TextView
-                android:id="@+id/artist"
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#c8c8ec"
+                android:text="-"/>
+            <TextView
+                android:id="@+id/album_name"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -44,17 +39,5 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#c8c8ec"/>
-            <TextView
-                android:id="@+id/genres"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:maxLines="1"
-                android:textSize="14sp"
-                android:textStyle="italic"
-                android:textColor="#c8c8ec"/>
-        </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
+            </LinearLayout>
 </layout>

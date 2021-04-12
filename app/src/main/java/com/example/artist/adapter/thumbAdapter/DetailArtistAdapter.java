@@ -6,7 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.artist.adapter.viewholder.AlbumImageCardViewVH;
+import com.example.artist.adapter.viewholder.AlbumOfArtistVH;
+import com.example.artist.adapter.viewholder.ArtistCardViewVH;
 import com.example.artist.adapter.viewholder.LabelVH;
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.adapter.viewholder.SimilarViewHolder;
@@ -14,28 +15,29 @@ import com.example.artist.adapter.viewholder.SongViewHolder;
 import com.example.artist.databinding.Dal1ImageAlbumCardviewBinding;
 import com.example.artist.databinding.Dal2LabelTextBinding;
 import com.example.artist.databinding.Dal3ItemSongBinding;
+import com.example.artist.databinding.Dal4LabelSimilarBinding;
 import com.example.artist.databinding.Dal5SimilarItemBinding;
 import com.example.artist.databinding.LoadingItemBinding;
 import com.example.artist.detailScreen.NewDetailAlbumFragment;
 import com.example.artist.model.AlbumData;
+import com.example.artist.model.ArtistData;
 import com.example.artist.model.SongData;
 import com.google.android.exoplayer2.ExoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private AlbumData albumData;
+    private ArtistData artistData;
     private List<SongData> listSong = new ArrayList<>();
-    public List<AlbumData> listSimilarAlbum = new ArrayList<>();
-    public AlbumImageCardViewVH imageCardViewVH;
+    public List<AlbumData> listAlbum = new ArrayList<>();
+    public ArtistCardViewVH imageCardViewVH;
     public LabelVH labelVH;
     public final int VIEW_TYPE_DETAIL_ALBUM = 7;
     public final int VIEW_TYPE_LABEL = 3;
     public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
     public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
-
 
     public final int SONG_LABEL = 0;
     public final int SIMILAR_LABEL = 1;
@@ -46,13 +48,13 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     private ExoPlayer player;
     private static final String TAG = NewDetailAlbumFragment.class.getName();
 
-    public void setAlbumData(AlbumData albumData) {
-        this.albumData = albumData;
+    public void setAlbumData(ArtistData artistData) {
+        this.artistData = artistData;
         notifyDataSetChanged();
     }
 
-    public void setSimilarAlbum(List<AlbumData> list) {
-        this.listSimilarAlbum = list;
+    public void setAlbumOfArtist(List<AlbumData> list) {
+        this.listAlbum = list;
         notifyDataSetChanged();
     }
 
@@ -63,12 +65,12 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
 
     public void clear(){
         listSong.clear();
-        listSimilarAlbum.clear();
+        listAlbum.clear();
         notifyDataSetChanged();
     }
 
 
-    public DetailScreenAdapter(SongViewHolder.Listener songListener, ExoPlayer player, SimilarViewHolder.Listener similarListener){
+    public DetailArtistAdapter(SongViewHolder.Listener songListener, ExoPlayer player, SimilarViewHolder.Listener similarListener){
         this.songListener = songListener;
         this.player = player;
         this.similarListener = similarListener;
@@ -82,7 +84,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
 
         if (viewType == VIEW_TYPE_DETAIL_ALBUM) {
             Dal1ImageAlbumCardviewBinding binding = Dal1ImageAlbumCardviewBinding.inflate(inflater,parent,false);
-            imageCardViewVH = new AlbumImageCardViewVH(binding);
+            imageCardViewVH = new ArtistCardViewVH(binding);
             return imageCardViewVH;
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_ITEM) {
@@ -105,24 +107,24 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof AlbumImageCardViewVH){
-            imageCardViewVH.bindView((AlbumImageCardViewVH) holder, albumData);
+        if (holder instanceof ArtistCardViewVH){
+            imageCardViewVH.bindView((ArtistCardViewVH) holder, artistData);
         } else if (holder instanceof LabelVH && position == 1){
+            labelVH.bindView((LabelVH) holder, ALBUM_LABEL);
+        } else if (holder instanceof AlbumOfArtistVH){
+            int albumPosition = toAlbumPosition(position);
+            AlbumData album = listAlbum.get(albumPosition);
+            ((AlbumOfArtistVH) holder).bindView (album, albumPosition);
+        } else if (holder instanceof LabelVH && position == 2 + listSong.size() - 1 + 1){
             labelVH.bindView((LabelVH) holder, SONG_LABEL);
-        } else if (holder instanceof SongViewHolder){
-            int songPosition = toSongPosition(position);
-            SongData song = listSong.get(songPosition);
-            ((SongViewHolder) holder).bindView (song, player, songPosition);
-        }  else if (holder instanceof LabelVH && position == 2 + listSong.size() - 1 + 1){
-            labelVH.bindView((LabelVH) holder, SIMILAR_LABEL);
         } else if (holder instanceof SimilarViewHolder){
             int similarPosition = toSimilarPosition(position);
-            AlbumData album = listSimilarAlbum.get(similarPosition);
+            AlbumData album = listAlbum.get(similarPosition);
             ((SimilarViewHolder) holder).bindView(album, similarPosition);
         }
     }
 
-    public int toSongPosition(int recyclerViewPosition) {
+    public int toAlbumPosition(int recyclerViewPosition) {
         return recyclerViewPosition - 2;
     }
 
@@ -136,7 +138,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
 
     @Override
     public int getItemCount() {
-        return 1 + 1 + listSong.size() + 1 + listSimilarAlbum.size();
+        return 1 + 1 + listSong.size() + 1 + listAlbum.size();
     }
 
     @Override
