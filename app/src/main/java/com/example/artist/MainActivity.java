@@ -183,4 +183,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
+
+    private void sendPlayer (){
+
+    }
 }

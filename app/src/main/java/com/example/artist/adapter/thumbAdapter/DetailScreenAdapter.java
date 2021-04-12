@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.artist.adapter.baseadapter.BaseItemAdapter;
 import com.example.artist.adapter.baseadapter.BaseThumbAdapter;
 import com.example.artist.adapter.viewholder.AlbumImageCardViewVH;
 import com.example.artist.adapter.viewholder.DetailViewHolder;
@@ -38,7 +39,6 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     public AlbumImageCardViewVH imageCardViewVH;
     public LabelSongVH labelSongVH;
     public LabelSimilarVH labelSimilarVH;
-    public ClickListener clickListener;
     public final int VIEW_TYPE_DETAIL_ALBUM = 2;
     public final int VIEW_TYPE_DETAIL_LIST_SONG_LABEL = 3;
     public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
@@ -46,6 +46,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
     public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
     protected Dal3ItemSongBinding songBinding;
     private SongViewHolder.Listener songListener;
+    private SimilarViewHolder.Listener similarListener;
     private ExoPlayer player;
     private static final String TAG = NewDetailAlbumFragment.class.getName();
 
@@ -70,14 +71,11 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         notifyDataSetChanged();
     }
 
-    public interface ClickListener {
-        void onItemClick(int position, View v);
-    }
 
-
-    public DetailScreenAdapter(SongViewHolder.Listener songListener, ExoPlayer player){
+    public DetailScreenAdapter(SongViewHolder.Listener songListener, ExoPlayer player, SimilarViewHolder.Listener similarListener){
         this.songListener = songListener;
         this.player = player;
+        this.similarListener = similarListener;
     }
 
 
@@ -93,7 +91,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         }
         else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_ITEM) {
             Dal5SimilarItemBinding binding = Dal5SimilarItemBinding.inflate(inflater, parent, false);
-            return new SimilarViewHolder(binding);
+            return new SimilarViewHolder(binding, similarListener );
         }
         else if (viewType == VIEW_TYPE_DETAIL_LIST_SONG_LABEL){
             Dal2LabelListSongBinding binding = Dal2LabelListSongBinding.inflate(inflater,parent, false);
@@ -130,7 +128,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         } else if (holder instanceof SimilarViewHolder){
             int similarPosition = toSimilarPosition(position);
             AlbumData album = listSimilarAlbum.get(similarPosition);
-            ((SimilarViewHolder) holder).bindView(album);
+            ((SimilarViewHolder) holder).bindView(album, similarPosition);
         }
     }
 
