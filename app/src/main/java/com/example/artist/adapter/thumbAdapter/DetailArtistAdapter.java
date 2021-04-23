@@ -12,6 +12,7 @@ import com.example.artist.adapter.viewholder.LabelVH;
 import com.example.artist.adapter.viewholder.LoadingViewHolder;
 import com.example.artist.adapter.viewholder.SimilarViewHolder;
 import com.example.artist.adapter.viewholder.SongViewHolder;
+import com.example.artist.databinding.AlbumOfArtistBinding;
 import com.example.artist.databinding.Dal1ImageAlbumCardviewBinding;
 import com.example.artist.databinding.Dal2LabelTextBinding;
 import com.example.artist.databinding.Dal3ItemSongBinding;
@@ -34,21 +35,20 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public List<AlbumData> listAlbum = new ArrayList<>();
     public ArtistCardViewVH imageCardViewVH;
     public LabelVH labelVH;
-    public final int VIEW_TYPE_DETAIL_ALBUM = 7;
+    public final int VIEW_TYPE_DETAIL_ARTIST = 7;
     public final int VIEW_TYPE_LABEL = 3;
     public final int VIEW_TYPE_DETAIL_SONG_ITEM = 4;
-    public final int VIEW_TYPE_DETAIL_SIMILAR_ITEM = 6;
+    public final int VIEW_TYPE_DETAIL_ALBUM_OF_ARTIST_ITEM = 6;
 
     public final int SONG_LABEL = 0;
     public final int SIMILAR_LABEL = 1;
     public final int ALBUM_LABEL = 2;
     protected Dal3ItemSongBinding songBinding;
     private SongViewHolder.Listener songListener;
-    private SimilarViewHolder.Listener similarListener;
-    private ExoPlayer player;
+    private AlbumOfArtistVH.Listener similarListener;
     private static final String TAG = NewDetailAlbumFragment.class.getName();
 
-    public void setAlbumData(ArtistData artistData) {
+    public void setArtistData(ArtistData artistData) {
         this.artistData = artistData;
         notifyDataSetChanged();
     }
@@ -70,9 +70,8 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    public DetailArtistAdapter(SongViewHolder.Listener songListener, ExoPlayer player, SimilarViewHolder.Listener similarListener){
+    public DetailArtistAdapter(SongViewHolder.Listener songListener, AlbumOfArtistVH.Listener similarListener){
         this.songListener = songListener;
-        this.player = player;
         this.similarListener = similarListener;
     }
 
@@ -82,14 +81,14 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (viewType == VIEW_TYPE_DETAIL_ALBUM) {
+        if (viewType == VIEW_TYPE_DETAIL_ARTIST) {
             Dal1ImageAlbumCardviewBinding binding = Dal1ImageAlbumCardviewBinding.inflate(inflater,parent,false);
             imageCardViewVH = new ArtistCardViewVH(binding);
             return imageCardViewVH;
         }
-        else if (viewType == VIEW_TYPE_DETAIL_SIMILAR_ITEM) {
-            Dal5SimilarItemBinding binding = Dal5SimilarItemBinding.inflate(inflater, parent, false);
-            return new SimilarViewHolder(binding, similarListener );
+        else if (viewType == VIEW_TYPE_DETAIL_ALBUM_OF_ARTIST_ITEM) {
+            AlbumOfArtistBinding binding = AlbumOfArtistBinding.inflate(inflater, parent, false);
+            return new AlbumOfArtistVH(binding, similarListener );
         }
         else if (viewType == VIEW_TYPE_LABEL){
             Dal2LabelTextBinding binding = Dal2LabelTextBinding.inflate(inflater,parent, false);
@@ -115,12 +114,12 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             int albumPosition = toAlbumPosition(position);
             AlbumData album = listAlbum.get(albumPosition);
             ((AlbumOfArtistVH) holder).bindView (album, albumPosition);
-        } else if (holder instanceof LabelVH && position == 2 + listSong.size() - 1 + 1){
+        } else if (holder instanceof LabelVH && position == 2 + listAlbum.size() - 1 + 1){
             labelVH.bindView((LabelVH) holder, SONG_LABEL);
-        } else if (holder instanceof SimilarViewHolder){
-            int similarPosition = toSimilarPosition(position);
-            AlbumData album = listAlbum.get(similarPosition);
-            ((SimilarViewHolder) holder).bindView(album, similarPosition);
+        } else if (holder instanceof SongViewHolder){
+            int songPosition = toSongPosition(position);
+            SongData song = listSong.get(songPosition);
+            ((SongViewHolder) holder).bindView(song ,songPosition);
         }
     }
 
@@ -132,8 +131,8 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return songPosition + 2;
     }
 
-    public int toSimilarPosition(int recyclerViewPosition) {
-        return recyclerViewPosition - listSong.size() - 1 - 2;
+    public int toSongPosition(int recyclerViewPosition) {
+        return recyclerViewPosition - listAlbum.size() - 1 - 2;
     }
 
     @Override
@@ -144,17 +143,17 @@ public class DetailArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         int viewType = -1;
-        int lastSongPosition = 2 + listSong.size() - 1;
+        int lastAlbumPosition = 2 + listAlbum.size() - 1;
         if (position == 0){
-            viewType = VIEW_TYPE_DETAIL_ALBUM;
+            viewType = VIEW_TYPE_DETAIL_ARTIST;
         } else if (position == 1){
             viewType = VIEW_TYPE_LABEL;
-        } else if (position >= 2 && position <= lastSongPosition){
-            viewType = VIEW_TYPE_DETAIL_SONG_ITEM;
-        } else if (position == lastSongPosition + 1){
+        } else if (position >= 2 && position <= lastAlbumPosition){
+            viewType = VIEW_TYPE_DETAIL_ALBUM_OF_ARTIST_ITEM;
+        } else if (position == lastAlbumPosition + 1){
             viewType = VIEW_TYPE_LABEL;
         } else {
-            viewType = VIEW_TYPE_DETAIL_SIMILAR_ITEM;
+            viewType = VIEW_TYPE_DETAIL_SONG_ITEM;
         }
         return viewType;
     }

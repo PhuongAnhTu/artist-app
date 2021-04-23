@@ -33,7 +33,9 @@ public class ArtistCardViewVH extends  RecyclerView.ViewHolder{
         }
 
         holder.imageBinding.name.setText(selectedItem.name);
-        holder.imageBinding.artist.setText(selectedItem.country.name);
+        if (selectedItem.country != null) {
+            holder.imageBinding.artist.setText(selectedItem.country.name);
+        }
         holder.imageBinding.released.setText(String.valueOf(selectedItem.genres));
 
     }

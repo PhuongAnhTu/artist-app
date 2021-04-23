@@ -112,7 +112,7 @@ public class DetailScreenAdapter<PlaybackStateListener> extends RecyclerView.Ada
         } else if (holder instanceof SongViewHolder){
             int songPosition = toSongPosition(position);
             SongData song = listSong.get(songPosition);
-            ((SongViewHolder) holder).bindView (song, player, songPosition);
+            ((SongViewHolder) holder).bindView (song, songPosition);
         }  else if (holder instanceof LabelVH && position == 2 + listSong.size() - 1 + 1){
             labelVH.bindView((LabelVH) holder, SIMILAR_LABEL);
         } else if (holder instanceof SimilarViewHolder){

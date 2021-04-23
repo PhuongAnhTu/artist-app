@@ -32,8 +32,8 @@ public interface APIService {
     Call<APIResponse<AlbumListResponse>> loadAlbum(@Header("Authorization") String token, @Query("skip") int skip, @Query("limit") int limit);
 
     @Headers({"Origin: https://thedarkmetal.com"})
-    @GET("v1/artists/{id}")
-    Call<APIResponse<ArtistDetailResponse>> loadDetailArtist(@Header("Authorization") String token, @Path("id") String _id);
+    @GET("v1/p/artists/{code}")
+    Call<APIResponse<ArtistDetailResponse>> loadDetailArtist(@Header("Authorization") String token,  @Path("code") String code, @Query("info") String info, @Query("skip") int skip, @Query("limit") int limit);
 
     @Headers({"Origin: https://thedarkmetal.com"})
     @GET("v1/p/albums/{code}/similar")

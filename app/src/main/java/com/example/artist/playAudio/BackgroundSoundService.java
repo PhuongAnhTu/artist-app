@@ -4,15 +4,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.artist.ArtistApp;
-import com.example.artist.adapter.thumbAdapter.DetailScreenAdapter;
+//import com.example.artist.adapter.thumbAdapter.DetailArtistAdapter;
+//import com.example.artist.adapter.thumbAdapter.DetailScreenAdapter;
 import com.example.artist.adapter.viewholder.SongViewHolder;
-import com.example.artist.detailScreen.NewDetailAlbumFragment;
+//import com.example.artist.detailScreen.NewDetailAlbumFragment;
+//import com.example.artist.detailScreen.NewDetailArtistFragment;
 import com.example.artist.model.SongData;
 import com.example.artist.util.LogUtil;
 import com.example.artist.util.MyUtil;
@@ -28,104 +32,107 @@ import com.google.android.exoplayer2.upstream.HttpDataSource;
 import java.util.List;
 
 public class BackgroundSoundService extends Service {
-    protected SimpleExoPlayer player;
-    private int currentPlayingPosition = -1;
-    private DetailScreenAdapter adapter;
-    protected List<SongData> listSong;
+    public interface ServiceListener {
+        void onPlayStateChange(int state);
+    }
 
+    private ServiceListener serviceListener;
+
+    public void setServiceListener(ServiceListener listener) {
+        this.serviceListener = listener;
+    }
+
+    public class MyBinder extends Binder {
+        public BackgroundSoundService getService() {
+            return BackgroundSoundService.this;
+        }
+    }
+
+    protected SimpleExoPlayer player;
+
+    private IBinder binder = new MyBinder();
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    public void setAdapter (DetailScreenAdapter adapter) {
-        this.adapter = adapter;
-    }
-
-    public void setListSong(List<SongData> listSong) {
-        this.listSong = listSong;
-    }
-
-    public void getCurrentPlayingPosition (int currentPlayingPosition) {
-        this.currentPlayingPosition = currentPlayingPosition;
+        return binder;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtil.d("onCreate");
 
         player = new SimpleExoPlayer.Builder(ArtistApp.getAppContext()).build();
-        NewDetailAlbumFragment.getInstance().setPlayer(player);
         player.addListener(new Player.EventListener() {
             @Override
             public void onPlaybackStateChanged(int state) {
-//                LogUtil.d("xxx onPlaybackStateChanged " + state + ", currentPlayingPosition: " + currentPlayingPosition);
-                adapter.notifyItemChanged(adapter.getRecyclerViewPositionFromSongPosition(currentPlayingPosition));
-
-
-                if (player.getPlaybackState() == ExoPlayer.STATE_ENDED) {
-                    int nextPosition;
-                    if (currentPlayingPosition == listSong.size() - 1) {
-                        nextPosition = 0;
-                    } else {
-                        nextPosition = currentPlayingPosition + 1;
-                    }
-                    playSongData(nextPosition);
+                if (serviceListener != null) {
+                    serviceListener.onPlayStateChange(state);
                 }
+//                setPlayer(player);
+//                setCurrentPlayingPosition(currentPlayingPosition);
+//                listener.onPlayIcon(currentPlayingPosition);
+//                if (player.getPlaybackState() == ExoPlayer.STATE_ENDED) {
+//                    int nextPosition;
+//                    if (currentPlayingPosition == listSong.size() - 1) {
+//                        nextPosition = 0;
+//                    } else {
+//                        nextPosition = currentPlayingPosition + 1;
+//                    }
+//                    playSongData(nextPosition);
+//                }
             }
         });
     }
 
-    protected void playSongData(int songPosition) {
-        SongData songData = listSong.get(songPosition);
-        if (songPosition == currentPlayingPosition) {
-            player.setPlayWhenReady(!player.getPlayWhenReady());
-        } else {
-            currentPlayingPosition = songPosition;
-            HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
-            DataSource.Factory dataSourceFactory = () -> {
-                HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
-                dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
-                return dataSource;
-            };
-            String url = MyUtil.getStreamingUrl(songData._id);
-            Uri uri = Uri.parse(url);
-            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            LogUtil.d("onStartCommand no data");
+            return super.onStartCommand(intent, flags, startId);
+        }
+        String command = bundle.getString("command");
+        LogUtil.d("onStartCommand " + command);
+        switch (command) {
+            case "play":
+                break;
+            case "pause":
+                break;
+            default:
+                break;
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
 
-            player.prepare(mediaSource);
-            player.setPlayWhenReady(true);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (player != null) {
+            player.release();
+            player = null;
         }
     }
 
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        player.start();
-//        return Service.START_STICKY;
-//    }
+    public void playSongData(int songPosition) {
+//        SongData songData = listSong.get(songPosition);
+//        if (songPosition == currentPlayingPosition) {
+//            player.setPlayWhenReady(!player.getPlayWhenReady());
+//        } else {
+//            currentPlayingPosition = songPosition;
+//            HttpDataSource.Factory httpDataSourceFactory = new DefaultHttpDataSourceFactory();
+//            DataSource.Factory dataSourceFactory = () -> {
+//                HttpDataSource dataSource = httpDataSourceFactory.createDataSource();
+//                dataSource.setRequestProperty("Origin", "https://thedarkmetal.com");
+//                return dataSource;
+//            };
+//            String url = MyUtil.getStreamingUrl(songData._id);
+//            Uri uri = Uri.parse(url);
+//            MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
 //
-//    public void onStart(Intent intent, int startId) {
-//        // TO DO
-//    }
-//    public IBinder onUnBind(Intent arg0) {
-//        // TO DO Auto-generated method
-//        return null;
-//    }
-//
-//    public void onStop() {
-//
-//    }
-//    public void onPause() {
-//
-//    }
-//    @Override
-//    public void onDestroy() {
-//        mediaPlayer.stop();
-//        mediaPlayer.release();
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//
-//    }
+//            player.prepare(mediaSource);
+//            player.setPlayWhenReady(true);
+//        }
+    }
 }
 

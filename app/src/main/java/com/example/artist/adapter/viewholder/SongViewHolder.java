@@ -1,9 +1,7 @@
 package com.example.artist.adapter.viewholder;
 
 
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,33 +28,31 @@ public class SongViewHolder extends  RecyclerView.ViewHolder{
         this.listener = listener;
     }
 
-    public void bindView(BaseModelList model, ExoPlayer player, int songPosition){
+    public void bindView(BaseModelList model, int songPosition){
         SongData songData = (SongData) model;
-
-
         String numberText = songData.num + ". " ;
         songBinding.number.setText(numberText);
         songBinding.songName.setText(songData.title);
         songBinding.duration.setText(convertDuration(songData.duration));
-        if (player != null) {
-            LogUtil.d("bindView songPosition: " + songPosition + ", getPlaybackState: " + player.getPlaybackState() + ", isPlaying: " + player.isPlaying());
-            if (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING && songPosition == listener.getCurrentPlayingPosition()) {
-                songBinding.loadingItem.setVisibility(View.VISIBLE);
-                songBinding.playBtn.setVisibility(View.INVISIBLE);
-        } else {
-            songBinding.loadingItem.setVisibility(View.GONE);
-            songBinding.playBtn.setVisibility(View.VISIBLE);
-            if (player != null && player.isPlaying() && songPosition == listener.getCurrentPlayingPosition()) {
-                songBinding.playBtn.setImageResource(R.drawable.play_btn);
-            } else {
-                songBinding.playBtn.setImageResource(R.drawable.pause_btn);
-            }
-        }
-        }
+
+//        if (player != null) {
+//            LogUtil.d("bindView songPosition: " + songPosition + ", getPlaybackState: " + player.getPlaybackState() + ", isPlaying: " + player.isPlaying());
+//            if (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING && songPosition == listener.getCurrentPlayingPosition()) {
+//                songBinding.loadingItem.setVisibility(View.VISIBLE);
+//                songBinding.playBtn.setVisibility(View.INVISIBLE);
+//            } else {
+//                songBinding.loadingItem.setVisibility(View.GONE);
+//                songBinding.playBtn.setVisibility(View.VISIBLE);
+//                if (player != null && player.isPlaying() && songPosition == listener.getCurrentPlayingPosition()) {
+//                    songBinding.playBtn.setImageResource(R.drawable.play_btn);
+//                } else {
+//                    songBinding.playBtn.setImageResource(R.drawable.pause_btn);
+//                }
+//            }
+//        }
         songBinding.playBtn.setOnClickListener(v -> {
             listener.onBtnPlay(songPosition);
         });
-
     }
 
     public String convertDuration (int duration){

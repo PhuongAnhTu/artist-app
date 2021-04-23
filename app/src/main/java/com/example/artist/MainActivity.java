@@ -1,5 +1,7 @@
 package com.example.artist;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -7,18 +9,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupMenu;
-
-import com.example.artist.detailScreen.DetailOneArtistFragment;
 import com.example.artist.detailScreen.NewDetailAlbumFragment;
+import com.example.artist.detailScreen.NewDetailArtistFragment;
 import com.example.artist.homeScreen.HomeFragment;
 import com.example.artist.listAll.ListAlbumFragment;
 import com.example.artist.listAll.ListArtistsFragment;
@@ -28,7 +33,9 @@ import com.example.artist.databinding.ActivityMainBinding;
 import com.example.artist.login.ResponseLogin;
 import com.example.artist.model.AlbumData;
 import com.example.artist.model.ArtistData;
+import com.example.artist.playAudio.BackgroundSoundService;
 import com.example.artist.playAudio.PlayAudioFragment;
+import com.example.artist.util.LogUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -43,6 +50,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         getSupportActionBar().hide();
         init();
+        Intent intent = new Intent(this, BackgroundSoundService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+    }
+
+    private BackgroundSoundService backgroundSoundService;
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LogUtil.d("onServiceConnected");
+            backgroundSoundService = ((BackgroundSoundService.MyBinder) service).getService();
+            backgroundSoundService.setServiceListener(new BackgroundSoundService.ServiceListener() {
+                @Override
+                public void onPlayStateChange(int state) {
+                    //
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            LogUtil.d("onServiceDisconnected");
+            backgroundSoundService = null;
+        }
+    };
+
+
+    public void sendServiceCommand(@NonNull String command, @Nullable String songId) {
+        Intent intent = new Intent(this, BackgroundSoundService.class);
+        if (songId != null) {
+            intent.putExtra("songId", songId);
+        }
+        intent.putExtra("command", command);
+        startService(intent);
     }
 
     public String getUserToken(){
@@ -91,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDetailOneArtist(ArtistData item) {
-        DetailOneArtistFragment fragment = DetailOneArtistFragment.newInstance(item);
+        NewDetailArtistFragment fragment = NewDetailArtistFragment.newInstance(item);
         replaceFragment(fragment, true);
     }
 

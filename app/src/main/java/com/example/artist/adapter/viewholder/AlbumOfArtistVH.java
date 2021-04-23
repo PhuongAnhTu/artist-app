@@ -30,7 +30,7 @@ public class AlbumOfArtistVH extends RecyclerView.ViewHolder {
     public void bindView(BaseModelList model, int albumPosition){
         AlbumData album = (AlbumData) model;
 
-        binding.releasedYear.setText(album.year);
+        binding.releasedYear.setText(String.valueOf(album.year));
 
         binding.albumName.setText(album.name);
 
